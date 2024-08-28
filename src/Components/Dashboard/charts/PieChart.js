@@ -1,22 +1,20 @@
-import React, { useState } from 'react';
-import ReactApexChart from 'react-apexcharts';
+import React, { useState } from "react";
+import ReactApexChart from "react-apexcharts";
 
 const PieChart = () => {
   const [chartOptions] = useState({
-    series: [25, 15, 44, 55, 41, 17],
+    series: [75, 15, 30, 30],
     options: {
       chart: {
-        width: '100%',
-        height: '100%',
-        type: 'pie',
+        width: "100%",
+        height: "100%",
+        type: "pie",
       },
       labels: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
+        "Total Users",
+        "Total Bookings",
+        "Total Revenue",
+        "Pending Approvals",
       ],
       theme: {
         monochrome: {
@@ -41,7 +39,7 @@ const PieChart = () => {
       dataLabels: {
         formatter(val, opts) {
           const name = opts.w.globals.labels[opts.seriesIndex];
-          return [name, val.toFixed(1) + '%'];
+          return [name, val.toFixed(1) + "%"];
         },
       },
       legend: {
@@ -53,7 +51,11 @@ const PieChart = () => {
   return (
     <div>
       <div id="chart">
-        <ReactApexChart options={chartOptions.options} series={chartOptions.series} type="pie" />
+        <ReactApexChart
+          options={chartOptions.options}
+          series={chartOptions.series}
+          type="pie"
+        />
       </div>
       <div id="html-dist"></div>
     </div>
