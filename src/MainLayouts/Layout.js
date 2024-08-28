@@ -29,18 +29,16 @@ function Layout({ children }) {
   return (
     <Root>
       <div className="top_bar">
-        <Navbar/>
+        <Navbar />
       </div>
 
       <div className="main_bar">
         <div className="sideBar">
-          <SideBar/>
+          <SideBar />
         </div>
 
         <div className="main_body">{children}</div>
       </div>
-
-     
     </Root>
   );
 }
@@ -78,31 +76,28 @@ const Root = styled.section`
     .main_body {
       height: 90%;
       width: 80%;
-      border:1px solid black;
+      border: 1px solid black;
     }
   }
 
   @media (max-width: 567px) {
     .main_bar .sideBar {
-    width: 15%;
+      width: 15%;
+    }
 
-}
-
-.main_bar .main_body {
-    width: 85%;
-    border: 1px solid black;
-}
-
+    .main_bar .main_body {
+      width: 85%;
+      border: 1px solid black;
+    }
   }
   @media (min-width: 567px) and (max-width: 992px) {
     .main_bar .sideBar {
-    width: 10%;
+      width: 10%;
+    }
 
-}
-
-.main_bar .main_body {
-    width: 90%;
-    border: 1px solid black;
-}
+    .main_bar .main_body {
+      width: 90%;
+      padding: 20px;
+    }
   }
 `;
