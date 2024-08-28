@@ -1,12 +1,13 @@
 import "./App.css";
-import { Dashboard } from "./Components/Dashboard/Dashboard";
-import Layout from "./Components/MainLayouts/Layout";
 import { Route, Routes } from "react-router-dom";
-import { ManagingUsersPartners } from "./Components/ManagingUsersPartners/ManagingUsersPartners";
-import { ReviewingFeedback } from "./Components/ReviewingFeedback/ReviewingFeedback";
-import { MonitoringPaymentsTransactions } from "./Components/MonitoringPaymentsTransactions/MonitoringPaymentsTransactions";
-import { FrequentlyAskedQuestion } from "./Components/FrequentlyAskedQuestion/FrequentlyAskedQuestion";
-import { ContactSupport } from "./Components/ContactSupport/ContactSupport";
+import Layout from "./MainLayouts/Layout";
+import { ManagingUsersPartners } from "./Components/ManagingUsersPartners";
+import { MonitoringPaymentsTransactions } from "./Components/MonitoringPaymentsTransactions";
+import { FrequentlyAskedQuestion } from "./Components/FrequentlyAskedQuestion";
+import { ContactSupport } from "./Components/ContactSupport";
+import { Dashboard } from "./Components/Dashboard";
+import { ReviewingFeedback } from "./Components/ReviewingFeedback";
+ 
 
 function App() {
   return (

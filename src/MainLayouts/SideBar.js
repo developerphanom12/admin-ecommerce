@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 // import { MenuButtonActive } from "./Components/Global";
-import { MenuButtonActive } from "../Global";
+import { MenuButtonActive } from "../Components/Global";
 import { IoMdHome } from "react-icons/io";
 import { FaUser } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
@@ -113,7 +113,7 @@ const Root = styled.section`
     height: 100%;
     position: fixed;
     z-index: 1;
-    border: 1px solid #ebe8e8;
+    box-shadow: 1px 1px 4px 1px #ebe8e8;
     border-radius: 10px;
     padding: 20px 0;
     background: #fff;
@@ -125,17 +125,16 @@ const Root = styled.section`
     width: 100%;
     color: #b1b1b1;
     display: flex;
-    gap: 15px;
     height: 49px;
     text-decoration: none;
-    padding: 0px 20px;
+    padding: 0px 15px;
     align-items: center;
     white-space: nowrap;
-    border-left: 7px solid #fae9e9;
+    border-left: 7px solid #ffffff;
 
     svg {
-      height: 25px;
-      width: 25px;
+      height: 22px;
+      width: 22px;
     }
 
     span {
@@ -163,6 +162,7 @@ const Root = styled.section`
   @media (max-width: 567px) {
     .sidebar_div {
       a {
+        justify-content: center;
         span {
           display: none;
         }
@@ -174,6 +174,7 @@ const Root = styled.section`
         width: 80%;
         transition: width 0.3s ease-in-out;
         a {
+          justify-content: flex-start;
           span {
             display: block;
           }

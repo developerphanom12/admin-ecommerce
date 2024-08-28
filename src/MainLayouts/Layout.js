@@ -55,7 +55,7 @@ const Root = styled.section`
   .top_bar {
     display: flex;
     position: sticky;
-    height: 89px;
+    height: 80px;
     color: #000;
     /* border: 1px solid black; */
   }
@@ -66,18 +66,13 @@ const Root = styled.section`
     overflow: hidden;
     /* background-color: #fae9e9; */
     .sideBar {
-      width: 30%;
+      width: 27%;
       height: 100%;
       overflow: hidden;
       cursor: pointer;
       color: #000;
       display: flex;
       justify-content: center;
-     
-
-      /* @media screen and (min-width: 600px) {
-        width: 80px;
-      } */
     }
 
     .main_body {
