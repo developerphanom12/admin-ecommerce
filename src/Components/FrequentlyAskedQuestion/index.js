@@ -6,7 +6,6 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 export const FrequentlyAskedQuestion = () => {
   return (
     <Root>
-   
       <div className="container mt-3">    
         <div className="row">
           <div className="col-lg-2 col-md-12 col-12"></div>
@@ -141,7 +140,8 @@ const Root = styled.section`
   .MuiAccordionSummary-content.MuiAccordionSummary-contentGutters.css-eqpfi5-MuiAccordionSummary-content
     p {
     font-size: 14px;
-    font-weight:400;  }
+    font-weight:400; }
+
 
   .MuiAccordionDetails-root.css-15v22id-MuiAccordionDetails-root p {
     font-size: 15px;
