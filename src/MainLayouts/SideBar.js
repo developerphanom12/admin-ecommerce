@@ -9,6 +9,8 @@ import { SlBasketLoaded } from "react-icons/sl";
 import { IoStatsChart } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { LuBaggageClaim } from "react-icons/lu";
+import { FaUsersCog } from "react-icons/fa";
+
 
 function SideBar() {
   const [selectedLink, setSelectedLink] = useState("dashboard");
@@ -45,6 +47,22 @@ function SideBar() {
             </MenuButtonActive>
           </span>
         </Link>
+
+        <Link
+          to="/services"
+          className={selectedLink === "services" ? "selected" : ""}
+          onClick={() => handleLinkClick("services")}
+        >
+          <FaUsersCog />
+
+
+          <span>
+            <MenuButtonActive className="s-color">
+              Services
+            </MenuButtonActive>
+          </span>
+        </Link>
+
 
         <Link
           to="/reviewing_feedback"

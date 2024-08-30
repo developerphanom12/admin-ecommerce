@@ -13,50 +13,45 @@ export const MainButton = styled.button`
   font-weight: 400;
   border-radius: 40px;
   padding: 5px 20px;
-  background:linear-gradient(100deg, #2CA5D6, #32CD32);
-  color:#fff;
-  border:none;
+  background: linear-gradient(100deg, #2ca5d6, #32cd32);
+  color: #fff;
+  border: none;
   &.selected {
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   }
 `;
-
-
 
 export const RedirectButton = styled.button`
   font-size: 14px;
   font-weight: 400;
   border-radius: 40px;
   padding: 5px 20px;
-  background:linear-gradient(100deg, #2CA5D6, #32CD32);
-  color:#fff;
-  border:none;
-  
-  @media(max-width: 567px){
+  background: linear-gradient(100deg, #2ca5d6, #32cd32);
+  color: #fff;
+  border: none;
+
+  @media (max-width: 567px) {
     padding: 5px 0px;
     width: 84px;
-    font-size:13px;
+    font-size: 13px;
   }
 
-  @media(min-width: 567px) and (max-width:992px){
+  @media (min-width: 567px) and (max-width: 992px) {
     padding: 5px 0px;
     width: 84px;
-    font-size:13px;
-
+    font-size: 13px;
   }
-  
 `;
 
-
 export const Heading = styled.h2`
-    font-size:16px;
-    color:#000;
-    font-weight:500;
-    color: #2ca5d6
-   
+  font-size: 16px;
+  color: #000;
+  font-weight: 500;
+  color: #2ca5d6;
+`;
 
-
-
-
-
-`   
+export const Subdiv = styled.h5`
+  font-size: 14px;
+  font-weight: 500;
+  color: #2ca5d6;
+`;

@@ -3,9 +3,7 @@ import styled from "styled-components";
 import { MainButton, RedirectButton } from "../Global";
 import { useNavigate } from "react-router-dom";
 
-
 export const ManagingUsersPartners = () => {
-
   const [selectedButton, setSelectedButton] = useState(1);
 
   const navigate = useNavigate();
@@ -74,7 +72,11 @@ export const ManagingUsersPartners = () => {
       Email: "avineetsingh@gmail.com",
       Mobile: 1236547890,
       Status: "Pending",
-      View: <RedirectButton  onClick={ () => navigate("/all-details")}>View More</RedirectButton>,
+      View: (
+        <RedirectButton onClick={() => navigate("/all-details")}>
+          View More
+        </RedirectButton>
+      ),
     },
     {
       ID: 2,
@@ -82,7 +84,11 @@ export const ManagingUsersPartners = () => {
       Email: "avineetsingh@gmail.com",
       Mobile: 1236547890,
       Status: "Pending",
-      View: <RedirectButton  onClick={ () => navigate("/all-details")}>View More</RedirectButton>,
+      View: (
+        <RedirectButton onClick={() => navigate("/all-details")}>
+          View More
+        </RedirectButton>
+      ),
     },
     {
       ID: 3,
@@ -90,7 +96,11 @@ export const ManagingUsersPartners = () => {
       Email: "avineetsingh@gmail.com",
       Mobile: 1236547890,
       Status: "Pending",
-      View: <RedirectButton  onClick={ () => navigate("/all-details")}>View More</RedirectButton>,
+      View: (
+        <RedirectButton onClick={() => navigate("/all-details")}>
+          View More
+        </RedirectButton>
+      ),
     },
     {
       ID: 4,
@@ -98,7 +108,11 @@ export const ManagingUsersPartners = () => {
       Email: "avineetsingh@gmail.com",
       Mobile: 1236547890,
       Status: "Pending",
-      View: <RedirectButton  onClick={ () => navigate("/all-details")}>View More</RedirectButton>,
+      View: (
+        <RedirectButton onClick={() => navigate("/all-details")}>
+          View More
+        </RedirectButton>
+      ),
     },
     {
       ID: 5,
@@ -106,7 +120,11 @@ export const ManagingUsersPartners = () => {
       Email: "avineetsingh@gmail.com",
       Mobile: 1236547890,
       Status: "Pending",
-      View: <RedirectButton  onClick={ () => navigate("/all-details")}>View More</RedirectButton>,
+      View: (
+        <RedirectButton onClick={() => navigate("/all-details")}>
+          View More
+        </RedirectButton>
+      ),
     },
     {
       ID: 6,
@@ -114,14 +132,17 @@ export const ManagingUsersPartners = () => {
       Email: "avineetsingh@gmail.com",
       Mobile: 1236547890,
       Status: "Pending",
-      View: <RedirectButton  onClick={ () => navigate("/all-details")}>View More</RedirectButton>,
+      View: (
+        <RedirectButton onClick={() => navigate("/all-details")}>
+          View More
+        </RedirectButton>
+      ),
     },
   ];
 
   return (
     <Root>
       <div className="managing_main_div">
-
         <div className="butt_div">
           <MainButton
             className={selectedButton === 1 ? "selected" : ""}
@@ -186,8 +207,6 @@ export const ManagingUsersPartners = () => {
             </div>
           )}
         </div>
-
-     
       </div>
     </Root>
   );
@@ -216,15 +235,14 @@ const Root = styled.section`
       tr {
         border-bottom: 1px solid #e6eff5;
       }
-      th{
-        font-size:14px;
-        font-weight:500;
-        color: #2ca5d6
-
-      }
-      td{
+      th {
         font-size: 14px;
-        font-weight:400;
+        font-weight: 500;
+        color: #2ca5d6;
+      }
+      td {
+        font-size: 14px;
+        font-weight: 400;
       }
 
       th,
@@ -236,37 +254,31 @@ const Root = styled.section`
     }
 
     .content_div {
-    box-shadow:0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    overflow:auto;
-    scrollbar-width:none; 
-    -ms-overflow-style:none;
-    height: 500px;
-    width: 100%;
-    .partner_div {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-
-      .but_div {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+      overflow: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      height: 500px;
+      width: 100%;
+      .partner_div {
         display: flex;
-        justify-content: flex-end;
+        flex-direction: column;
+        gap: 20px;
+
+        .but_div {
+          display: flex;
+          justify-content: flex-end;
+        }
       }
     }
-
-  }
-  .content_div::-webkit-scrollbar {
-  display: none; 
-}
-
+    .content_div::-webkit-scrollbar {
+      display: none;
+    }
   }
 
-  
-@media(max-width: 567px){
-
- .managing_main_div .content_div {
-    height: 600px;
-}
-
-
-}
+  @media (max-width: 567px) {
+    .managing_main_div .content_div {
+      height: 600px;
+    }
+  }
 `;

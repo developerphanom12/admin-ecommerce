@@ -8,6 +8,7 @@ import { ContactSupport } from "./Components/ContactSupport";
 import { Dashboard } from "./Components/Dashboard";
 import { ReviewingFeedback } from "./Components/ReviewingFeedback";
 import {AllDetails} from "./Components/ManagingUsersPartners/AllDetails";
+import { Services } from "./Components/Services";
 
 function App() {
   return (
@@ -34,6 +35,8 @@ function App() {
             <Route path="/contact_support" element={<ContactSupport />} />
 
             <Route path="/all-details" element={<AllDetails/>} />
+
+            <Route path="/services" element={<Services/>} />
 
           </>
         </Routes>
