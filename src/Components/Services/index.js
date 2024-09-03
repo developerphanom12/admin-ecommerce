@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { BlackBorderButton, MainButton,RedirectButton, Subdiv } from "../Global";
+import {
+  BlackBorderButton,
+  MainButton,
+  RedirectButton,
+  Subdiv,
+} from "../Global";
 import axios from "axios";
 import { EXCHNAGE_URL, EXCHNAGE_URL_USERS } from "../../url/Url";
 import { ToastContainer, toast } from "react-toastify";
@@ -326,8 +331,7 @@ export const Services = () => {
             </div>
           )}
 
-
-{selectedButton === 2 && (
+          {selectedButton === 2 && (
             <div className="partner_div">
               <table>
                 <thead>
@@ -669,73 +673,72 @@ const Root = styled.section`
     }
     .services_main_div .content_div .add_ser_div .add_first_div {
       flex-wrap: wrap;
-      gap:0;
+      gap: 0;
       .title_div {
-      width: 100%;
+        width: 100%;
+      }
+      .desc_div {
+        width: 100%;
+      }
+      .duration_div {
+        width: 100%;
+      }
+      .service_div {
+        width: 100%;
+      }
     }
-    .desc_div {
-      width: 100%;
-    }
-    .duration_div {
-      width: 100%;
-    }
-    .service_div {
-      width: 100%;
-    }
-    }
-    
 
     .services_main_div .content_div .add_ser_div .add_second_div {
-   flex-wrap:wrap;
-   gap:0;  
- .price_div {
-    width: 100%;
- }
- .image_div{
-  width:100%;
- }
- .features_div{
-  width:100%;
- }
-}
+      flex-wrap: wrap;
+      gap: 0;
+      .price_div {
+        width: 100%;
+      }
+      .image_div {
+        width: 100%;
+      }
+      .features_div {
+        width: 100%;
+      }
+    }
   }
 
   @media (min-width: 567px) and (max-width: 992px) {
     .services_main_div .content_div .add_ser_div .add_first_div {
       flex-wrap: wrap;
-      justify-content: center;
+
       gap: 2px;
     }
 
     .services_main_div .content_div .add_ser_div {
       gap: 0px;
-
       margin-top: 20px;
+      padding: 0 20px;
     }
 
     .services_main_div .content_div .add_ser_div .add_first_div .title_div {
-      width: 45%;
+      width: 48%;
       input {
         width: 100%;
       }
     }
 
     .services_main_div .content_div .add_ser_div .add_first_div .desc_div {
-      width: 45%;
+      width: 48%;
       input {
         width: 100%;
       }
     }
 
     .services_main_div .content_div .add_ser_div .add_first_div .duration_div {
-      width: 45%;
+      width: 48%;
       input {
         width: 100%;
       }
     }
 
     .services_main_div .content_div .add_ser_div .add_first_div .service_div {
-      width: 45%;
+      width: 48%;
       select {
         width: 100%;
       }
@@ -743,19 +746,18 @@ const Root = styled.section`
 
     .services_main_div .content_div .add_ser_div .add_second_div {
       flex-wrap: wrap;
-      justify-content: center;
       gap: 2px;
     }
 
     .services_main_div .content_div .add_ser_div .add_second_div .price_div {
-      width: 45%;
+      width: 48%;
       input {
         width: 100%;
       }
     }
 
     .services_main_div .content_div .add_ser_div .add_second_div .image_div {
-      width: 45%;
+      width: 48%;
       input {
         width: 100%;
       }
@@ -770,10 +772,26 @@ const Root = styled.section`
     }
 
     .services_main_div .content_div .add_ser_div .add_second_div .features_div {
-      width: 45%;
+      width: 48%;
       input {
         width: 100%;
       }
+      button {
+        width: 100%;
+      }
     }
+
+    .services_main_div .content_div .add_ser_div .submit_btn {
+      justify-content: flex-end;
+    }
+
+   .services_main_div .content_div .add_ser_div .add_second_div .features_div
+     .feat_div{
+      width:100%;
+      .service_input_wrapper {
+  
+    margin-left: 0px;
+}
+   }
   }
 `;
