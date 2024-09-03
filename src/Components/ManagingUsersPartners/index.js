@@ -1,144 +1,97 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { MainButton, RedirectButton } from "../Global";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { EXCHNAGE_URL } from "../../url/Url";
+import { FcNext, FcPrevious } from "react-icons/fc";
 
 export const ManagingUsersPartners = () => {
   const [selectedButton, setSelectedButton] = useState(1);
+  const [data, setData] = useState([]);
+  const [data2, setData2] = useState([]);
+
+  const [columns, setColumns] = useState([
+    { header: "ID", accessor: "id" },
+    { header: "Name", accessor: "name" },
+    { header: "Role", accessor: "role" },
+    { header: "Mobile", accessor: "mobile_number" },
+  ]);
+
+  const [columns2, setColumns2] = useState([
+    { header: "ID", accessor: "id" },
+    { header: "Name", accessor: "name" },
+    { header: "Mobile", accessor: "mobile_number" },
+    { header: "Status", accessor: "is_approved" },
+    { header: "Role", accessor: "role" },
+    { header: "View", accessor: "view" },
+  ]);
 
   const navigate = useNavigate();
+  const [limit, setLimit] = useState(10);
+  const [offset, setOffset] = useState(0);
+  const [totalRecords, setTotalRecords] = useState(0);
+
+  useEffect(() => {
+    if (selectedButton === 1) {
+      axios
+        .get(`${EXCHNAGE_URL}/all_users`, {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          params: {
+            limit,
+            offset,
+          },
+        })
+        .then((response) => {
+          if (response.data.status) {
+            setData(response.data.data);
+            setTotalRecords(response.data.totalRecords); // Ensure your API returns the total number of records
+          } else {
+            console.error("Failed to fetch data:", response.data.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    } else if (selectedButton === 2) {
+      axios
+        .get(`${EXCHNAGE_URL}/all_vendors`, {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          params: {
+            limit,
+            offset,
+          },
+        })
+        .then((response) => {
+          if (response.data.status) {
+            setData2(response.data.data);
+            setTotalRecords(response.data.totalRecords); // Ensure your API returns the total number of records
+          } else {
+            console.error("Failed to fetch data:", response.data.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [selectedButton, limit, offset]);
 
   const handleButtonClick = (buttonIndex) => {
     setSelectedButton(buttonIndex);
+    setOffset(0); // Reset offset when switching buttons
   };
 
-  const columns = [
-    { header: "ID", accessor: "ID" },
-    { header: "Name", accessor: "Name" },
-    { header: "Email", accessor: "Email" },
-    { header: "Mobile", accessor: "Mobile" },
-  ];
+  const handlePageChange = (newOffset) => {
+    setOffset(newOffset);
+  };
 
-  const data = [
-    {
-      ID: 1,
-      Name: "Sagar Sharma",
-      Email: "sagarsharma@gmail.com",
-      Mobile: 7817466986,
-    },
-
-    {
-      ID: 2,
-      Name: "Sagar Sharma",
-      Email: "sagarsharma@gmail.com",
-      Mobile: 7817466986,
-    },
-
-    {
-      ID: 3,
-      Name: "Sagar Sharma",
-      Email: "sagarsharma@gmail.com",
-      Mobile: 7817466986,
-    },
-
-    {
-      ID: 4,
-      Name: "Sagar Sharma",
-      Email: "sagarsharma@gmail.com",
-      Mobile: 7817466986,
-    },
-
-    {
-      ID: 5,
-      Name: "Sagar Sharma",
-      Email: "sagarsharma@gmail.com",
-      Mobile: 7817466986,
-    },
-  ];
-
-  const columnstwo = [
-    { header: "ID", accessor: "ID" },
-    { header: "Name", accessor: "Name" },
-    { header: "Email", accessor: "Email" },
-    { header: "Mobile", accessor: "Mobile" },
-    { header: "Status", accessor: "Status" },
-    { header: "View", accessor: "View" },
-  ];
-
-  const datatwo = [
-    {
-      ID: 1,
-      Name: "Avineet Singh",
-      Email: "avineetsingh@gmail.com",
-      Mobile: 1236547890,
-      Status: "Pending",
-      View: (
-        <RedirectButton onClick={() => navigate("/all-details")}>
-          View More
-        </RedirectButton>
-      ),
-    },
-    {
-      ID: 2,
-      Name: "Avineet Singh",
-      Email: "avineetsingh@gmail.com",
-      Mobile: 1236547890,
-      Status: "Pending",
-      View: (
-        <RedirectButton onClick={() => navigate("/all-details")}>
-          View More
-        </RedirectButton>
-      ),
-    },
-    {
-      ID: 3,
-      Name: "Avineet Singh",
-      Email: "avineetsingh@gmail.com",
-      Mobile: 1236547890,
-      Status: "Pending",
-      View: (
-        <RedirectButton onClick={() => navigate("/all-details")}>
-          View More
-        </RedirectButton>
-      ),
-    },
-    {
-      ID: 4,
-      Name: "Avineet Singh",
-      Email: "avineetsingh@gmail.com",
-      Mobile: 1236547890,
-      Status: "Pending",
-      View: (
-        <RedirectButton onClick={() => navigate("/all-details")}>
-          View More
-        </RedirectButton>
-      ),
-    },
-    {
-      ID: 5,
-      Name: "Avineet Singh",
-      Email: "avineetsingh@gmail.com",
-      Mobile: 1236547890,
-      Status: "Pending",
-      View: (
-        <RedirectButton onClick={() => navigate("/all-details")}>
-          View More
-        </RedirectButton>
-      ),
-    },
-    {
-      ID: 6,
-      Name: "Avineet Singh",
-      Email: "avineetsingh@gmail.com",
-      Mobile: 1236547890,
-      Status: "Pending",
-      View: (
-        <RedirectButton onClick={() => navigate("/all-details")}>
-          View More
-        </RedirectButton>
-      ),
-    },
-  ];
+  // Map is_approved value to text
+  const mapApprovalStatus = (status) =>
+    status === 1 ? "Approved" : "Not Approved";
 
   return (
     <Root>
@@ -150,7 +103,6 @@ export const ManagingUsersPartners = () => {
           >
             User
           </MainButton>
-
           <MainButton
             className={selectedButton === 2 ? "selected" : ""}
             onClick={() => handleButtonClick(2)}
@@ -182,23 +134,33 @@ export const ManagingUsersPartners = () => {
               </table>
             </div>
           )}
-
           {selectedButton === 2 && (
-            <div className="partner_div">
+            <div className="user_div">
               <table>
                 <thead>
                   <tr>
-                    {columnstwo.map((column, index) => (
+                    {columns2.map((column, index) => (
                       <th key={index}>{column.header}</th>
                     ))}
                   </tr>
                 </thead>
-
                 <tbody>
-                  {datatwo.map((row, rowIndex) => (
+                  {data2.map((row, rowIndex) => (
                     <tr key={rowIndex}>
-                      {columnstwo.map((column, colIndex) => (
-                        <td key={colIndex}>{row[column.accessor]}</td>
+                      {columns2.map((column, colIndex) => (
+                        <td key={colIndex}>
+                          {column.accessor === "is_approved" ? (
+                            mapApprovalStatus(row[column.accessor])
+                          ) : column.accessor === "view" ? (
+                            <RedirectButton
+                              onClick={() => navigate(`/all-details/${row.id}`)}
+                            >
+                              View More
+                            </RedirectButton>
+                          ) : (
+                            row[column.accessor]
+                          )}
+                        </td>
                       ))}
                     </tr>
                   ))}
@@ -207,11 +169,24 @@ export const ManagingUsersPartners = () => {
             </div>
           )}
         </div>
+        <div className="pagination">
+          <button
+            onClick={() => handlePageChange(Math.max(offset - limit, 0))}
+            disabled={offset === 0}
+          >
+            <FcPrevious />
+          </button>
+          <button
+            onClick={() => handlePageChange(offset + limit)}
+            disabled={offset + limit >= totalRecords}
+          >
+            <FcNext />
+          </button>
+        </div>
       </div>
     </Root>
   );
 };
-
 const Root = styled.section`
   .managing_main_div {
     display: flex;

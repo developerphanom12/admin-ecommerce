@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "./Navbar";
 import styled from "styled-components";
 import SideBar from "./SideBar";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
+export default function Layout({ children }) {
+  const dispatch = useDispatch();
+  const userCheck = useSelector((state) => state?.users?.userCheck);
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
-function Layout({ children }) {
+  useEffect(() => {}, [dispatch]);
+
   return (
     <Root>
       <div className="top_bar">
@@ -12,17 +20,16 @@ function Layout({ children }) {
       </div>
 
       <div className="main_bar">
-        <div className="sideBar">
-          <SideBar />
-        </div>
-
+        {userCheck && token && (
+          <div className="sideBar">
+            <SideBar />
+          </div>
+        )}
         <div className="main_body">{children}</div>
       </div>
     </Root>
   );
 }
-
-export default Layout;
 
 const Root = styled.section`
   display: flex;
@@ -53,7 +60,6 @@ const Root = styled.section`
       height: 90%;
       width: 80%;
       padding: 20px;
-
     }
   }
 
@@ -73,7 +79,6 @@ const Root = styled.section`
 
     .main_bar .main_body {
       width: 90%;
-   
     }
   }
 `;

@@ -4,13 +4,25 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import styled from "styled-components";
 import logoimg from "../Assets/logo.png";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function NavBarr() {
+const navigate = useNavigate()
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+
+    
+    navigate("/");
+  };
+
+  const userCheck = useSelector((state) => state?.users?.userCheck);
+  const token = localStorage.getItem("token");
   return (
     <Root>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container fluid>
-          <Navbar.Brand href="/home">
+          <Navbar.Brand href="/">
             <img
               src={logoimg}
               alt="Logo Of Site"
@@ -19,9 +31,11 @@ function NavBarr() {
           </Navbar.Brand>
 
           <Nav>
-            <Nav.Link href="/" className="a">
+          {userCheck && token ?(
+            <Nav.Link href="/" className="a" onClick={handleLogout}>
               Logout
             </Nav.Link>
+          ):""}
           </Nav>
         </Container>
       </Navbar>

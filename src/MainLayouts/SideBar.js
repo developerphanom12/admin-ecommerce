@@ -36,7 +36,7 @@ function SideBar() {
         </Link>
 
         <Link
-          to="/managing-users_partners"
+          to="/managing_users_partners"
           className={selectedLink === "setting" ? "selected" : ""}
           onClick={() => handleLinkClick("setting")}
         >
