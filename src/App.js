@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="App">
       <Layout>
-      <ToastContainer />
+      <ToastContainer/>
         <Routes>
           <>
           <Route path="/" element={<Admin />}   />
@@ -34,7 +34,7 @@ function App() {
 
             <Route
               path="/frequently_asked_question"
-              element={<FrequentlyAskedQuestion />}
+              element={<FrequentlyAskedQuestion/>}
             />
 
             <Route path="/contact_support" element={<ContactSupport />} />

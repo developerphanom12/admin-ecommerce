@@ -3,13 +3,19 @@ import styled from "styled-components";
 // import { MenuButtonActive } from "./Components/Global";
 import { MenuButtonActive } from "../Components/Global";
 import { IoMdHome } from "react-icons/io";
-import { FaUser } from "react-icons/fa";
+
 import { IoIosSettings } from "react-icons/io";
-import { SlBasketLoaded } from "react-icons/sl";
-import { IoStatsChart } from "react-icons/io5";
+
 import { Link } from "react-router-dom";
 import { LuBaggageClaim } from "react-icons/lu";
 import { FaUsersCog } from "react-icons/fa";
+import { RiFeedbackFill } from "react-icons/ri";
+import { FaUserCheck } from "react-icons/fa6";
+import { FaCircleQuestion } from "react-icons/fa6";
+import { MdLocalAtm } from "react-icons/md";
+
+
+
 
 
 function SideBar() {
@@ -27,7 +33,7 @@ function SideBar() {
           className={selectedLink === "dashboard" ? "selected" : ""}
           onClick={() => handleLinkClick("dashboard")}
         >
-          <IoMdHome />
+          <IoMdHome/>
           <span>
             <MenuButtonActive className="s-color">
               Dashboard Overview
@@ -69,7 +75,9 @@ function SideBar() {
           className={selectedLink === "order" ? "selected" : ""}
           onClick={() => handleLinkClick("order")}
         >
-          <SlBasketLoaded />
+          <RiFeedbackFill />
+
+
           <span>
             <MenuButtonActive className="s-color">
               Reviewing Feedback
@@ -82,7 +90,8 @@ function SideBar() {
           className={selectedLink === "profile" ? "selected" : ""}
           onClick={() => handleLinkClick("profile")}
         >
-          <FaUser />
+          <MdLocalAtm />
+
           <span>
             <MenuButtonActive className="s-color">
               Monitoring Payments and Transactions
@@ -95,7 +104,8 @@ function SideBar() {
           className={selectedLink === "claims" ? "selected" : ""}
           onClick={() => handleLinkClick("claims")}
         >
-          <LuBaggageClaim />
+          <FaCircleQuestion />
+
           <span>
             <MenuButtonActive className="s-color">FAQs</MenuButtonActive>
           </span>
@@ -106,7 +116,7 @@ function SideBar() {
           className={selectedLink === "history" ? "selected" : ""}
           onClick={() => handleLinkClick("history")}
         >
-          <IoStatsChart />
+          <FaUserCheck />
           <span>
             <MenuButtonActive className="s-color">
               Contact Support

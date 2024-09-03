@@ -15,8 +15,9 @@ export default function Layout({ children }) {
 
   return (
     <Root>
+
       <div className="top_bar">
-        <Navbar />
+        <Navbar/>
       </div>
 
       <div className="main_bar">
@@ -27,14 +28,15 @@ export default function Layout({ children }) {
         )}
         <div className="main_body">{children}</div>
       </div>
+      
     </Root>
   );
 }
 
 const Root = styled.section`
-  display: flex;
-  min-height: 100vh;
-  height: 100%;
+  display:flex;
+  min-height:100vh;
+  height:100%;
   flex-direction: column;
   .top_bar {
     display: flex;
@@ -46,6 +48,7 @@ const Root = styled.section`
     display: flex;
     flex: 1;
     overflow: hidden;
+    justify-content: center;
     .sideBar {
       width: 27%;
       height: 100%;
@@ -72,6 +75,7 @@ const Root = styled.section`
       width: 85%;
     }
   }
+
   @media (min-width: 567px) and (max-width: 992px) {
     .main_bar .sideBar {
       width: 10%;

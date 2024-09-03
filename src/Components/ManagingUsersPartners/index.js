@@ -25,6 +25,7 @@ export const ManagingUsersPartners = () => {
     { header: "Status", accessor: "is_approved" },
     { header: "Role", accessor: "role" },
     { header: "View", accessor: "view" },
+    { header: "Block", accessor: "block" },
   ]);
 
   const navigate = useNavigate();
@@ -85,6 +86,10 @@ export const ManagingUsersPartners = () => {
     setOffset(0); // Reset offset when switching buttons
   };
 
+  const handleBlockUser = (userId) => {
+
+  }
+
   const handlePageChange = (newOffset) => {
     setOffset(newOffset);
   };
@@ -103,15 +108,18 @@ export const ManagingUsersPartners = () => {
           >
             User
           </MainButton>
+
           <MainButton
             className={selectedButton === 2 ? "selected" : ""}
             onClick={() => handleButtonClick(2)}
           >
             Partner
           </MainButton>
+
         </div>
 
         <div className="content_div">
+
           {selectedButton === 1 && (
             <div className="user_div">
               <table>
@@ -134,6 +142,7 @@ export const ManagingUsersPartners = () => {
               </table>
             </div>
           )}
+
           {selectedButton === 2 && (
             <div className="user_div">
               <table>
@@ -157,6 +166,10 @@ export const ManagingUsersPartners = () => {
                             >
                               View More
                             </RedirectButton>
+                          ) : column.accessor === "block" ? (
+                            <RedirectButton onClick={() => handleBlockUser(row.id)}>
+                              Block
+                            </RedirectButton>
                           ) : (
                             row[column.accessor]
                           )}
@@ -168,6 +181,7 @@ export const ManagingUsersPartners = () => {
               </table>
             </div>
           )}
+
         </div>
         <div className="pagination">
           <button

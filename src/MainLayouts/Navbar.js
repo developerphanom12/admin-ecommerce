@@ -20,7 +20,7 @@ const navigate = useNavigate()
   const token = localStorage.getItem("token");
   return (
     <Root>
-      <Navbar expand="lg" className="bg-body-tertiary">
+      <Navbar expand="lg" className="bg-body-tertiary" fixed="top">
         <Container fluid>
           <Navbar.Brand href="/">
             <img
@@ -47,7 +47,7 @@ export default NavBarr;
 
 const Root = styled.section`
   width: 100%;
-  height: 100%;
+  height:100%;
   .navbar-brand {
     margin: 0 13px;
   }

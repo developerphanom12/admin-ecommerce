@@ -1,22 +1,21 @@
-import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Typography,
+} from "@mui/material";
 import styled from "styled-components";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-
+import { Heading } from "../Global";
 
 export const FrequentlyAskedQuestion = () => {
   return (
     <Root>
-      <div className="container mt-3">    
+      <div className="container mt-3">
         <div className="row">
-          <div className="col-lg-2 col-md-12 col-12"></div>
-          <div
-            className="col-lg-8 col-md-12 col-12 text_div"
-            data-aos="fade-up"
-          >
-            <span>Frequently </span>
-            <span className="text">Asked </span> <span>Questions</span>
+          <div className="col-lg-12 col-md-12 col-12 text_div">
+            <Heading>Frequently Asked Questions</Heading>
           </div>
-          <div className="col-lg-2 col-md-12 col-12"></div>
         </div>
 
         <Accordion>
@@ -26,12 +25,14 @@ export const FrequentlyAskedQuestion = () => {
             id="panel1-header"
           >
             <Typography>
-              1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              1. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt.
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -43,14 +44,16 @@ export const FrequentlyAskedQuestion = () => {
             id="panel1-header"
           >
             <Typography>
-              2.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              2. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt.
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </Typography>
-          </AccordionDetails>    
+          </AccordionDetails>
         </Accordion>
 
         <Accordion>
@@ -60,12 +63,14 @@ export const FrequentlyAskedQuestion = () => {
             id="panel1-header"
           >
             <Typography>
-              3.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              3. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt.
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -78,12 +83,14 @@ export const FrequentlyAskedQuestion = () => {
           >
             <Typography>
               {" "}
-              4.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              4. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt.
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -95,12 +102,14 @@ export const FrequentlyAskedQuestion = () => {
             id="panel1-header"
           >
             <Typography>
-              5.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              5. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt.
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -112,12 +121,14 @@ export const FrequentlyAskedQuestion = () => {
             id="panel1-header"
           >
             <Typography>
-              6. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              6. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt.
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -129,19 +140,18 @@ export const FrequentlyAskedQuestion = () => {
 const Root = styled.section`
   background-color: #ffffffd4;
 
-
   .css-1edfpdg-MuiTypography-root {
     margin: 0;
     font-weight: 400;
     font-size: 1rem;
     line-height: 1.5;
     letter-spacing: 0.5px;
-}
+  }
   .MuiAccordionSummary-content.MuiAccordionSummary-contentGutters.css-eqpfi5-MuiAccordionSummary-content
     p {
-    font-size: 14px;
-    font-weight:400; }
-
+    font-size: 16px;
+    font-weight: 500;
+  }
 
   .MuiAccordionDetails-root.css-15v22id-MuiAccordionDetails-root p {
     font-size: 15px;
@@ -161,11 +171,10 @@ const Root = styled.section`
   }
 
   .text_div {
-    margin-bottom: 0.7em;
-    padding: 30px;
+    margin-bottom: 1.7em;
     text-align: center;
     .text {
-      background:linear-gradient(100deg, #2CA5D6, #32CD32);
+      background: linear-gradient(100deg, #2ca5d6, #32cd32);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -195,4 +204,3 @@ const Root = styled.section`
     }
   }
 `;
-
