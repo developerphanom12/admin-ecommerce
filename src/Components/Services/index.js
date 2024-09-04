@@ -254,6 +254,7 @@ export const Services = () => {
                     </select>
                   </div>
                 </div>
+
                 <div className="add_second_div">
                   <div className="price_div">
                     <Subdiv>Price</Subdiv>
@@ -312,6 +313,9 @@ export const Services = () => {
                             value={serv || ""}
                             onChange={(e) => handleServiceChangesss(index, e)}
                           />
+
+
+                          
                           <RxCross2
                             onClick={() => handleRemoveService(index)}
                             style={{ cursor: "pointer" }}
@@ -324,6 +328,7 @@ export const Services = () => {
                     </BlackBorderButton>
                   </div>
                 </div>
+
                 <div className="submit_btn">
                   <MainButton type="submit">Submit Now</MainButton>
                 </div>
@@ -460,7 +465,7 @@ const Root = styled.section`
       th,
       td {
         text-align: left;
-        padding: 15px;
+        padding: 8px;
         text-align: center;
       }
 
@@ -479,13 +484,14 @@ const Root = styled.section`
       overflow: auto;
       scrollbar-width: none;
       -ms-overflow-style: none;
-      height: 500px;
+      height: 420px;
       width: 100%;
+      padding-bottom: 20px;
       .add_ser_div {
-        display: flex;
-        gap: 20px;
-        flex-direction: column;
-        margin-top: 40px;
+        display:flex;
+        gap:20px;
+        flex-direction:column;
+        margin-top:40px;
         .add_first_div {
           display: flex;
           gap: 20px;
@@ -558,9 +564,12 @@ const Root = styled.section`
               font-weight: 400;
               width: 90%;
               color: #8b8989;
+              cursor: pointer;
             }
           }
         }
+
+
         .add_second_div {
           display: flex;
           gap: 20px;
@@ -590,6 +599,9 @@ const Root = styled.section`
             gap: 5px;
             align-items: center;
             .photo_choose {
+              &:hover {
+                cursor: pointer;
+              }
               .upload_btn {
                 display: flex;
                 justify-content: center;
@@ -650,6 +662,8 @@ const Root = styled.section`
             }
           }
         }
+
+
         .submit_btn {
           display: flex;
           justify-content: center;
@@ -674,31 +688,60 @@ const Root = styled.section`
     .services_main_div .content_div .add_ser_div .add_first_div {
       flex-wrap: wrap;
       gap: 0;
+      padding: 0 10px;
+
       .title_div {
         width: 100%;
+        input {
+          width: 100%;
+        }
       }
       .desc_div {
         width: 100%;
+        input {
+          width: 100%;
+        }
       }
       .duration_div {
         width: 100%;
+        input {
+          width: 100%;
+        }
       }
       .service_div {
         width: 100%;
+        select {
+          width: 100%;
+        }
       }
     }
 
     .services_main_div .content_div .add_ser_div .add_second_div {
       flex-wrap: wrap;
       gap: 0;
+      padding: 0 10px;
       .price_div {
         width: 100%;
+        input {
+          width: 100%;
+        }
       }
       .image_div {
         width: 100%;
+        .photo_choose {
+          width: 100%;
+          .upload_btn {
+            button {
+              width: 100%;
+            }
+          }
+        }
       }
       .features_div {
         width: 100%;
+        button {
+          width: 100%;
+        }
       }
     }
   }
@@ -706,7 +749,6 @@ const Root = styled.section`
   @media (min-width: 567px) and (max-width: 992px) {
     .services_main_div .content_div .add_ser_div .add_first_div {
       flex-wrap: wrap;
-
       gap: 2px;
     }
 
@@ -785,13 +827,16 @@ const Root = styled.section`
       justify-content: flex-end;
     }
 
-   .services_main_div .content_div .add_ser_div .add_second_div .features_div
-     .feat_div{
-      width:100%;
+    .services_main_div
+      .content_div
+      .add_ser_div
+      .add_second_div
+      .features_div
+      .feat_div {
+      width: 100%;
       .service_input_wrapper {
-  
-    margin-left: 0px;
-}
-   }
+        margin-left: 0px;
+      }
+    }
   }
 `;

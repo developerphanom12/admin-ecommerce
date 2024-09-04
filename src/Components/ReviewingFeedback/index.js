@@ -97,7 +97,7 @@ gap:20px;
       th,
       td {
         text-align: left;
-        padding: 15px;
+        padding: 8px;
         text-align: center;
       }
 
@@ -116,13 +116,13 @@ gap:20px;
       overflow: auto;
       scrollbar-width: none;
       -ms-overflow-style: none;
-      height: 500px;
+      height: 420px;
       width: 100%;
       .add_ser_div {
-        display: flex;
-        gap: 20px;
-        flex-direction: column;
-        margin-top: 40px;
+        display:flex;
+        gap:20px;
+        flex-direction:column;
+        margin-top:40px;
         .add_first_div {
           display: flex;
           gap: 20px;

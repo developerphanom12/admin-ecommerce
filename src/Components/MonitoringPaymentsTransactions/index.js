@@ -111,7 +111,7 @@ const Root = styled.section`
     th,
     td {
       text-align: left;
-      padding: 15px;
+      padding: 8px;
       text-align: center;
     }
 
@@ -130,7 +130,7 @@ const Root = styled.section`
     overflow: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    height: 500px;
+    height: 420px;
     width: 100%;
     .add_ser_div {
       display: flex;

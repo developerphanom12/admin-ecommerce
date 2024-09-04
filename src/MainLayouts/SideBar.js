@@ -3,15 +3,13 @@ import styled from "styled-components";
 // import { MenuButtonActive } from "./Components/Global";
 import { MenuButtonActive } from "../Components/Global";
 import { IoMdHome } from "react-icons/io";
-
 import { IoIosSettings } from "react-icons/io";
-
 import { Link } from "react-router-dom";
-import { LuBaggageClaim } from "react-icons/lu";
+// import { LuBaggageClaim } from "react-icons/lu";
 import { FaUsersCog } from "react-icons/fa";
 import { RiFeedbackFill } from "react-icons/ri";
 import { FaUserCheck } from "react-icons/fa6";
-import { FaCircleQuestion } from "react-icons/fa6";
+// import { FaCircleQuestion } from "react-icons/fa6";
 import { MdLocalAtm } from "react-icons/md";
 
 
@@ -99,7 +97,7 @@ function SideBar() {
           </span>
         </Link>
 
-        <Link
+{ /*       <Link
           to="/frequently_asked_question"
           className={selectedLink === "claims" ? "selected" : ""}
           onClick={() => handleLinkClick("claims")}
@@ -109,9 +107,9 @@ function SideBar() {
           <span>
             <MenuButtonActive className="s-color">FAQs</MenuButtonActive>
           </span>
-        </Link>
+        </Link>*/}
 
-        <Link
+{ /*       <Link
           to="/contact_support"
           className={selectedLink === "history" ? "selected" : ""}
           onClick={() => handleLinkClick("history")}
@@ -122,7 +120,7 @@ function SideBar() {
               Contact Support
             </MenuButtonActive>
           </span>
-        </Link>
+        </Link>*/}
       </div>
     </Root>
   );
