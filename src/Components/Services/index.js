@@ -8,12 +8,31 @@ import {
 } from "../Global";
 import axios from "axios";
 import { EXCHNAGE_URL, EXCHNAGE_URL_USERS } from "../../url/Url";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import * as yup from "yup";
+import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const validationSchema = Yup.object().shape({
+  title: Yup.string().required("Title is required"),
+  description: Yup.string()
+    .required("Description is required")
+    .max(200, "Description must be less than 200 characters"),
+  duration: Yup.number()
+    .required("Duration is required")
+    .min(1, "Duration must be at least 1 minute")
+    .max(30, "Duration cannot exceed 30 minutes"),
+  selectedService: Yup.string().required("Service selection is required"),
+  price: Yup.number().required("Price is required"),
+  images: Yup.mixed().required("At least one image is required"),
+  service: Yup.array()
+    .of(Yup.string().required("Feature is required"))
+    .min(1, "At least one feature must be added"),
+});
 
 export const Services = () => {
   const [selectedButton, setSelectedButton] = useState(1);
@@ -24,13 +43,33 @@ export const Services = () => {
   const [service, setService] = useState([]);
   const [images, setImages] = useState([]);
   const [services, setServices] = useState([]);
-  const [selectedService, setSelectedService] = useState(""); // State to capture selected service ID
+  const [selectedService, setSelectedService] = useState("");
   const [datalist, setDatalist] = useState([]);
 
   const navigate = useNavigate();
   const handleFileChange = (e) => {
     setImages([...e.target.files]);
   };
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset,
+    setValue,
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      duration: "",
+      selectedService: "",
+      price: "",
+      service: [""],
+      images: [],
+    },
+  });
 
   useEffect(() => {
     axios
@@ -56,16 +95,15 @@ export const Services = () => {
       });
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     try {
       const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("duration", duration);
-      formData.append("service_type", selectedService);
-      formData.append("price", price);
-      formData.append("service", JSON.stringify(service));
+      formData.append("title", data.title);
+      formData.append("description", data.description);
+      formData.append("duration", data.duration);
+      formData.append("service_type", data.selectedService);
+      formData.append("price", data.price);
+      formData.append("service", JSON.stringify(data.service));
 
       for (let i = 0; i < images.length; i++) {
         formData.append("images", images[i]);
@@ -77,15 +115,15 @@ export const Services = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
 
-      const result = response.data;
-
-      if (result.status) {
+      if (response.data.status) {
         toast.success("Data Added Successfully");
         navigate("/dashboard-overview");
+        reset();
       } else {
         toast.error("Failed to add data");
       }
@@ -95,7 +133,7 @@ export const Services = () => {
     }
   };
 
-  const handleDelete = async (serviceId) => {};
+  // const handleDelete = async (serviceId) => {};
   const handleAddService = () => {
     setService([...service, ""]);
   };
@@ -151,10 +189,10 @@ export const Services = () => {
   const handleApproval = async (id, isApproved) => {
     try {
       const response = await axios.post(
-        `${EXCHNAGE_URL}/servicedeleted`, // Replace with your actual API endpoint
+        `${EXCHNAGE_URL}/servicedeleted`,
         {
-          id: id, // Pass the ID dynamically
-          is_deleted: isApproved, // 1 for approved, 0 for not approved
+          id: id,
+          is_deleted: isApproved,
         },
         {
           headers: {
@@ -180,6 +218,7 @@ export const Services = () => {
       );
     }
   };
+
   return (
     <Root>
       <div className="services_main_div">
@@ -209,98 +248,88 @@ export const Services = () => {
         <div className="content_div">
           {selectedButton === 1 && (
             <div className="add_ser_div">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="add_first_div">
                   <div className="title_div">
                     <Subdiv>Title</Subdiv>
                     <input
                       type="text"
                       placeholder="Lorem Ipsum"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
+                      {...register("title")}
                     />
+                    {errors.title && (
+                      <p className="error">{errors.title.message}</p>
+                    )}
                   </div>
                   <div className="desc_div">
                     <Subdiv>Description</Subdiv>
                     <input
                       type="text"
                       placeholder="Lorem Ipsum"
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
+                      {...register("description")}
                     />
+                    {errors.description && (
+                      <p className="error">{errors.description.message}</p>
+                    )}
                   </div>
                   <div className="duration_div">
-                    <Subdiv>Duration (Days)</Subdiv>
+                    <Subdiv>Duration (Min)</Subdiv>
                     <input
-                      type="text"
-                      placeholder="45"
-                      value={duration}
-                      onChange={(e) => setDuration(e.target.value)}
+                      type="number"
+                      placeholder="10min"
+                      {...register("duration")}
                     />
+                    {errors.duration && (
+                      <p className="error">{errors.duration.message}</p>
+                    )}
                   </div>
 
                   <div className="service_div">
-                    <Subdiv>Available Services</Subdiv>
-                    <select
-                      value={selectedService}
-                      onChange={handleServiceChange}
-                    >
-                      <option value="">Select a service</option>
-                      {services.map((serviceItem) => (
-                        <option key={serviceItem.id} value={serviceItem.id}>
-                          {serviceItem.service_name}
-                        </option>
-                      ))}
+                    <Subdiv>Select Service</Subdiv>
+                    <select {...register("selectedService")}>
+                      <option value="">Select Service</option>
+                      {services &&
+                        services?.map((option, index) => (
+                          <option key={index} value={option.id}>
+                            {option.service_name}
+                          </option>
+                        ))}
                     </select>
+                    {errors.selectedService && (
+                      <p className="error">{errors.selectedService.message}</p>
+                    )}
                   </div>
                 </div>
-
                 <div className="add_second_div">
                   <div className="price_div">
                     <Subdiv>Price</Subdiv>
                     <input
                       type="text"
-                      placeholder="2000"
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
+                      placeholder="0.00"
+                      {...register("price")}
                     />
+                    {errors.price && (
+                      <p className="error">{errors.price.message}</p>
+                    )}
                   </div>
                   <div className="image_div">
                     <Subdiv>Image</Subdiv>
                     <div className="photo_choose">
-                      {/* <input type="file" multiple onChange={handleFileChange} /> */}
                       <div className="upload_btn">
                         <BlackBorderButton>Upload Images</BlackBorderButton>
                         <input
                           type="file"
                           className="file_input"
                           multiple
+                          {...register("images")}
                           onChange={handleFileChange}
                         />
+                        {errors.images && (
+                          <p className="error">{errors.images.message}</p>
+                        )}
                       </div>
                     </div>
                   </div>
-                  {/* <div className="features_div">
-                    <Subdiv>Features</Subdiv>
-                    <div className="feat_div">
-                    {service.map((serv, index) => (
-                      <input
-                        key={index}
-                        type="text"
-                        placeholder="Service"
-                        value={serv || ""}
-                        onChange={(e) => handleServiceChangesss(index, e)}
-                      />
-                      
-                      
-
-                    ))}
-                    
-                    </div>
-                    <BlackBorderButton type="button" onClick={handleAddService}>
-                      Add Another Service
-                    </BlackBorderButton>
-                  </div> */}
 
                   <div className="features_div">
                     <Subdiv>Features</Subdiv>
@@ -313,22 +342,21 @@ export const Services = () => {
                             value={serv || ""}
                             onChange={(e) => handleServiceChangesss(index, e)}
                           />
-
-
-                          
                           <RxCross2
                             onClick={() => handleRemoveService(index)}
                             style={{ cursor: "pointer" }}
                           />
                         </div>
                       ))}
+                      {errors.service && (
+                        <p className="error">{errors.service.message}</p>
+                      )}
                     </div>
                     <BlackBorderButton type="button" onClick={handleAddService}>
                       Add Another Service
                     </BlackBorderButton>
                   </div>
                 </div>
-
                 <div className="submit_btn">
                   <MainButton type="submit">Submit Now</MainButton>
                 </div>
@@ -354,7 +382,7 @@ export const Services = () => {
                           {column.accessor === "image" ? (
                             <img
                               src={row[column.accessor]}
-                              alt="Image"
+                              alt="vehicle img"
                               style={{
                                 width: "50px",
                                 height: "50px",
@@ -410,7 +438,7 @@ export const Services = () => {
                           {column.accessor === "image" ? (
                             <img
                               src={row[column.accessor]}
-                              alt="Image"
+                              alt="vehicle img"
                               style={{
                                 width: "50px",
                                 height: "50px",
@@ -465,7 +493,7 @@ const Root = styled.section`
       th,
       td {
         text-align: left;
-        padding: 8px;
+        padding: 15px;
         text-align: center;
       }
 
@@ -484,14 +512,13 @@ const Root = styled.section`
       overflow: auto;
       scrollbar-width: none;
       -ms-overflow-style: none;
-      height: 420px;
+      height: 500px;
       width: 100%;
-      padding-bottom: 20px;
       .add_ser_div {
-        display:flex;
-        gap:20px;
-        flex-direction:column;
-        margin-top:40px;
+        display: flex;
+        gap: 20px;
+        flex-direction: column;
+        margin-top: 40px;
         .add_first_div {
           display: flex;
           gap: 20px;
@@ -564,12 +591,9 @@ const Root = styled.section`
               font-weight: 400;
               width: 90%;
               color: #8b8989;
-              cursor: pointer;
             }
           }
         }
-
-
         .add_second_div {
           display: flex;
           gap: 20px;
@@ -599,9 +623,6 @@ const Root = styled.section`
             gap: 5px;
             align-items: center;
             .photo_choose {
-              &:hover {
-                cursor: pointer;
-              }
               .upload_btn {
                 display: flex;
                 justify-content: center;
@@ -662,8 +683,6 @@ const Root = styled.section`
             }
           }
         }
-
-
         .submit_btn {
           display: flex;
           justify-content: center;
@@ -688,60 +707,31 @@ const Root = styled.section`
     .services_main_div .content_div .add_ser_div .add_first_div {
       flex-wrap: wrap;
       gap: 0;
-      padding: 0 10px;
-
       .title_div {
         width: 100%;
-        input {
-          width: 100%;
-        }
       }
       .desc_div {
         width: 100%;
-        input {
-          width: 100%;
-        }
       }
       .duration_div {
         width: 100%;
-        input {
-          width: 100%;
-        }
       }
       .service_div {
         width: 100%;
-        select {
-          width: 100%;
-        }
       }
     }
 
     .services_main_div .content_div .add_ser_div .add_second_div {
       flex-wrap: wrap;
       gap: 0;
-      padding: 0 10px;
       .price_div {
         width: 100%;
-        input {
-          width: 100%;
-        }
       }
       .image_div {
         width: 100%;
-        .photo_choose {
-          width: 100%;
-          .upload_btn {
-            button {
-              width: 100%;
-            }
-          }
-        }
       }
       .features_div {
         width: 100%;
-        button {
-          width: 100%;
-        }
       }
     }
   }
@@ -749,6 +739,7 @@ const Root = styled.section`
   @media (min-width: 567px) and (max-width: 992px) {
     .services_main_div .content_div .add_ser_div .add_first_div {
       flex-wrap: wrap;
+
       gap: 2px;
     }
 

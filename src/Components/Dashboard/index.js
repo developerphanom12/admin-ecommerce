@@ -6,8 +6,8 @@ const Dashboard = () => {
   // Line Chart for User Registrations Over Time
   const userRegistrationsOptions = {
     chart: {
-      type: "line",
-      height: 350,
+      type:"line",
+      height:350,
     },
     xaxis: {
       categories: [
@@ -31,6 +31,12 @@ const Dashboard = () => {
     title: {
       text: "User Registrations Over Time",
       align: "left",
+      style: {
+        fontSize: '16px',
+        fontFamily: 'Poppins, sans-serif',
+        fontWeight: 600,
+        color: '#2ca5d6'
+      },
     },
   };
   const userRegistrationsSeries = [
@@ -52,6 +58,12 @@ const Dashboard = () => {
     title: {
       text: "Monthly Booking",
       align: "left",
+      style: {
+        fontSize: '16px',
+        fontFamily: 'Poppins, sans-serif',
+        fontWeight: 600,
+        color: '#2ca5d6'
+      },
     },
   };
   const bookingsSeries = [
@@ -71,8 +83,15 @@ const Dashboard = () => {
     title: {
       text: "Payment Methods Usage",
       align: "left",
+      style: {
+        fontSize: '16px',
+        fontFamily: 'Poppins, sans-serif',
+        fontWeight: 600,
+        color: '#2ca5d6'
+      },
     },
   };
+
   const paymentMethodsSeries = [55, 35, 10];
 
   // Area Chart for Revenue Over Time
@@ -103,8 +122,15 @@ const Dashboard = () => {
     title: {
       text: "Revenue Over Time",
       align: "left",
+      style: {
+        fontSize: '16px',
+        fontFamily: 'Poppins, sans-serif',
+        fontWeight: 600,
+        color: '#2ca5d6'
+      },
     },
   };
+
   const revenueSeries = [
     {
       name: "Revenue",
@@ -137,6 +163,12 @@ const Dashboard = () => {
     title: {
       text: "User Engagement Heatmap",
       align: "left",
+      style: {
+        fontSize: '16px',
+        fontFamily: 'Poppins, sans-serif',
+        fontWeight: 600,
+        color: '#2ca5d6'
+      },
     },
     plotOptions: {
       heatmap: {
@@ -241,6 +273,25 @@ const DashboardContainer = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 20px;
+  @media (max-width: 567px){
+    padding:0;
+
+  }
+  @media (min-width: 567px) and (max-width: 992px) {
+    padding:0;
+
+  }
+
+  .apexcharts-toolbar {
+    display: none;
+}
+
+text#SvgjsText21001 {
+    font-size: 14px!important;
+    font-family: poppins!important;
+    font-weight: 600!important;
+    color: #2ca5d6!important;
+}
 `;
 
 const ChartWrapper = styled.div`

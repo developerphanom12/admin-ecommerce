@@ -85,4 +85,15 @@ const Root = styled.section`
       width: 90%;
     }
   }
+
+  @media (min-width: 992px) and (max-width: 1024px) {
+    .main_bar .sideBar {
+      width: 10%;
+    }
+
+    .main_bar .main_body {
+      width: 90%;
+    }
+  }
+
 `;

@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 // import { LuBaggageClaim } from "react-icons/lu";
 import { FaUsersCog } from "react-icons/fa";
 import { RiFeedbackFill } from "react-icons/ri";
-import { FaUserCheck } from "react-icons/fa6";
+// import { FaUserCheck } from "react-icons/fa6";
 // import { FaCircleQuestion } from "react-icons/fa6";
 import { MdLocalAtm } from "react-icons/md";
 
@@ -264,5 +264,36 @@ const Root = styled.section`
       height: auto;
       width: 100%;
     }
+  }
+
+  @media (min-width: 992px) and (max-width: 1024px) {
+    .sidebar_div {
+      a {
+        span {
+          display: none;
+        }
+      }
+    }
+
+    .sidebar_div {
+      &:hover {
+        width: 50%;
+        a {
+          span {
+            display: block;
+          }
+        }
+      }
+    }
+
+    .sidebar_div a {
+      gap: 10px;
+    }
+
+    svg {
+      height: auto;
+      width: 100%;
+    }
+
   }
 `;
