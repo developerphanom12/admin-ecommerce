@@ -63,7 +63,7 @@ function Admin() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <MDBContainer className="my-5 gradient-form">
+      <MDBContainer className=" gradient-form">
         <MDBRow>
           <MDBCol col="6" className="mb-2">
             <div className="d-flex flex-column marg_div">

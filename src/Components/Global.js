@@ -6,6 +6,9 @@ export const MenuButtonActive = styled.button`
   font-weight: 500;
   border: 1px solid transparent;
   background: transparent;
+  @media (max-width: 567px){
+    font-size: 12px;
+  }
 `;
 
 export const MainButton = styled.button`

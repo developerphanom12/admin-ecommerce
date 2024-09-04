@@ -696,6 +696,9 @@ const Root = styled.section`
   }
 
   @media (max-width: 567px) {
+  .services_main_div .content_div {
+    padding-bottom:20px;
+}
     .services_main_div .butt_div {
       flex-wrap: wrap;
       justify-content: center;
@@ -707,36 +710,69 @@ const Root = styled.section`
     .services_main_div .content_div .add_ser_div .add_first_div {
       flex-wrap: wrap;
       gap: 0;
+      padding: 0 10px;
       .title_div {
         width: 100%;
+        input{
+          width: 100%;
+
+        }
       }
       .desc_div {
         width: 100%;
+        input{
+          width: 100%;
+
+        }
       }
       .duration_div {
         width: 100%;
+        input{
+          width: 100%;
+
+        }
       }
       .service_div {
-        width: 100%;
+        width:100%;
+        select{
+          width:100%;
+        }
       }
     }
 
     .services_main_div .content_div .add_ser_div .add_second_div {
       flex-wrap: wrap;
       gap: 0;
+      padding: 0 10px;
       .price_div {
         width: 100%;
+        input{
+          width:100%;
+        }
       }
-      .image_div {
-        width: 100%;
+      .image_div{
+        width:100%;
+        .photo_choose{
+          width: 100%;
+          button{
+            width: 100%;
+          }
+        }
       }
       .features_div {
         width: 100%;
+        button{
+          width:100%;
+
+        }
       }
     }
   }
 
   @media (min-width: 567px) and (max-width: 992px) {
+    .services_main_div .content_div {
+    padding-bottom:20px;
+}
     .services_main_div .content_div .add_ser_div .add_first_div {
       flex-wrap: wrap;
 
