@@ -34,7 +34,7 @@ function SideBar() {
           <IoMdHome/>
           <span>
             <MenuButtonActive className="s-color">
-              Dashboard Overview
+              Dashboard 
             </MenuButtonActive>
           </span>
         </Link>
@@ -47,7 +47,7 @@ function SideBar() {
           <IoIosSettings />
           <span>
             <MenuButtonActive className="s-color">
-              Managing Users and Partners
+             Users & Partners
             </MenuButtonActive>
           </span>
         </Link>
@@ -78,7 +78,7 @@ function SideBar() {
 
           <span>
             <MenuButtonActive className="s-color">
-              Reviewing Feedback
+             Feedback
             </MenuButtonActive>
           </span>
         </Link>
@@ -92,35 +92,12 @@ function SideBar() {
 
           <span>
             <MenuButtonActive className="s-color">
-              Monitoring Payments and Transactions
+               Payments 
             </MenuButtonActive>
           </span>
         </Link>
 
-{ /*       <Link
-          to="/frequently_asked_question"
-          className={selectedLink === "claims" ? "selected" : ""}
-          onClick={() => handleLinkClick("claims")}
-        >
-          <FaCircleQuestion />
 
-          <span>
-            <MenuButtonActive className="s-color">FAQs</MenuButtonActive>
-          </span>
-        </Link>*/}
-
-{ /*       <Link
-          to="/contact_support"
-          className={selectedLink === "history" ? "selected" : ""}
-          onClick={() => handleLinkClick("history")}
-        >
-          <FaUserCheck />
-          <span>
-            <MenuButtonActive className="s-color">
-              Contact Support
-            </MenuButtonActive>
-          </span>
-        </Link>*/}
       </div>
     </Root>
   );
@@ -197,7 +174,7 @@ const Root = styled.section`
 
     .sidebar_div {
       &:hover {
-        width: 80%;
+        width: 45%;
         transition: width 0.3s ease-in-out;
         a {
           justify-content: flex-start;

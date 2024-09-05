@@ -86,9 +86,7 @@ export const ManagingUsersPartners = () => {
     setOffset(0); // Reset offset when switching buttons
   };
 
-  const handleBlockUser = (userId) => {
-
-  }
+  const handleBlockUser = (userId) => {};
 
   const handlePageChange = (newOffset) => {
     setOffset(newOffset);
@@ -115,11 +113,9 @@ export const ManagingUsersPartners = () => {
           >
             Partner
           </MainButton>
-
         </div>
 
         <div className="content_div">
-
           {selectedButton === 1 && (
             <div className="user_div">
               <table>
@@ -167,7 +163,9 @@ export const ManagingUsersPartners = () => {
                               View More
                             </RedirectButton>
                           ) : column.accessor === "block" ? (
-                            <RedirectButton onClick={() => handleBlockUser(row.id)}>
+                            <RedirectButton
+                              onClick={() => handleBlockUser(row.id)}
+                            >
                               Block
                             </RedirectButton>
                           ) : (
@@ -181,7 +179,6 @@ export const ManagingUsersPartners = () => {
               </table>
             </div>
           )}
-
         </div>
         <div className="pagination">
           <button
@@ -264,22 +261,21 @@ const Root = styled.section`
     .content_div::-webkit-scrollbar {
       display: none;
     }
-
   }
 
   .pagination {
     display: flex;
     justify-content: center;
+    gap: 5px;
     button {
-    border-radius: 50px;
-    background-color:#fff
-}
+      border-radius: 50px;
+      background-color: #fff;
+      border: 2px solid lightgray;
+    }
 
- button:not(:disabled) {
-    cursor: pointer;
-    border: 2px solid #2ca5d6;
-}
-}
-
-
+    button:not(:disabled) {
+      cursor: pointer;
+      border: 2px solid #2ca5d6;
+    }
+  }
 `;

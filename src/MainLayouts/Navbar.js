@@ -6,13 +6,13 @@ import styled from "styled-components";
 import logoimg from "../Assets/logo.png";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { userCheckAction } from "../redux/users/action";
 
 function NavBarr() {
 const navigate = useNavigate()
   const handleLogout = () => {
     localStorage.removeItem("token");
-
-    
+    userCheckAction(false);
     navigate("/");
   };
 

@@ -16,6 +16,7 @@ import { MdDelete } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { FcNext, FcPrevious } from "react-icons/fc";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
@@ -43,9 +44,11 @@ export const Services = () => {
   const [service, setService] = useState([]);
   const [images, setImages] = useState([]);
   const [services, setServices] = useState([]);
-  const [selectedService, setSelectedService] = useState(""); // State to capture selected service ID
+  const [selectedService, setSelectedService] = useState("");
   const [datalist, setDatalist] = useState([]);
-
+  const [limit, setLimit] = useState(10);
+  const [offset, setOffset] = useState(0);
+  const [totalRecords, setTotalRecords] = useState(0);
   const navigate = useNavigate();
   const handleFileChange = (e) => {
     setImages([...e.target.files]);
@@ -62,6 +65,7 @@ export const Services = () => {
         if (response.data.status) {
           setServices(response.data.data);
           setDatalist(response.data.data);
+          setTotalRecords(response.data.totalRecords);
         } else {
           console.error("Failed to fetch services:", response.data.message);
           setServices([]);
@@ -77,7 +81,7 @@ export const Services = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Validation checks
     if (!title) {
       toast.error("Title is required");
@@ -111,7 +115,7 @@ export const Services = () => {
       toast.error("At least one image is required");
       return;
     }
-  
+
     try {
       const formData = new FormData();
       formData.append("title", title);
@@ -120,11 +124,11 @@ export const Services = () => {
       formData.append("service_type", selectedService);
       formData.append("price", price);
       formData.append("service", JSON.stringify(service));
-  
+
       for (let i = 0; i < images.length; i++) {
         formData.append("images", images[i]);
       }
-  
+
       const response = await axios.post(
         `${EXCHNAGE_URL_USERS}/vehicle-datalist`,
         formData,
@@ -134,9 +138,9 @@ export const Services = () => {
           },
         }
       );
-  
+
       const result = response.data;
-  
+
       if (result.status) {
         toast.success("Data Added Successfully");
         navigate("/dashboard-overview");
@@ -176,7 +180,6 @@ export const Services = () => {
     setService(updatedServices);
   };
 
-
   const servicelist = [
     { header: "ID", accessor: "id" },
     { header: "Name", accessor: "service_name" },
@@ -186,8 +189,6 @@ export const Services = () => {
     { header: "Delete", accessor: "delete" },
     { header: "View More", accessor: "view" },
   ];
-
-  
 
   const handleButtonClick = (buttonIndex) => {
     setSelectedButton(buttonIndex);
@@ -243,6 +244,9 @@ export const Services = () => {
           "Error updating vendor approval status."
       );
     }
+  };
+  const handlePageChange = (newOffset) => {
+    setOffset(newOffset);
   };
   return (
     <Root>
@@ -327,7 +331,6 @@ export const Services = () => {
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
                     />
-              
                   </div>
                   <div className="image_div">
                     <Subdiv>Image</Subdiv>
@@ -343,7 +346,7 @@ export const Services = () => {
                       </div>
                     </div>
                   </div>
-                 
+
                   <div className="features_div">
                     <Subdiv>Features</Subdiv>
                     <div className="feat_div">
@@ -374,103 +377,137 @@ export const Services = () => {
             </div>
           )}
 
-{selectedButton === 2 && (
-            <div className="partner_div">
-              <table>
-                <thead>
-                  <tr>
-                    {servicelist.map((column, index) => (
-                      <th key={index}>{column.header}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {datalist.map((row, rowIndex) => (
-                    <tr key={rowIndex}>
-                      {servicelist.map((column, colIndex) => (
-                        <td key={colIndex}>
-                          {column.accessor === "image" ? (
-                            <img
-                              src={row[column.accessor]}
-                              alt="Image"
-                              style={{
-                                width: "50px",
-                                height: "50px",
-                                objectFit: "cover",
-                              }}
-                            />
-                          ) : column.accessor === "vehicle_type" ? (
-                            row[column.accessor] === 1 ? (
-                              "Bike"
-                            ) : row[column.accessor] === 2 ? (
-                              "Car"
-                            ) : (
-                              "Unknown"
-                            )
-                          ) : column.accessor === "create_date" ||
-                            column.accessor === "update_date" ? (
-                            new Date(row[column.accessor])
-                              .toISOString()
-                              .split("T")[0]
-                          ) : column.accessor === "delete" ? (
-                            <RedirectButton
-                              onClick={() => handleApproval(row.id, 1)}
-                            >
-                              <MdDelete />
-                            </RedirectButton>
-                          ) : column.accessor === "view" ? (
-                            <RedirectButton
-                              onClick={() => navigate(`/service-details/${row.id}`)}
-                            >
-                              View
-                            </RedirectButton>
-                          ) : (
-                            row[column.accessor]
-                          )}
-                        </td>
+          {selectedButton === 2 && (
+            <>
+              <div className="partner_div">
+                <table>
+                  <thead>
+                    <tr>
+                      {servicelist.map((column, index) => (
+                        <th key={index}>{column.header}</th>
                       ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {datalist.map((row, rowIndex) => (
+                      <tr key={rowIndex}>
+                        {servicelist.map((column, colIndex) => (
+                          <td key={colIndex}>
+                            {column.accessor === "image" ? (
+                              <img
+                                src={row[column.accessor]}
+                                alt="Image"
+                                style={{
+                                  width: "50px",
+                                  height: "50px",
+                                  objectFit: "cover",
+                                }}
+                              />
+                            ) : column.accessor === "vehicle_type" ? (
+                              row[column.accessor] === 1 ? (
+                                "Bike"
+                              ) : row[column.accessor] === 2 ? (
+                                "Car"
+                              ) : (
+                                "Unknown"
+                              )
+                            ) : column.accessor === "create_date" ||
+                              column.accessor === "update_date" ? (
+                              new Date(row[column.accessor])
+                                .toISOString()
+                                .split("T")[0]
+                            ) : column.accessor === "delete" ? (
+                              <RedirectButton
+                                onClick={() => handleApproval(row.id, 1)}
+                              >
+                                <MdDelete />
+                              </RedirectButton>
+                            ) : column.accessor === "view" ? (
+                              <RedirectButton
+                                onClick={() =>
+                                  navigate(`/service-details/${row.id}`)
+                                }
+                              >
+                                View
+                              </RedirectButton>
+                            ) : (
+                              row[column.accessor]
+                            )}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="pagination">
+                <button
+                  onClick={() => handlePageChange(Math.max(offset - limit, 0))}
+                  disabled={offset === 0}
+                >
+                  <FcPrevious />
+                </button>
+                <button
+                  onClick={() => handlePageChange(offset + limit)}
+                  disabled={offset + limit >= totalRecords}
+                >
+                  <FcNext />
+                </button>
+              </div>
+            </>
           )}
           {selectedButton === 3 && (
-            <div className="partner_div">
-              <table>
-                <thead>
-                  <tr>
-                    {vehicledetails.map((column, index) => (
-                      <th key={index}>{column.header}</th>
-                    ))}
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {datavehicle.map((row, rowIndex) => (
-                    <tr key={rowIndex}>
-                      {vehicledetails.map((column, colIndex) => (
-                        <td key={colIndex}>
-                          {column.accessor === "image" ? (
-                            <img
-                              src={row[column.accessor]}
-                              alt="vehicle img"
-                              style={{
-                                width: "50px",
-                                height: "50px",
-                                objectFit: "cover",
-                              }} // adjust size as needed
-                            />
-                          ) : (
-                            row[column.accessor]
-                          )}
-                        </td>
+            <>
+              <div className="partner_div">
+                <table>
+                  <thead>
+                    <tr>
+                      {vehicledetails.map((column, index) => (
+                        <th key={index}>{column.header}</th>
                       ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+
+                  <tbody>
+                    {datavehicle.map((row, rowIndex) => (
+                      <tr key={rowIndex}>
+                        {vehicledetails.map((column, colIndex) => (
+                          <td key={colIndex}>
+                            {column.accessor === "image" ? (
+                              <img
+                                src={row[column.accessor]}
+                                alt="vehicle img"
+                                style={{
+                                  width: "50px",
+                                  height: "50px",
+                                  objectFit: "cover",
+                                }} // adjust size as needed
+                              />
+                            ) : (
+                              row[column.accessor]
+                            )}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="pagination">
+                <button
+                  onClick={() => handlePageChange(Math.max(offset - limit, 0))}
+                  disabled={offset === 0}
+                >
+                  <FcPrevious />
+                </button>
+                <button
+                  onClick={() => handlePageChange(offset + limit)}
+                  disabled={offset + limit >= totalRecords}
+                >
+                  <FcNext />
+                </button>
+              </div>
+            </>
           )}
         </div>
       </div>
@@ -479,6 +516,22 @@ export const Services = () => {
 };
 
 const Root = styled.section`
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin: 20px 0px;
+    button {
+      border-radius: 50px;
+      background-color: #fff;
+      border: 2px solid lightgray;
+    }
+
+    button:not(:disabled) {
+      cursor: pointer;
+      border: 2px solid #2ca5d6;
+    }
+  }
   .services_main_div {
     display: flex;
     gap: 20px;
@@ -654,17 +707,6 @@ const Root = styled.section`
                   cursor: pointer;
                 }
               }
-
-              /* input {
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                height: 40px;
-                font-size: 14px;
-                font-weight: 400;
-                padding: 5px 40px;
-                width: 100%;
-                color:#8b8989;
-              } */
             }
           }
 
@@ -712,9 +754,9 @@ const Root = styled.section`
   }
 
   @media (max-width: 567px) {
-  .services_main_div .content_div {
-    padding-bottom:20px;
-}
+    .services_main_div .content_div {
+      padding-bottom: 20px;
+    }
     .services_main_div .butt_div {
       flex-wrap: wrap;
       justify-content: center;
@@ -729,29 +771,26 @@ const Root = styled.section`
       padding: 0 10px;
       .title_div {
         width: 100%;
-        input{
+        input {
           width: 100%;
-
         }
       }
       .desc_div {
         width: 100%;
-        input{
+        input {
           width: 100%;
-
         }
       }
       .duration_div {
         width: 100%;
-        input{
+        input {
           width: 100%;
-
         }
       }
       .service_div {
-        width:100%;
-        select{
-          width:100%;
+        width: 100%;
+        select {
+          width: 100%;
         }
       }
     }
@@ -762,24 +801,23 @@ const Root = styled.section`
       padding: 0 10px;
       .price_div {
         width: 100%;
-        input{
-          width:100%;
+        input {
+          width: 100%;
         }
       }
-      .image_div{
-        width:100%;
-        .photo_choose{
+      .image_div {
+        width: 100%;
+        .photo_choose {
           width: 100%;
-          button{
+          button {
             width: 100%;
           }
         }
       }
       .features_div {
         width: 100%;
-        button{
-          width:100%;
-
+        button {
+          width: 100%;
         }
       }
     }
@@ -787,8 +825,8 @@ const Root = styled.section`
 
   @media (min-width: 567px) and (max-width: 992px) {
     .services_main_div .content_div {
-    padding-bottom:20px;
-}
+      padding-bottom: 20px;
+    }
     .services_main_div .content_div .add_ser_div .add_first_div {
       flex-wrap: wrap;
       gap: 2px;

@@ -13,8 +13,7 @@ export const AllDetails = ({ vendorId }) => {
   const { id } = useParams();
   const navigate = useNavigate()
 
-  useEffect(() => {
-  }, [id]);
+ 
 
   useEffect(() => {
     const fetchVendorDetails = async () => {
@@ -50,7 +49,7 @@ export const AllDetails = ({ vendorId }) => {
     };
 
     fetchVendorDetails();
-  }, [vendorId]);
+  }, [vendorId,id]);
 
   const columns = [
     { header: "ID", accessor: "ID" },

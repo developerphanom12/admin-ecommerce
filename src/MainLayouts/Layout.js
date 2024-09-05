@@ -50,7 +50,7 @@ const Root = styled.section`
     overflow: hidden;
     justify-content: center;
     .sideBar {
-      width: 27%;
+      width: 15%;
       height: 100%;
       overflow: hidden;
       cursor: pointer;
@@ -61,7 +61,7 @@ const Root = styled.section`
 
     .main_body {
       height: 90%;
-      width: 80%;
+      width: 86%;
       padding: 20px;
     }
   }
