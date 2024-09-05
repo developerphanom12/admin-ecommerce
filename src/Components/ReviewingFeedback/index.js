@@ -1,75 +1,84 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import { Heading } from '../Global';
+import { EXCHNAGE_URL } from '../../url/Url';
 
 export const ReviewingFeedback = () => {
+  const [service, setService] = useState([]);
 
   const reviewcolumn = [
-    { header: "ID", accessor: "id" },
-    { header: "Name", accessor: "name" },
+    { header: "ID", accessor: "review_id" },
+    { header: "Name", accessor: "reviewer_name" },
     { header: "Rating", accessor: "rating" },
     { header: "Comment", accessor: "comment" },
-    { header: "Date", accessor: "date" },
-    { header: "Order Id", accessor: "orderid" },
+    { header: "Date", accessor: "order_date" },
+    { header: "Order Id", accessor: "reviewer_orderid" },
+    { header: "Vendor Name", accessor: "name" },
+    { header: "Service Name", accessor: "title" },
+
   ];
 
-  const reviewdata = [
-    {
-      id:1,
-      name:"Avineet",
-      rating:"4.5",
-      comment:"Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-      date:"July 27, 2024",
-      orderid:"121221"
-    },
-    {
-      id:2,
-      name:"Avineet",
-      rating:"4.5",
-      comment:"Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-      date:"July 27, 2024",
-      orderid:"121221"
-    },
-  ];
+  useEffect(() => {
+    axios
+      .get(`${EXCHNAGE_URL}/reviews`, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.status) {
+          // Set the service data to the state
+          setService(response.data.data.data); // Adjust if needed
+        } else {
+          console.error("Failed to fetch services:", response.data.message);
+          setService([]);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching services:", error);
+        setService([]);
+      });
+  }, []);
 
   return (
     <Root>
-      
       <div className='review_heading'>
-           <Heading style={{textAlign: "left"}}>Feedback</Heading>
+        <Heading style={{textAlign: "left"}}>Reviewing Feedback</Heading>
       </div>
 
       <div className="content_div">
-            <div className="partner_div">
-              <table>
-                <thead>
-                  <tr>
-                    {reviewcolumn.map((column, index) => (
-                      <th key={index}>{column.header}</th>
-                    ))}
-                  </tr>
-                </thead>
+        <div className="partner_div">
+          <table>
+            <thead>
+              <tr>
+                {reviewcolumn.map((column, index) => (
+                  <th key={index}>{column.header}</th>
+                ))}
+              </tr>
+            </thead>
 
-                <tbody>
-                  {reviewdata.map((row, rowIndex) => (
-                    <tr key={rowIndex}>
-                      {reviewcolumn.map((column, colIndex) => (
-                        <td key={colIndex}>
-                          
-                          {row[column.accessor]}
-                          
-                        </td>
-                      ))}
-                    </tr>
+            <tbody>
+              {service.map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                  {reviewcolumn.map((column, colIndex) => (
+                    <td key={colIndex}>
+                      {column.accessor === "order_date" || column.accessor === "time_slot" ? (
+                        row[column.accessor] ? new Date(row[column.accessor]).toISOString().split("T")[0] : "Null"
+                      ) : (
+                        row[column.accessor] || "NULL" // Display "N/A" if the field is empty
+                      )}
+                    </td>
                   ))}
-                </tbody>
-              </table>
-            </div>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-
     </Root>
-  )
-}
+  );
+};
 
 const Root = styled.section`
 display:flex;
