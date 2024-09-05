@@ -98,7 +98,6 @@ export const AllService = ({ vendorId }) => {
   );
 };
 
-
 const Root = styled.section`
   .detail_main_div {
     display: flex;
@@ -112,7 +111,7 @@ const Root = styled.section`
       gap: 20px;
       flex-direction: column;
       margin-bottom: 20px;
-      height: 260px;
+      height: 420px;
       overflow: auto;
       scrollbar-width: none;
       -ms-overflow-style: none;
@@ -171,6 +170,16 @@ const Root = styled.section`
       td {
         font-size: 14px;
         font-weight: 400;
+        a {
+          font-size: 14px;
+          font-weight: 400;
+          border-radius: 40px;
+          padding: 5px 20px;
+          background: linear-gradient(100deg, #2ca5d6, #32cd32);
+          color: #fff;
+          border: none;
+          text-decoration: none;
+        }
       }
 
       th,

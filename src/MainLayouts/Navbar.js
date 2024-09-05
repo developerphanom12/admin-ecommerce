@@ -48,6 +48,9 @@ export default NavBarr;
 const Root = styled.section`
   width: 100%;
   height:100%;
+  .bg-body-tertiary {
+    box-shadow: 1px 1px 4px 1px #ebe8e8;
+}
   .navbar-brand {
     margin: 0 13px;
   }

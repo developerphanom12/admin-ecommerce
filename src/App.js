@@ -22,15 +22,15 @@ function App() {
         <Routes>
           <>
           <Route path="/" element={<Admin />}   />
-            <Route path="/dashboard-overview" element={<Dashboard />} />
+            <Route path="/dashboard-overview" element={<Dashboard />}/>
             <Route
               path="/managing_users_partners"
               element={<ManagingUsersPartners />}
             />
-            <Route path="/reviewing_feedback" element={<ReviewingFeedback />} />
+            <Route path="/reviewing_feedback" element={<ReviewingFeedback />}/>
             <Route
               path="/monitoring_payments_transactions"
-              element={<MonitoringPaymentsTransactions />}
+              element={<MonitoringPaymentsTransactions/>}
             />
 
             <Route

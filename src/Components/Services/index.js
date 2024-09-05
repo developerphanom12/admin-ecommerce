@@ -276,105 +276,122 @@ export const Services = () => {
 
         <div className="content_div">
           {selectedButton === 1 && (
-            <div className="add_ser_div">
-              <form onSubmit={handleSubmit}>
-                <div className="add_first_div">
-                  <div className="title_div">
-                    <Subdiv>Title</Subdiv>
-                    <input
-                      type="text"
-                      placeholder="Lorem Ipsum"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                    />
-                  </div>
-                  <div className="desc_div">
-                    <Subdiv>Description</Subdiv>
-                    <input
-                      type="text"
-                      placeholder="Lorem Ipsum"
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                    />
-                  </div>
-                  <div className="duration_div">
-                    <Subdiv>Duration (min)</Subdiv>
-                    <input
-                      type="text"
-                      placeholder="30"
-                      value={duration}
-                      onChange={(e) => setDuration(e.target.value)}
-                    />
+            <>
+             
+
+              <div className="add_service_div">
+                <form onSubmit={handleSubmit}>
+                  <div className="inp_row">
+                    <div className="inp_col">
+                      <Subdiv>Title</Subdiv>
+                      <input
+                        type="text"
+                        placeholder="Lorem Ipsum"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                      />
+                    </div>
+                    <div className="inp_col">
+                      <Subdiv>Description</Subdiv>
+                      <input
+                        type="text"
+                        placeholder="Lorem Ipsum"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                      />
+                    </div>
                   </div>
 
-                  <div className="service_div">
-                    <Subdiv>Available Services</Subdiv>
-                    <select
-                      value={selectedService}
-                      onChange={handleServiceChange}
-                    >
-                      <option value="">Select a service</option>
-                      {services.map((serviceItem) => (
-                        <option key={serviceItem.id} value={serviceItem.id}>
-                          {serviceItem.service_name}
-                        </option>
-                      ))}
-                    </select>
+                  <div className="inp_row">
+                    <div className="inp_col">
+                      <Subdiv>Duration (min)</Subdiv>
+                      <input
+                        type="text"
+                        placeholder="30"
+                        value={duration}
+                        onChange={(e) => setDuration(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="inp_col">
+                      <Subdiv>Available Services</Subdiv>
+                      <select
+                        value={selectedService}
+                        onChange={handleServiceChange}
+                      >
+                        <option value="">Select a service</option>
+                        {services.map((serviceItem) => (
+                          <option key={serviceItem.id} value={serviceItem.id}>
+                            {serviceItem.service_name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
-                </div>
-                <div className="add_second_div">
-                  <div className="price_div">
-                    <Subdiv>Price</Subdiv>
-                    <input
-                      type="text"
-                      placeholder="2000"
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
-                    />
-                  </div>
-                  <div className="image_div">
-                    <Subdiv>Image</Subdiv>
-                    <div className="photo_choose">
-                      <div className="upload_btn">
-                        <BlackBorderButton>Upload Images</BlackBorderButton>
-                        <input
-                          type="file"
-                          className="file_input"
-                          multiple
-                          onChange={handleFileChange}
-                        />
+
+                  <div className="inp_row">
+                    <div className="inp_col">
+                      <Subdiv>Price</Subdiv>
+                      <input
+                        type="text"
+                        placeholder="2000"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="inp_col">
+                      <Subdiv>Image</Subdiv>
+                      <div className="photo_choose">
+                        <div className="upload_btn">
+                          <BlackBorderButton>Upload Images</BlackBorderButton>
+                          <input
+                            type="file"
+                            className="file_input"
+                            multiple
+                            onChange={handleFileChange}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="features_div">
-                    <Subdiv>Features</Subdiv>
-                    <div className="feat_div">
-                      {service.map((serv, index) => (
-                        <div key={index} className="service_input_wrapper">
-                          <input
-                            type="text"
-                            placeholder="Service"
-                            value={serv || ""}
-                            onChange={(e) => handleServiceChangesss(index, e)}
-                          />
-                          <RxCross2
-                            onClick={() => handleRemoveService(index)}
-                            style={{ cursor: "pointer" }}
-                          />
-                        </div>
-                      ))}
+                  <div className="inp_row">
+                    <div className="inp_col">
+                      <Subdiv>Features</Subdiv>
+                      <div className="feat_div">
+                        {service.map((serv, index) => (
+                          <div key={index} className="service_input_wrapper">
+                            <input
+                              type="text"
+                              placeholder="Service"
+                              value={serv || ""}
+                              onChange={(e) => handleServiceChangesss(index, e)}
+                            />
+                            <RxCross2
+                              onClick={() => handleRemoveService(index)}
+                              style={{ cursor: "pointer" }}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <BlackBorderButton
+                        type="button"
+                        onClick={handleAddService}
+                      >
+                        Add Another Service
+                      </BlackBorderButton>
                     </div>
-                    <BlackBorderButton type="button" onClick={handleAddService}>
-                      Add Another Service
-                    </BlackBorderButton>
+
+                    <div className="inp_col">
+                    <div className="submit_btn">
+                    <MainButton type="submit">Submit Now</MainButton>
                   </div>
-                </div>
-                <div className="submit_btn">
-                  <MainButton type="submit">Submit Now</MainButton>
-                </div>
-              </form>
-            </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </>
           )}
 
           {selectedButton === 2 && (
@@ -562,7 +579,7 @@ const Root = styled.section`
       th,
       td {
         text-align: left;
-        padding: 15px;
+        padding: 8px;
         text-align: center;
       }
 
@@ -581,122 +598,41 @@ const Root = styled.section`
       overflow: auto;
       scrollbar-width: none;
       -ms-overflow-style: none;
-      height: 500px;
+      height: 420px;
       width: 100%;
-      .add_ser_div {
-        display: flex;
-        gap: 20px;
-        flex-direction: column;
-        margin-top: 40px;
-        .add_first_div {
+
+
+      .add_service_div {
+        padding:0 20%;
+        height:100%;
+        .inp_row {
           display: flex;
           gap: 20px;
-          .title_div {
-            height: 100px;
-            width: 25%;
+          margin-top: 30px;
+          align-items: flex-end;
+          .inp_col {
             display: flex;
             flex-direction: column;
-            gap: 5px;
-            align-items: center;
-            input {
-              border: 1px solid #ccc;
-              border-radius: 4px;
-              height: 40px;
-              font-size: 14px;
-              font-weight: 400;
-              padding: 0 10px;
-              color: #8b8989;
-            }
-          }
-
-          .desc_div {
-            height: 100px;
-            width: 25%;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            align-items: center;
-            input {
-              border: 1px solid #ccc;
-              border-radius: 4px;
-              height: 40px;
-              font-size: 14px;
-              font-weight: 400;
-              padding: 0 10px;
-              color: #8b8989;
-            }
-          }
-
-          .duration_div {
-            height: 100px;
-            width: 25%;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            align-items: center;
-            input {
-              border: 1px solid #ccc;
-              border-radius: 4px;
-              height: 40px;
-              font-size: 14px;
-              font-weight: 400;
-              padding: 0 10px;
-              color: #8b8989;
-            }
-          }
-
-          .service_div {
-            height: 100px;
-            width: 25%;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            align-items: center;
+            flex: 1;
+            input,
             select {
               border: 1px solid #ccc;
               border-radius: 4px;
               height: 40px;
               font-size: 14px;
               font-weight: 400;
-              width: 90%;
-              color: #8b8989;
-            }
-          }
-        }
-        .add_second_div {
-          display: flex;
-          gap: 20px;
-          .price_div {
-            height: 100px;
-            width: 30%;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            align-items: center;
-            input {
-              border: 1px solid #ccc;
-              border-radius: 4px;
-              height: 40px;
-              font-size: 14px;
-              font-weight: 400;
               padding: 0 10px;
               color: #8b8989;
             }
-          }
 
-          .image_div {
-            height: 100px;
-            width: 30%;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            align-items: center;
             .photo_choose {
               .upload_btn {
                 display: flex;
                 justify-content: center;
                 position: relative;
-
+                button {
+                  width: 100%;
+                }
                 .file_input {
                   position: absolute;
                   top: 0;
@@ -708,15 +644,7 @@ const Root = styled.section`
                 }
               }
             }
-          }
 
-          .features_div {
-            height: 100px;
-            width: 30%;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            align-items: center;
             .feat_div {
               display: flex;
               flex-direction: column;
@@ -725,25 +653,20 @@ const Root = styled.section`
                 align-items: center;
                 margin-bottom: 8px;
                 margin-left: 20px;
+                input{
+                  width: 100%;
+                }
                 svg {
                   color: #9b9393;
                 }
               }
             }
-            input {
-              border: 1px solid #ccc;
-              border-radius: 4px;
-              height: 40px;
-              font-size: 14px;
-              font-weight: 400;
-              padding: 0 10px;
-              color: #8b8989;
-            }
-          }
-        }
+
         .submit_btn {
           display: flex;
           justify-content: center;
+        }
+          }
         }
       }
     }
@@ -760,154 +683,38 @@ const Root = styled.section`
     .services_main_div .butt_div {
       flex-wrap: wrap;
       justify-content: center;
+      gap: 18px;
     }
 
-    .services_main_div .content_div .add_ser_div {
-      flex-wrap: wrap;
-    }
-    .services_main_div .content_div .add_ser_div .add_first_div {
-      flex-wrap: wrap;
-      gap: 0;
-      padding: 0 10px;
-      .title_div {
-        width: 100%;
-        input {
-          width: 100%;
-        }
-      }
-      .desc_div {
-        width: 100%;
-        input {
-          width: 100%;
-        }
-      }
-      .duration_div {
-        width: 100%;
-        input {
-          width: 100%;
-        }
-      }
-      .service_div {
-        width: 100%;
-        select {
-          width: 100%;
-        }
-      }
-    }
+  
 
-    .services_main_div .content_div .add_ser_div .add_second_div {
-      flex-wrap: wrap;
-      gap: 0;
-      padding: 0 10px;
-      .price_div {
-        width: 100%;
-        input {
-          width: 100%;
-        }
-      }
-      .image_div {
-        width: 100%;
-        .photo_choose {
-          width: 100%;
-          button {
-            width: 100%;
-          }
-        }
-      }
-      .features_div {
-        width: 100%;
-        button {
-          width: 100%;
-        }
-      }
-    }
+
+.services_main_div .content_div .add_service_div{
+  padding: 0 5%;
+  height:unset;
+.inp_row {
+    align-items: unset;
+  flex-direction:column
+}
+}
+
   }
 
   @media (min-width: 567px) and (max-width: 992px) {
     .services_main_div .content_div {
       padding-bottom: 20px;
     }
-    .services_main_div .content_div .add_ser_div .add_first_div {
-      flex-wrap: wrap;
-      gap: 2px;
-    }
 
-    .services_main_div .content_div .add_ser_div {
-      gap: 0px;
-      margin-top: 20px;
-      padding: 0 20px;
-    }
+  .services_main_div .content_div .add_service_div {
+    padding: 0 10%;
+    
+}
+ 
 
-    .services_main_div .content_div .add_ser_div .add_first_div .title_div {
-      width: 48%;
-      input {
-        width: 100%;
-      }
-    }
 
-    .services_main_div .content_div .add_ser_div .add_first_div .desc_div {
-      width: 48%;
-      input {
-        width: 100%;
-      }
-    }
 
-    .services_main_div .content_div .add_ser_div .add_first_div .duration_div {
-      width: 48%;
-      input {
-        width: 100%;
-      }
-    }
 
-    .services_main_div .content_div .add_ser_div .add_first_div .service_div {
-      width: 48%;
-      select {
-        width: 100%;
-      }
-    }
-
-    .services_main_div .content_div .add_ser_div .add_second_div {
-      flex-wrap: wrap;
-      gap: 2px;
-    }
-
-    .services_main_div .content_div .add_ser_div .add_second_div .price_div {
-      width: 48%;
-      input {
-        width: 100%;
-      }
-    }
-
-    .services_main_div .content_div .add_ser_div .add_second_div .image_div {
-      width: 48%;
-      input {
-        width: 100%;
-      }
-      .photo_choose {
-        width: 100%;
-        .upload_btn {
-          button {
-            width: 100%;
-          }
-        }
-      }
-    }
-
-    .services_main_div .content_div .add_ser_div .add_second_div .features_div {
-      width: 48%;
-      input {
-        width: 100%;
-      }
-      button {
-        width: 100%;
-      }
-    }
-
-    .services_main_div .content_div .add_ser_div .submit_btn {
-      justify-content: flex-end;
-    }
-
-    .services_main_div
+    /* .services_main_div
       .content_div
       .add_ser_div
       .add_second_div
@@ -917,6 +724,6 @@ const Root = styled.section`
       .service_input_wrapper {
         margin-left: 0px;
       }
-    }
+    } */
   }
 `;

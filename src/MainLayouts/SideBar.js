@@ -213,7 +213,7 @@ const Root = styled.section`
 
     .sidebar_div {
       &:hover {
-        width: 50%;
+        width: 35%;
         a {
           span {
             display: block;
@@ -254,7 +254,7 @@ const Root = styled.section`
 
     .sidebar_div {
       &:hover {
-        width: 50%;
+        width: 35%;
         a {
           span {
             display: block;

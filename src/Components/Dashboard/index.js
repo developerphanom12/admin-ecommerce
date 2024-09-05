@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaChartLine,
   FaCheckCircle,
@@ -11,8 +11,35 @@ import { GiMoneyStack } from "react-icons/gi";
 import { HiOutlineClipboardList, HiOutlineZoomIn } from "react-icons/hi";
 import { MdBarChart, MdDateRange } from "react-icons/md";
 import styled from "styled-components";
+import axios from "axios";
+import { EXCHNAGE_URL } from "../../url/Url";
 
 const Dashboard = () => {
+  const [data, setData] = useState(null);
+
+  const getApi = async () => {
+    const axiosConfig = {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
+    try {
+      const response = await axios.get(`${EXCHNAGE_URL}/today`,axiosConfig);
+        if (response.status === 200){
+            setData(response.data.data);     
+            console.log("setData", response.data.data);
+        }
+    } catch (error){
+      console.error("error",error);
+    }
+
+  };
+
+  useEffect(() => {
+    getApi();
+  }, []);
+
+
   const orders = [
     {
       invoiceNo: 11210,
@@ -61,24 +88,27 @@ const Dashboard = () => {
     },
     // Add more orders as needed
   ];
+
+
   return (
     <DashboardContainer>
       <CardsContainer>
         <Card color="#00796b">
           <>
-            <MdBarChart />
+            <MdBarChart/>
           </>
 
           <CardTitle>User Registrations Over Time</CardTitle>
-          <CardValue>₹789.84</CardValue>
+          <CardValue> {data ? `Today: ${data.users.Today}, Total: ${data.users.Total}` : "Loading..."}</CardValue>
+          {/* <CardValue>₹789.84</CardValue> */}
         </Card>
         <Card color="#ffa726">
           <>
             <HiOutlineClipboardList />
           </>
-
           <CardTitle>Total Bookings</CardTitle>
-          <CardValue>₹0.00</CardValue>
+          {/* <CardValue>₹0.00</CardValue> */}
+          <CardValue> {data ? `Today: ${data.bookings.Today}, Total: ${data.bookings.Total}` : "Loading..."}</CardValue>
         </Card>
         <Card color="#42a5f5">
           <>
@@ -100,14 +130,14 @@ const Dashboard = () => {
           <>
             <FaChartLine />
           </>
-          <CardTitle>Revenue Over Time</CardTitle>
-          <CardValue>₹178224.57</CardValue>
+          <CardTitle>Total Vendor</CardTitle>
+          <CardValue>{data ? `Today: ${data.vendors.Today}, Total: ${data.vendors.Total}` : "Loading..."}</CardValue>
         </Card>
       </CardsContainer>
 
       <StatsContainer>
         <StatBox>
-          <LogoBox>
+          <LogoBox className="cancel">
             <FaShoppingCart />
           </LogoBox>
           <TextBox>
@@ -116,7 +146,7 @@ const Dashboard = () => {
           </TextBox>
         </StatBox>
         <StatBox>
-          <LogoBox>
+          <LogoBox className="pending">
             <FaHourglassHalf />
           </LogoBox>
           <TextBox>
@@ -125,7 +155,7 @@ const Dashboard = () => {
           </TextBox>
         </StatBox>
         <StatBox>
-          <LogoBox>
+          <LogoBox className="processing">
             <FaCog />
           </LogoBox>
           <TextBox>
@@ -134,7 +164,7 @@ const Dashboard = () => {
           </TextBox>
         </StatBox>
         <StatBox>
-          <LogoBox>
+          <LogoBox className="delivered">
             <FaCheckCircle />
           </LogoBox>
           <TextBox>
@@ -143,17 +173,19 @@ const Dashboard = () => {
           </TextBox>
         </StatBox>
       </StatsContainer>
+
+    <TableDiv>
       <Table>
         <thead>
           <tr>
-            <th>INVOICE NO</th>
-            <th>ORDER TIME</th>
-            <th>CUSTOMER NAME</th>
-            <th>METHOD</th>
-            <th>AMOUNT</th>
-            <th>STATUS</th>
-            <th>ACTION</th>
-            <th>INVOICE</th>
+            <th>Invoice No</th>
+            <th>Order Time</th>
+            <th>Customer Name</th>
+            <th>Method</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Action</th>
+            <th>Invoice</th>
           </tr>
         </thead>
         <tbody>
@@ -164,8 +196,8 @@ const Dashboard = () => {
               <td>{order.customerName}</td>
               <td>{order.method}</td>
               <td>{order.amount}</td>
-              <td className={order.status.toLowerCase()}>
-                <p>{order.status}</p>
+              <td>
+                <p className={order.status.toLowerCase()}>{order.status}</p>
               </td>
               <td>
                 <select value={order.action}>
@@ -187,6 +219,8 @@ const Dashboard = () => {
           ))}
         </tbody>
       </Table>
+    </TableDiv>
+
     </DashboardContainer>
   );
 };
@@ -196,6 +230,30 @@ export default Dashboard;
 const DashboardContainer = styled.div`
   display: flex;
   flex-direction: column;
+  i {
+    cursor: pointer;
+    margin-left: 10px;
+  }
+
+  .delivered {
+    color: #059669;
+    background-color: #d1fae5;
+  }
+
+  .pending {
+    color: #ca8a04;
+    background-color: #fef9c3;
+  }
+
+  .processing {
+    color: #3b82f6;
+    background-color: #dbeafe;
+  }
+
+  .cancel {
+    color: #ef4444;
+    background-color: #fee2e2;
+  }
 `;
 
 const CardsContainer = styled.div`
@@ -218,22 +276,29 @@ const Card = styled.div`
   flex: 1;
   margin: 10px;
   min-width: 200px;
+  max-height: 230px;
+  display: flex;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  flex-direction: column;
+  /* / justify-content: center; / */
+  align-items: center;
+  gap: 10px;
 `;
 
 const CardTitle = styled.h4`
   font-size: 18px;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 `;
 
 const CardValue = styled.h3`
-  font-size: 24px;
-  margin-bottom: 10px;
+  font-size: 15px;
+  margin-bottom: 0px;
 `;
 
 const CardDetail = styled.p`
   font-size: 14px;
+  margin: 0;
 `;
 
 const StatsContainer = styled.div`
@@ -242,17 +307,19 @@ const StatsContainer = styled.div`
   margin-top: 20px;
   flex-wrap: wrap;
   svg {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     padding: 10px;
   }
 `;
-const LogoBox = styled.div``;
+const LogoBox = styled.div`
+  border-radius: 50%;
+`;
 const StatBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 20px;
   background-color: #f5f5f5;
   padding: 20px;
   flex: 1;
@@ -273,19 +340,43 @@ const StatTitle = styled.h4`
 
 const StatValue = styled.h3`
   font-size: 18px;
+  margin: 0;
   color: ${({ color }) => (color ? color : "black")};
 `;
+
+// .table_div {
+//   overflow: auto;
+// }
+
+const TableDiv = styled.div`
+  overflow: auto;
+`
 
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
   padding: 10px;
-  overflow-x: scroll;
+  /* overflow-x: scroll; */
+  overflow: auto;
   svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     color: gray;
+    @media (max-width: 992px){
+      width: 15px;
+      height: 18px;
+
+    }
+  }
+  .pending,
+  .delivered,
+  .processing,
+  .cancel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
   }
   th,
   td {
@@ -296,8 +387,10 @@ const Table = styled.table`
 
   th {
     background-color: #f2f2f2;
-    font-weight: bold;
     font-size: 14px;
+    font-weight: 500;
+    color: #2ca5d6;
+    text-transform: capitalize;
   }
 
   td {

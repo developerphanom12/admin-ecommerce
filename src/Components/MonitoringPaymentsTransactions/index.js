@@ -39,7 +39,7 @@ export const MonitoringPaymentsTransactions = () => {
     <Root>
       <div className="review_heading">
         <Heading style={{ textAlign: "left" }}>
-          Monitoring Payments and Transactions
+          Payments 
         </Heading>
       </div>
 

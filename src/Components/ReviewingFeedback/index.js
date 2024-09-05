@@ -36,7 +36,7 @@ export const ReviewingFeedback = () => {
     <Root>
       
       <div className='review_heading'>
-           <Heading style={{textAlign: "left"}}>Reviewing Feedback</Heading>
+           <Heading style={{textAlign: "left"}}>Feedback</Heading>
       </div>
 
       <div className="content_div">
