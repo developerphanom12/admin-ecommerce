@@ -43,33 +43,13 @@ export const Services = () => {
   const [service, setService] = useState([]);
   const [images, setImages] = useState([]);
   const [services, setServices] = useState([]);
-  const [selectedService, setSelectedService] = useState("");
+  const [selectedService, setSelectedService] = useState(""); // State to capture selected service ID
   const [datalist, setDatalist] = useState([]);
 
   const navigate = useNavigate();
   const handleFileChange = (e) => {
     setImages([...e.target.files]);
   };
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-    reset,
-    setValue,
-  } = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      duration: "",
-      selectedService: "",
-      price: "",
-      service: [""],
-      images: [],
-    },
-  });
 
   useEffect(() => {
     axios
@@ -95,35 +75,71 @@ export const Services = () => {
       });
   }, []);
 
-  const onSubmit = async (data) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    // Validation checks
+    if (!title) {
+      toast.error("Title is required");
+      return;
+    }
+    if (!description) {
+      toast.error("Description is required");
+      return;
+    }
+    if (!duration) {
+      toast.error("Duration is required");
+      return;
+    }
+    if (isNaN(duration) || duration > 30) {
+      toast.error("Duration must be a number less than or equal to 30 minutes");
+      return;
+    }
+    if (!selectedService) {
+      toast.error("You must select a service");
+      return;
+    }
+    if (!price) {
+      toast.error("Price is required");
+      return;
+    }
+    if (service.length === 0) {
+      toast.error("At least one feature is required");
+      return;
+    }
+    if (images.length === 0) {
+      toast.error("At least one image is required");
+      return;
+    }
+  
     try {
       const formData = new FormData();
-      formData.append("title", data.title);
-      formData.append("description", data.description);
-      formData.append("duration", data.duration);
-      formData.append("service_type", data.selectedService);
-      formData.append("price", data.price);
-      formData.append("service", JSON.stringify(data.service));
-
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("duration", duration);
+      formData.append("service_type", selectedService);
+      formData.append("price", price);
+      formData.append("service", JSON.stringify(service));
+  
       for (let i = 0; i < images.length; i++) {
         formData.append("images", images[i]);
       }
-
+  
       const response = await axios.post(
         `${EXCHNAGE_URL_USERS}/vehicle-datalist`,
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-
-      if (response.data.status) {
+  
+      const result = response.data;
+  
+      if (result.status) {
         toast.success("Data Added Successfully");
         navigate("/dashboard-overview");
-        reset();
       } else {
         toast.error("Failed to add data");
       }
@@ -133,7 +149,7 @@ export const Services = () => {
     }
   };
 
-  // const handleDelete = async (serviceId) => {};
+  const handleDelete = async (serviceId) => {};
   const handleAddService = () => {
     setService([...service, ""]);
   };
@@ -185,14 +201,20 @@ export const Services = () => {
       vehicle: "Car",
       date: "18 August ",
     },
+    {
+      id: 1,
+      name: "Avineet ",
+      vehicle: "Bike",
+      date: "18 August ",
+    },
   ];
   const handleApproval = async (id, isApproved) => {
     try {
       const response = await axios.post(
-        `${EXCHNAGE_URL}/servicedeleted`,
+        `${EXCHNAGE_URL}/servicedeleted`, // Replace with your actual API endpoint
         {
-          id: id,
-          is_deleted: isApproved,
+          id: id, // Pass the ID dynamically
+          is_deleted: isApproved, // 1 for approved, 0 for not approved
         },
         {
           headers: {
@@ -218,7 +240,6 @@ export const Services = () => {
       );
     }
   };
-
   return (
     <Root>
       <div className="services_main_div">
@@ -248,56 +269,49 @@ export const Services = () => {
         <div className="content_div">
           {selectedButton === 1 && (
             <div className="add_ser_div">
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleSubmit}>
                 <div className="add_first_div">
                   <div className="title_div">
                     <Subdiv>Title</Subdiv>
                     <input
                       type="text"
                       placeholder="Lorem Ipsum"
-                      {...register("title")}
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
                     />
-                    {errors.title && (
-                      <p className="error">{errors.title.message}</p>
-                    )}
                   </div>
                   <div className="desc_div">
                     <Subdiv>Description</Subdiv>
                     <input
                       type="text"
                       placeholder="Lorem Ipsum"
-                      {...register("description")}
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
                     />
-                    {errors.description && (
-                      <p className="error">{errors.description.message}</p>
-                    )}
                   </div>
                   <div className="duration_div">
-                    <Subdiv>Duration (Min)</Subdiv>
+                    <Subdiv>Duration (min)</Subdiv>
                     <input
-                      type="number"
-                      placeholder="10min"
-                      {...register("duration")}
+                      type="text"
+                      placeholder="30"
+                      value={duration}
+                      onChange={(e) => setDuration(e.target.value)}
                     />
-                    {errors.duration && (
-                      <p className="error">{errors.duration.message}</p>
-                    )}
                   </div>
 
                   <div className="service_div">
-                    <Subdiv>Select Service</Subdiv>
-                    <select {...register("selectedService")}>
-                      <option value="">Select Service</option>
-                      {services &&
-                        services?.map((option, index) => (
-                          <option key={index} value={option.id}>
-                            {option.service_name}
-                          </option>
-                        ))}
+                    <Subdiv>Available Services</Subdiv>
+                    <select
+                      value={selectedService}
+                      onChange={handleServiceChange}
+                    >
+                      <option value="">Select a service</option>
+                      {services.map((serviceItem) => (
+                        <option key={serviceItem.id} value={serviceItem.id}>
+                          {serviceItem.service_name}
+                        </option>
+                      ))}
                     </select>
-                    {errors.selectedService && (
-                      <p className="error">{errors.selectedService.message}</p>
-                    )}
                   </div>
                 </div>
                 <div className="add_second_div">
@@ -305,12 +319,11 @@ export const Services = () => {
                     <Subdiv>Price</Subdiv>
                     <input
                       type="text"
-                      placeholder="0.00"
-                      {...register("price")}
+                      placeholder="2000"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
                     />
-                    {errors.price && (
-                      <p className="error">{errors.price.message}</p>
-                    )}
+              
                   </div>
                   <div className="image_div">
                     <Subdiv>Image</Subdiv>
@@ -321,16 +334,12 @@ export const Services = () => {
                           type="file"
                           className="file_input"
                           multiple
-                          {...register("images")}
                           onChange={handleFileChange}
                         />
-                        {errors.images && (
-                          <p className="error">{errors.images.message}</p>
-                        )}
                       </div>
                     </div>
                   </div>
-
+                 
                   <div className="features_div">
                     <Subdiv>Features</Subdiv>
                     <div className="feat_div">
@@ -348,9 +357,6 @@ export const Services = () => {
                           />
                         </div>
                       ))}
-                      {errors.service && (
-                        <p className="error">{errors.service.message}</p>
-                      )}
                     </div>
                     <BlackBorderButton type="button" onClick={handleAddService}>
                       Add Another Service
@@ -775,7 +781,6 @@ const Root = styled.section`
 }
     .services_main_div .content_div .add_ser_div .add_first_div {
       flex-wrap: wrap;
-
       gap: 2px;
     }
 
