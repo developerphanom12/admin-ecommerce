@@ -12,6 +12,7 @@ import Admin from "./adminlogin/Admin";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
 import Dashboard from "./Components/Dashboard";
+import { AllService } from "./Components/Services/AllService";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             />
 
             <Route path="/contact_support" element={<ContactSupport />} />
+            <Route path="/service-details/:id" element={<AllService />} />
 
             <Route path="/all-details/:id" element={<AllDetails />} />
 

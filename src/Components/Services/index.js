@@ -176,6 +176,7 @@ export const Services = () => {
     setService(updatedServices);
   };
 
+
   const servicelist = [
     { header: "ID", accessor: "id" },
     { header: "Name", accessor: "service_name" },
@@ -183,7 +184,10 @@ export const Services = () => {
     { header: "Date", accessor: "create_date" },
     { header: "Update Date", accessor: "update_date" },
     { header: "Delete", accessor: "delete" },
+    { header: "View More", accessor: "view" },
   ];
+
+  
 
   const handleButtonClick = (buttonIndex) => {
     setSelectedButton(buttonIndex);
@@ -370,7 +374,7 @@ export const Services = () => {
             </div>
           )}
 
-          {selectedButton === 2 && (
+{selectedButton === 2 && (
             <div className="partner_div">
               <table>
                 <thead>
@@ -388,7 +392,7 @@ export const Services = () => {
                           {column.accessor === "image" ? (
                             <img
                               src={row[column.accessor]}
-                              alt="vehicle img"
+                              alt="Image"
                               style={{
                                 width: "50px",
                                 height: "50px",
@@ -413,6 +417,12 @@ export const Services = () => {
                               onClick={() => handleApproval(row.id, 1)}
                             >
                               <MdDelete />
+                            </RedirectButton>
+                          ) : column.accessor === "view" ? (
+                            <RedirectButton
+                              onClick={() => navigate(`/service-details/${row.id}`)}
+                            >
+                              View
                             </RedirectButton>
                           ) : (
                             row[column.accessor]
