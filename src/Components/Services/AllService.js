@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { Heading } from "../Global";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export const AllService = ({ vendorId }) => {
   const [basicDetails, setBasicDetails] = useState([]); // Changed to array
   const { id } = useParams();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const fetchVendorDetails = async () => {
@@ -45,7 +45,7 @@ export const AllService = ({ vendorId }) => {
     };
 
     fetchVendorDetails();
-  }, [vendorId]);
+  }, [vendorId, id]);
 
   const columns = [
     { header: "ID", accessor: "ID" },

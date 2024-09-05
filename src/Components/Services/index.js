@@ -10,30 +10,12 @@ import axios from "axios";
 import { EXCHNAGE_URL, EXCHNAGE_URL_USERS } from "../../url/Url";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { FcNext, FcPrevious } from "react-icons/fc";
 
-const validationSchema = Yup.object().shape({
-  title: Yup.string().required("Title is required"),
-  description: Yup.string()
-    .required("Description is required")
-    .max(200, "Description must be less than 200 characters"),
-  duration: Yup.number()
-    .required("Duration is required")
-    .min(1, "Duration must be at least 1 minute")
-    .max(30, "Duration cannot exceed 30 minutes"),
-  selectedService: Yup.string().required("Service selection is required"),
-  price: Yup.number().required("Price is required"),
-  images: Yup.mixed().required("At least one image is required"),
-  service: Yup.array()
-    .of(Yup.string().required("Feature is required"))
-    .min(1, "At least one feature must be added"),
-});
+
 
 export const Services = () => {
   const [selectedButton, setSelectedButton] = useState(1);
@@ -153,7 +135,7 @@ export const Services = () => {
     }
   };
 
-  const handleDelete = async (serviceId) => {};
+  // const handleDelete = async (serviceId) => {};
   const handleAddService = () => {
     setService([...service, ""]);
   };
