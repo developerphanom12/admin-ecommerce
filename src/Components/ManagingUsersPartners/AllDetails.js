@@ -35,11 +35,11 @@ export const AllDetails = ({ vendorId }) => {
             DocumentVerify: vendorData.documents.length > 0 ? "Verified" : "Pending",
           });
           setBankDetails({
-            bankid: vendorData.bank_details.bankid,
-            BankHolder: vendorData.bank_details.bank_holder,
-            AccountNumber: vendorData.bank_details.account_number,
-            BankName: vendorData.bank_details.bank_name,
-            IFSCCode: vendorData.bank_details.ifsc_code,
+            bankid: vendorData.bank_details.bankid || "",
+            BankHolder: vendorData.bank_details.bank_holder || "",
+            AccountNumber: vendorData.bank_details.account_number || "",
+            BankName: vendorData.bank_details.bank_name || "",
+            IFSCCode: vendorData.bank_details.ifsc_code || "",
           });
           setDocuments(vendorData.documents);
         }
@@ -77,25 +77,25 @@ export const AllDetails = ({ vendorId }) => {
 
   const baseUrl = "http://api-carwash.phanomprofessionals.com/uploads";
 
-  const datathree = documents.map((doc, index) => ({
-    AadhaarFront: doc.adarfrontend ? (
-      <a href={`${baseUrl}/${doc.adarfrontend}`} target="_blank" rel="noopener noreferrer">
-        <img src={`${baseUrl}/${doc.adarfrontend}`} alt="Aadhaar Front" style={{ width: '100px', height: 'auto' }} />
+  const datathree = documents?.map((doc, index) => ({
+    AadhaarFront: doc?.adarfrontend ? (
+      <a href={`${baseUrl}/${doc?.adarfrontend}`} target="_blank" rel="noopener noreferrer">
+        <img src={`${baseUrl}/${doc?.adarfrontend}`} alt="Aadhaar Front" style={{ width: '100px', height: 'auto' }} />
       </a>
     ) : "NO Image",
-    AadhaarBack: doc.adarback ? (
-      <a href={`${baseUrl}/${doc.adarback}`} target="_blank" rel="noopener noreferrer">
-        <img src={`${baseUrl}/${doc.adarback}`} alt="Aadhaar Back" style={{ width: '100px', height: 'auto' }} />
+    AadhaarBack: doc?.adarback ? (
+      <a href={`${baseUrl}/${doc?.adarback}`} target="_blank" rel="noopener noreferrer">
+        <img src={`${baseUrl}/${doc?.adarback}`} alt="Aadhaar Back" style={{ width: '100px', height: 'auto' }} />
       </a>
     ) : "NO Image",
-    LicenseFront: doc.licfront ? (
-      <a href={`${baseUrl}/${doc.licfront}`} target="_blank" rel="noopener noreferrer">
-        <img src={`${baseUrl}/${doc.licfront}`} alt="License Front" style={{ width: '100px', height: 'auto' }} />
+    LicenseFront: doc?.licfront ? (
+      <a href={`${baseUrl}/${doc?.licfront}`} target="_blank" rel="noopener noreferrer">
+        <img src={`${baseUrl}/${doc?.licfront}`} alt="License Front" style={{ width: '100px', height: 'auto' }} />
       </a>
     ) : "NO Image",
-    LicenseBack: doc.licback ? (
-      <a href={`${baseUrl}/${doc.licback}`} target="_blank" rel="noopener noreferrer">
-        <img src={`${baseUrl}/${doc.licback}`} alt="License Back" style={{ width: '100px', height: 'auto' }} />
+    LicenseBack: doc?.licback ? (
+      <a href={`${baseUrl}/${doc?.licback}`} target="_blank" rel="noopener noreferrer">
+        <img src={`${baseUrl}/${doc?.licback}`} alt="License Back" style={{ width: '100px', height: 'auto' }} />
       </a>
     ) : "NO Image",
   }));
@@ -162,14 +162,14 @@ export const AllDetails = ({ vendorId }) => {
           <table>
             <thead>
               <tr>
-                {columnstwo.map((column, index) => (
+                {columnstwo?.map((column, index) => (
                   <th key={index}>{column.header}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               <tr>
-                {columnstwo.map((column, colIndex) => (
+                {columnstwo?.map((column, colIndex) => (
                   <td key={colIndex}>{bankDetails[column.accessor]}</td>
                 ))}
               </tr>
@@ -182,15 +182,15 @@ export const AllDetails = ({ vendorId }) => {
   <table>
     <thead>
       <tr>
-        {columnsthree.map((column, index) => (
+        { columnsthree && columnsthree?.map((column, index) => (
           <th key={index}>{column.header}</th>
         ))}
       </tr>
     </thead>
     <tbody>
-      {datathree.map((row, rowIndex) => (
+      {datathree && datathree?.map((row, rowIndex) => (
         <tr key={rowIndex}>
-          {columnsthree.map((column, colIndex) => (
+          {columnsthree && columnsthree?.map((column, colIndex) => (
             <td key={colIndex}>{row[column.accessor]}</td>
           ))}
         </tr>

@@ -6,9 +6,8 @@ import {
   FaShoppingCart,
   FaTimesCircle,
 } from "react-icons/fa";
-import { FiPrinter } from "react-icons/fi";
 import { GiMoneyStack } from "react-icons/gi";
-import { HiOutlineClipboardList, HiOutlineZoomIn } from "react-icons/hi";
+import { HiOutlineClipboardList } from "react-icons/hi";
 import { MdBarChart, MdDateRange } from "react-icons/md";
 import styled from "styled-components";
 import axios from "axios";
