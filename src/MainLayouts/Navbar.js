@@ -4,17 +4,20 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import styled from "styled-components";
 import logoimg from "../Assets/logo.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { userCheckAction } from "../redux/users/action";
+import { userCheckAction, userDataAction, UserDetails } from "../redux/users/action";
 
 function NavBarr() {
-const navigate = useNavigate()
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    userCheckAction(false);
-    navigate("/");
-  };
+const navigate = useNavigate();
+const dispatch = useDispatch();
+const handleLogout = () => {
+  localStorage.removeItem("token");  
+  dispatch(userCheckAction(false));  
+  dispatch(UserDetails(""));  
+  dispatch(userDataAction(""));  
+  navigate("/");  
+};
 
   const userCheck = useSelector((state) => state?.users?.userCheck);
   const token = localStorage.getItem("token");

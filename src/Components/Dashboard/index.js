@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import {
   FaChartLine,
   FaCheckCircle,
-  FaCog,
   FaHourglassHalf,
   FaShoppingCart,
+  FaTimesCircle,
 } from "react-icons/fa";
 import { FiPrinter } from "react-icons/fi";
 import { GiMoneyStack } from "react-icons/gi";
@@ -16,6 +16,7 @@ import { EXCHNAGE_URL } from "../../url/Url";
 
 const Dashboard = () => {
   const [data, setData] = useState(null);
+  const [order, setOrder] = useState(null);
 
   const getApi = async () => {
     const axiosConfig = {
@@ -24,125 +25,179 @@ const Dashboard = () => {
       },
     };
     try {
-      const response = await axios.get(`${EXCHNAGE_URL}/today`,axiosConfig);
-        if (response.status === 200){
-            setData(response.data.data);     
-            console.log("setData", response.data.data);
-        }
-    } catch (error){
-      console.error("error",error);
+      const response = await axios.get(`${EXCHNAGE_URL}/today`, axiosConfig);
+      if (response.status === 200) {
+        setData(response.data.data);
+        console.log("setData", response.data.data);
+      }
+    } catch (error) {
+      console.error("error", error);
     }
-
+  };
+  const getOrderApi = async () => {
+    const axiosConfig = {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
+    try {
+      const response = await axios.get(
+        `${EXCHNAGE_URL}/orderlist`,
+        axiosConfig
+      );
+      if (response.status === 200) {
+        setOrder(response.data.data);
+        console.log("setData", response.data.data);
+      }
+    } catch (error) {
+      console.error("error", error);
+    }
   };
 
   useEffect(() => {
     getApi();
+    getOrderApi();
   }, []);
 
-
-  const orders = [
-    {
-      invoiceNo: 11210,
-      orderTime: "5 Sep, 2024 6:38 AM",
-      customerName: "Johin Lo",
-      method: "Cash",
-      amount: "₹789.84",
-      status: "Delivered",
-      action: "Delivered",
-    },
-    {
-      invoiceNo: 11255,
-      orderTime: "5 Sep, 2024 12:20 AM",
-      customerName: "john jkj ",
-      method: "Cash",
-      amount: "₹860.98",
-      status: "Pending",
-      action: "Pending",
-    },
-    {
-      invoiceNo: 11211,
-      orderTime: "4 Sep, 2024 11:36 PM",
-      customerName: "Johin Lo",
-      method: "Cash",
-      amount: "₹946.98",
-      status: "Processing",
-      action: "Processing",
-    },
-    {
-      invoiceNo: 11254,
-      orderTime: "4 Sep, 2024 11:11 PM",
-      customerName: "john jkj",
-      method: "Cash",
-      amount: "₹250.00",
-      status: "Pending",
-      action: "Pending",
-    },
-    {
-      invoiceNo: 11254,
-      orderTime: "4 Sep, 2024 11:11 PM",
-      customerName: "avi",
-      method: "Cash",
-      amount: "₹250.00",
-      status: "cancel",
-      action: "cancel",
-    },
-    // Add more orders as needed
-  ];
-
+  // const orders = [
+  //   {
+  //     orderNo: 11210,
+  //     orderTime: "5 Sep, 2024 6:38 AM",
+  //     customerName: "Johin Lo",
+  //     method: "Cash",
+  //     amount: "₹789.84",
+  //     status: "Delivered",
+  //   },
+  //   {
+  //     orderNo: 11255,
+  //     orderTime: "5 Sep, 2024 12:20 AM",
+  //     customerName: "john jkj ",
+  //     method: "Card",
+  //     amount: "₹860.98",
+  //     status: "Pending",
+  //   },
+  //   {
+  //     orderNo: 11211,
+  //     orderTime: "4 Sep, 2024 11:36 PM",
+  //     customerName: "Johin Lo",
+  //     method: "Cash",
+  //     amount: "₹946.98",
+  //     status: "Processing",
+  //   },
+  //   {
+  //     orderNo: 11254,
+  //     orderTime: "4 Sep, 2024 11:11 PM",
+  //     customerName: "john jkj",
+  //     method: "Cash",
+  //     amount: "₹250.00",
+  //     status: "Pending",
+  //   },
+  //   {
+  //     orderNo: 11254,
+  //     orderTime: "4 Sep, 2024 11:11 PM",
+  //     customerName: "avi",
+  //     method: "Cash",
+  //     amount: "₹250.00",
+  //     status: "cancel",
+  //   },
+  //   // Add more orders as needed
+  // ];
 
   return (
     <DashboardContainer>
       <CardsContainer>
         <Card color="#00796b">
           <>
-            <MdBarChart/>
+            <MdBarChart />
           </>
 
           <CardTitle>User Registrations Over Time</CardTitle>
-          <CardValue> {data ? `Today: ${data.users.Today}, Total: ${data.users.Total}` : "Loading..."}</CardValue>
-          {/* <CardValue>₹789.84</CardValue> */}
+          <CardValue>
+            {" "}
+            {data
+              ? `Today: ${data.users.Today}, Total: ${data.users.Total}`
+              : "Loading..."}
+          </CardValue>
         </Card>
         <Card color="#ffa726">
           <>
             <HiOutlineClipboardList />
           </>
           <CardTitle>Total Bookings</CardTitle>
-          {/* <CardValue>₹0.00</CardValue> */}
-          <CardValue> {data ? `Today: ${data.bookings.Today}, Total: ${data.bookings.Total}` : "Loading..."}</CardValue>
+
+          <CardValue>
+            {" "}
+            {data
+              ? `Today: ${data.bookings.Today}, Total: ${data.bookings.Total}`
+              : "Loading..."}
+          </CardValue>
         </Card>
         <Card color="#42a5f5">
           <>
             <GiMoneyStack />
           </>
           <CardTitle> Payment Type</CardTitle>
-          <CardValue>₹1320.77</CardValue>
-          <CardDetail>Cash: ₹789.84 | Card: ₹0.00 | Credit: ₹0.00</CardDetail>
+          <CardValue>
+            {data ? `Total: ${data.payment.total} ` : "Loading..."}
+          </CardValue>
+          <CardDetail>
+            {" "}
+            {data
+              ? `Card: ${data.payment.card}, Credit: ${data.payment.credit}, Cash: ${data.payment.cash}`
+              : "Loading..."}
+          </CardDetail>
         </Card>
         <Card color="#26c6da">
           <>
             <MdDateRange />
           </>
           <CardTitle>Last Month Payment</CardTitle>
-          <CardValue>₹23347.85</CardValue>
-          <CardDetail>Cash: ₹0.00 | Card: ₹0.00 | Credit: ₹0.00</CardDetail>
+          <CardValue>
+            {" "}
+            {data ? `Total: ₹${data.lastpayment.total} ` : "Loading..."}
+          </CardValue>
+
+          <CardDetail>
+            {" "}
+            {data
+              ? `Card: ₹${data.lastpayment.card}, Credit: ₹${data.lastpayment.credit}, Cash: ₹${data.lastpayment.cash}`
+              : "Loading..."}
+          </CardDetail>
         </Card>
         <Card color="#2e7d32">
           <>
             <FaChartLine />
           </>
           <CardTitle>Total Vendor</CardTitle>
-          <CardValue>{data ? `Today: ${data.vendors.Today}, Total: ${data.vendors.Total}` : "Loading..."}</CardValue>
+          <CardValue>
+            {data
+              ? `Today: ${data.vendors.Today}, Total: ${data.vendors.Total}`
+              : "Loading..."}
+          </CardValue>
         </Card>
       </CardsContainer>
 
       <StatsContainer>
         <StatBox>
-          <LogoBox className="cancel">
+          <LogoBox className="processing">
             <FaShoppingCart />
           </LogoBox>
           <TextBox>
-            <StatTitle>Total Order</StatTitle>
-            <StatValue>251</StatValue>
+            <StatTitle> Total Orders</StatTitle>
+            <StatValue color="#0a64f8">
+              {data ? `${data.bookings.Total}` : "Loading..."}
+            </StatValue>
+          </TextBox>
+        </StatBox>
+        <StatBox>
+          <LogoBox className="cancel">
+            <FaTimesCircle />
+          </LogoBox>
+          <TextBox>
+            <StatTitle>Cancelled Orders</StatTitle>
+            <StatValue color="#e40707">
+              {data ? `${data.bookings.Cancel}` : "Loading..."}
+            </StatValue>
           </TextBox>
         </StatBox>
         <StatBox>
@@ -150,77 +205,60 @@ const Dashboard = () => {
             <FaHourglassHalf />
           </LogoBox>
           <TextBox>
-            <StatTitle>Orders Pending</StatTitle>
-            <StatValue color="red">68 (₹36651.52)</StatValue>
+            <StatTitle> Pending Orders</StatTitle>
+            <StatValue color="#e19903">
+              {data ? `${data.bookings.complered}` : "Loading..."}
+            </StatValue>
           </TextBox>
         </StatBox>
-        <StatBox>
-          <LogoBox className="processing">
-            <FaCog />
-          </LogoBox>
-          <TextBox>
-            <StatTitle>Orders Processing</StatTitle>
-            <StatValue>26</StatValue>
-          </TextBox>
-        </StatBox>
+
         <StatBox>
           <LogoBox className="delivered">
             <FaCheckCircle />
           </LogoBox>
           <TextBox>
-            <StatTitle>Orders Delivered</StatTitle>
-            <StatValue>129</StatValue>
+            <StatTitle> Delivered Orders</StatTitle>
+            <StatValue color="#03714f">
+              {" "}
+              {data ? `${data.bookings.complered}` : "Loading..."}
+            </StatValue>
           </TextBox>
         </StatBox>
       </StatsContainer>
 
-    <TableDiv>
-      <Table>
-        <thead>
-          <tr>
-            <th>Invoice No</th>
-            <th>Order Time</th>
-            <th>Customer Name</th>
-            <th>Method</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th>Action</th>
-            <th>Invoice</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order, index) => (
-            <tr key={index}>
-              <td>{order.invoiceNo}</td>
-              <td>{order.orderTime}</td>
-              <td>{order.customerName}</td>
-              <td>{order.method}</td>
-              <td>{order.amount}</td>
-              <td>
-                <p className={order.status.toLowerCase()}>{order.status}</p>
-              </td>
-              <td>
-                <select value={order.action}>
-                  <option value="Pending">Pending</option>
-                  <option value="Processing">Processing</option>
-                  <option value="Delivered">Delivered</option>
-                  <option value="Cancel">Cancel</option>
-                </select>
-              </td>
-              <td>
-                <i className="fa fa-print" aria-hidden="true">
-                  <FiPrinter />
-                </i>
-                <i className="fa fa-eye" aria-hidden="true">
-                  <HiOutlineZoomIn />
-                </i>
-              </td>
+      <TableDiv>
+        <Table>
+          <thead>
+            <tr>
+              <th>Order No</th>
+              <th>Order Time</th>
+              <th>Customer Name</th>
+              <th>Method</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Comment</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-    </TableDiv>
-
+          </thead>
+          <tbody>
+            {order &&
+              order?.map((order, index) => (
+                <tr key={index}>
+                  <td>{order.id}</td>
+                  <td>{order.date}</td>
+                  <td>{order.userid}</td>
+                  <td>{order.is_booked}</td>
+                  <td>{order.time_slot}</td>
+                  <td>
+                    <p className={order.status.toLowerCase()}>{order.status}</p>
+                  </td>
+                  <td>
+                    <p>{order?.comment}</p>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
+      </TableDiv>
     </DashboardContainer>
   );
 };
@@ -341,16 +379,16 @@ const StatTitle = styled.h4`
 const StatValue = styled.h3`
   font-size: 18px;
   margin: 0;
+  font-weight: 600;
   color: ${({ color }) => (color ? color : "black")};
 `;
 
-// .table_div {
-//   overflow: auto;
-// }
-
+ 
 const TableDiv = styled.div`
-  overflow: auto;
-`
+  @media (max-width: 99px) {
+    overflow-x: scroll;
+  }
+`;
 
 const Table = styled.table`
   width: 100%;
@@ -363,10 +401,9 @@ const Table = styled.table`
     width: 18px;
     height: 18px;
     color: gray;
-    @media (max-width: 992px){
+    @media (max-width: 992px) {
       width: 15px;
       height: 18px;
-
     }
   }
   .pending,
@@ -438,5 +475,8 @@ const Table = styled.table`
   .cancel {
     color: #ef4444;
     background-color: #fee2e2;
+  }
+  @media (max-width: 99px) {
+    overflow-x: scroll;
   }
 `;

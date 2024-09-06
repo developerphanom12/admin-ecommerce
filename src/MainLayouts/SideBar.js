@@ -6,15 +6,11 @@ import { IoMdHome } from "react-icons/io";
 import { IoIosSettings } from "react-icons/io";
 import { Link } from "react-router-dom";
 // import { LuBaggageClaim } from "react-icons/lu";
-import { FaUsersCog } from "react-icons/fa";
+import { FaTicketAlt, FaUsersCog } from "react-icons/fa";
 import { RiFeedbackFill } from "react-icons/ri";
 // import { FaUserCheck } from "react-icons/fa6";
 // import { FaCircleQuestion } from "react-icons/fa6";
 import { MdLocalAtm } from "react-icons/md";
-
-
-
-
 
 function SideBar() {
   const [selectedLink, setSelectedLink] = useState("dashboard");
@@ -31,11 +27,9 @@ function SideBar() {
           className={selectedLink === "dashboard" ? "selected" : ""}
           onClick={() => handleLinkClick("dashboard")}
         >
-          <IoMdHome/>
+          <IoMdHome />
           <span>
-            <MenuButtonActive className="s-color">
-              Dashboard 
-            </MenuButtonActive>
+            <MenuButtonActive className="s-color">Dashboard</MenuButtonActive>
           </span>
         </Link>
 
@@ -47,7 +41,7 @@ function SideBar() {
           <IoIosSettings />
           <span>
             <MenuButtonActive className="s-color">
-             Users & Partners
+              Users & Partners
             </MenuButtonActive>
           </span>
         </Link>
@@ -59,14 +53,10 @@ function SideBar() {
         >
           <FaUsersCog />
 
-
           <span>
-            <MenuButtonActive className="s-color">
-              Services
-            </MenuButtonActive>
+            <MenuButtonActive className="s-color">Services</MenuButtonActive>
           </span>
         </Link>
-
 
         <Link
           to="/reviewing_feedback"
@@ -75,15 +65,13 @@ function SideBar() {
         >
           <RiFeedbackFill />
 
-
           <span>
-            <MenuButtonActive className="s-color">
-             Feedback
-            </MenuButtonActive>
+            <MenuButtonActive className="s-color">Feedback</MenuButtonActive>
           </span>
         </Link>
 
         <Link
+          // <FaTicketAlt />
           to="/monitoring_payments_transactions"
           className={selectedLink === "profile" ? "selected" : ""}
           onClick={() => handleLinkClick("profile")}
@@ -91,13 +79,21 @@ function SideBar() {
           <MdLocalAtm />
 
           <span>
-            <MenuButtonActive className="s-color">
-               Payments 
-            </MenuButtonActive>
+            <MenuButtonActive className="s-color">Payments</MenuButtonActive>
           </span>
         </Link>
 
+        <Link
+          to="/coupon"
+          className={selectedLink === "coupon" ? "selected" : ""}
+          onClick={() => handleLinkClick("coupon")}
+        >
+          <FaTicketAlt />
 
+          <span>
+            <MenuButtonActive className="s-color">Coupons</MenuButtonActive>
+          </span>
+        </Link>
       </div>
     </Root>
   );
@@ -271,6 +267,5 @@ const Root = styled.section`
       height: auto;
       width: 100%;
     }
-
   }
 `;
