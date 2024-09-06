@@ -268,7 +268,7 @@ export const Services = () => {
                       <Subdiv>Title</Subdiv>
                       <input
                         type="text"
-                        placeholder="Lorem Ipsum"
+                        placeholder="Title"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                       />
@@ -277,7 +277,7 @@ export const Services = () => {
                       <Subdiv>Description</Subdiv>
                       <input
                         type="text"
-                        placeholder="Lorem Ipsum"
+                        placeholder="Description"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                       />

@@ -11,17 +11,15 @@ export const AllDetails = ({ vendorId }) => {
   const [bankDetails, setBankDetails] = useState({});
   const [documents, setDocuments] = useState([]);
   const { id } = useParams();
-  const navigate = useNavigate()
-
- 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchVendorDetails = async () => {
       try {
-        const response = await axios.get(`${EXCHNAGE_URL}/Vendorbyid/${id}`,{
+        const response = await axios.get(`${EXCHNAGE_URL}/Vendorbyid/${id}`, {
           headers: {
             authorization: `Bearer ${localStorage.getItem("token")}`,
-          },  
+          },
         });
         if (response.data.status) {
           toast.success("Vendor Data Retrieved Successfully");
@@ -32,14 +30,15 @@ export const AllDetails = ({ vendorId }) => {
             Email: vendorData.email,
             Mobile: vendorData.mobile,
             Address: `${vendorData.longitude}, ${vendorData.latitude}`,
-            DocumentVerify: vendorData.documents.length > 0 ? "Verified" : "Pending",
+            DocumentVerify:
+              vendorData.documents.length > 0 ? "Verified" : "Pending",
           });
           setBankDetails({
-            bankid: vendorData.bank_details.bankid || "",
-            BankHolder: vendorData.bank_details.bank_holder || "",
-            AccountNumber: vendorData.bank_details.account_number || "",
-            BankName: vendorData.bank_details.bank_name || "",
-            IFSCCode: vendorData.bank_details.ifsc_code || "",
+            bankid: vendorData.bank_details?.bankid || "N/A",
+            BankHolder: vendorData.bank_details?.bank_holder || "N/A",
+            AccountNumber: vendorData.bank_details?.account_number || "N/A",
+            BankName: vendorData.bank_details?.bank_name || "N/A",
+            IFSCCode: vendorData.bank_details?.ifsc_code || "N/A",
           });
           setDocuments(vendorData.documents);
         }
@@ -49,7 +48,7 @@ export const AllDetails = ({ vendorId }) => {
     };
 
     fetchVendorDetails();
-  }, [vendorId,id]);
+  }, [vendorId, id]);
 
   const columns = [
     { header: "ID", accessor: "ID" },
@@ -79,27 +78,67 @@ export const AllDetails = ({ vendorId }) => {
 
   const datathree = documents?.map((doc, index) => ({
     AadhaarFront: doc?.adarfrontend ? (
-      <a href={`${baseUrl}/${doc?.adarfrontend}`} target="_blank" rel="noopener noreferrer">
-        <img src={`${baseUrl}/${doc?.adarfrontend}`} alt="Aadhaar Front" style={{ width: '100px', height: 'auto' }} />
+      <a
+        href={`${baseUrl}/${doc?.adarfrontend}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src={`${baseUrl}/${doc?.adarfrontend}`}
+          alt="Aadhaar Front"
+          style={{ width: "100px", height: "auto" }}
+        />
       </a>
-    ) : "NO Image",
+    ) : (
+      "NO Image"
+    ),
     AadhaarBack: doc?.adarback ? (
-      <a href={`${baseUrl}/${doc?.adarback}`} target="_blank" rel="noopener noreferrer">
-        <img src={`${baseUrl}/${doc?.adarback}`} alt="Aadhaar Back" style={{ width: '100px', height: 'auto' }} />
+      <a
+        href={`${baseUrl}/${doc?.adarback}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src={`${baseUrl}/${doc?.adarback}`}
+          alt="Aadhaar Back"
+          style={{ width: "100px", height: "auto" }}
+        />
       </a>
-    ) : "NO Image",
+    ) : (
+      "NO Image"
+    ),
     LicenseFront: doc?.licfront ? (
-      <a href={`${baseUrl}/${doc?.licfront}`} target="_blank" rel="noopener noreferrer">
-        <img src={`${baseUrl}/${doc?.licfront}`} alt="License Front" style={{ width: '100px', height: 'auto' }} />
+      <a
+        href={`${baseUrl}/${doc?.licfront}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src={`${baseUrl}/${doc?.licfront}`}
+          alt="License Front"
+          style={{ width: "100px", height: "auto" }}
+        />
       </a>
-    ) : "NO Image",
+    ) : (
+      "NO Image"
+    ),
     LicenseBack: doc?.licback ? (
-      <a href={`${baseUrl}/${doc?.licback}`} target="_blank" rel="noopener noreferrer">
-        <img src={`${baseUrl}/${doc?.licback}`} alt="License Back" style={{ width: '100px', height: 'auto' }} />
+      <a
+        href={`${baseUrl}/${doc?.licback}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src={`${baseUrl}/${doc?.licback}`}
+          alt="License Back"
+          style={{ width: "100px", height: "auto" }}
+        />
       </a>
-    ) : "NO Image",
+    ) : (
+      "NO Image"
+    ),
   }));
-  
+
   const handleApproval = async (isApproved) => {
     try {
       const response = await axios.post(
@@ -114,25 +153,27 @@ export const AllDetails = ({ vendorId }) => {
           },
         }
       );
-  
+
       // Ensure response.data is the correct object and has the required properties
       if (response.data.status === true) {
         const message = response.data.message;
-        navigate('/managing_users_partners')
+        navigate("/managing_users_partners");
         toast.success(message);
-      } else if(response.data.status === false) {
+      } else if (response.data.status === false) {
         const message = response.data.message;
-        navigate('/managing_users_partners')
+        navigate("/managing_users_partners");
         toast.success(message);
       }
     } catch (error) {
       // Handle errors from the API or other issues
       console.error("Error updating vendor approval status:", error);
-      toast.error(error.response?.data?.message || "Error updating vendor approval status.");
+      toast.error(
+        error.response?.data?.message ||
+          "Error updating vendor approval status."
+      );
     }
   };
-  
-  
+
   return (
     <Root>
       <div className="detail_main_div">
@@ -178,32 +219,39 @@ export const AllDetails = ({ vendorId }) => {
         </div>
 
         <Heading style={{ textAlign: "left" }}>Vendor Documents</Heading>
-        <div className="vendor_document">
-  <table>
-    <thead>
-      <tr>
-        { columnsthree && columnsthree?.map((column, index) => (
-          <th key={index}>{column.header}</th>
-        ))}
-      </tr>
-    </thead>
-    <tbody>
-      {datathree && datathree?.map((row, rowIndex) => (
-        <tr key={rowIndex}>
-          {columnsthree && columnsthree?.map((column, colIndex) => (
-            <td key={colIndex}>{row[column.accessor]}</td>
-          ))}
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
+        {documents.length > 0 ? (
+          <div className="vendor_document">
+            <table>
+              <thead>
+                <tr>
+                  {columnsthree.map((column, index) => (
+                    <th key={index}>{column.header}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {datathree.map((row, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {columnsthree.map((column, colIndex) => (
+                      <td key={colIndex}>{row[column.accessor]}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p>No documents available</p>
+        )}
 
-
-<div className="approved_btn">
-        <RedirectButton onClick={() => handleApproval(1)}>Approve</RedirectButton>
-        <RedirectButton onClick={() => handleApproval(0)}>Not Approve</RedirectButton>
-      </div>
+        <div className="approved_btn">
+          <RedirectButton onClick={() => handleApproval(1)}>
+            Approve
+          </RedirectButton>
+          <RedirectButton onClick={() => handleApproval(0)}>
+            Not Approve
+          </RedirectButton>
+        </div>
       </div>
     </Root>
   );
