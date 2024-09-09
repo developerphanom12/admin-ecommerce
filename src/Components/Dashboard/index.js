@@ -12,10 +12,14 @@ import { MdBarChart, MdDateRange } from "react-icons/md";
 import styled from "styled-components";
 import axios from "axios";
 import { EXCHNAGE_URL } from "../../url/Url";
+import { FcNext, FcPrevious } from "react-icons/fc";
 
 const Dashboard = () => {
   const [data, setData] = useState(null);
   const [order, setOrder] = useState(null);
+  const [limit, setLimit] = useState(10);
+  const [offset, setOffset] = useState(0);
+  const [totalRecords, setTotalRecords] = useState(0);
 
   const getApi = async () => {
     const axiosConfig = {
@@ -27,6 +31,7 @@ const Dashboard = () => {
       const response = await axios.get(`${EXCHNAGE_URL}/today`, axiosConfig);
       if (response.status === 200) {
         setData(response.data.data);
+        setTotalRecords(response.data.totalRecords);
         console.log("setData", response.data.data);
       }
     } catch (error) {
@@ -58,50 +63,9 @@ const Dashboard = () => {
     getOrderApi();
   }, []);
 
-  // const orders = [
-  //   {
-  //     orderNo: 11210,
-  //     orderTime: "5 Sep, 2024 6:38 AM",
-  //     customerName: "Johin Lo",
-  //     method: "Cash",
-  //     amount: "₹789.84",
-  //     status: "Delivered",
-  //   },
-  //   {
-  //     orderNo: 11255,
-  //     orderTime: "5 Sep, 2024 12:20 AM",
-  //     customerName: "john jkj ",
-  //     method: "Card",
-  //     amount: "₹860.98",
-  //     status: "Pending",
-  //   },
-  //   {
-  //     orderNo: 11211,
-  //     orderTime: "4 Sep, 2024 11:36 PM",
-  //     customerName: "Johin Lo",
-  //     method: "Cash",
-  //     amount: "₹946.98",
-  //     status: "Processing",
-  //   },
-  //   {
-  //     orderNo: 11254,
-  //     orderTime: "4 Sep, 2024 11:11 PM",
-  //     customerName: "john jkj",
-  //     method: "Cash",
-  //     amount: "₹250.00",
-  //     status: "Pending",
-  //   },
-  //   {
-  //     orderNo: 11254,
-  //     orderTime: "4 Sep, 2024 11:11 PM",
-  //     customerName: "avi",
-  //     method: "Cash",
-  //     amount: "₹250.00",
-  //     status: "cancel",
-  //   },
-  //   // Add more orders as needed
-  // ];
-
+  const handlePageChange = (newOffset) => {
+    setOffset(newOffset);
+  };
   return (
     <DashboardContainer>
       <CardsContainer>
@@ -257,6 +221,20 @@ const Dashboard = () => {
               ))}
           </tbody>
         </Table>
+        <div className="pagination">
+                <button
+                  onClick={() => handlePageChange(Math.max(offset - limit, 0))}
+                  disabled={offset === 0}
+                >
+                  <FcPrevious />
+                </button>
+                <button
+                  onClick={() => handlePageChange(offset + limit)}
+                  disabled={offset + limit >= totalRecords}
+                >
+                  <FcNext />
+                </button>
+              </div>
       </TableDiv>
     </DashboardContainer>
   );
@@ -267,6 +245,22 @@ export default Dashboard;
 const DashboardContainer = styled.div`
   display: flex;
   flex-direction: column;
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin: 20px 0px;
+    button {
+      border-radius: 50px;
+      background-color: #fff;
+      border: 2px solid lightgray;
+    }
+
+    button:not(:disabled) {
+      cursor: pointer;
+      border: 2px solid #2ca5d6;
+    }
+  }
   i {
     cursor: pointer;
     margin-left: 10px;

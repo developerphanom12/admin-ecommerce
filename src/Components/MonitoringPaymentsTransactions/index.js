@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Heading } from "../Global";
+import { FcNext, FcPrevious } from "react-icons/fc";
 
 export const MonitoringPaymentsTransactions = () => {
+  const [limit, setLimit] = useState(10);
+  const [offset, setOffset] = useState(0);
+  const [totalRecords, setTotalRecords] = useState(0);
   const reviewcolumn = [
     { header: "Payment ID", accessor: "paymentid" },
     { header: "User Name", accessor: "username" },
@@ -34,13 +38,13 @@ export const MonitoringPaymentsTransactions = () => {
       date: "July 27, 2024",
     },
   ];
-
+  const handlePageChange = (newOffset) => {
+    setOffset(newOffset);
+  };
   return (
     <Root>
       <div className="review_heading">
-        <Heading style={{ textAlign: "left" }}>
-          Payments 
-        </Heading>
+        <Heading style={{ textAlign: "left" }}>Payments</Heading>
       </div>
 
       <div className="content_div">
@@ -57,29 +61,42 @@ export const MonitoringPaymentsTransactions = () => {
               {reviewdata.map((row, rowIndex) => (
                 <tr key={rowIndex}>
                   {reviewcolumn.map((column, colIndex) => (
-                     <td
-                     key={colIndex}
-                     style={{
-                       color:
-                         column.accessor === "status"
-                           ? row[column.accessor] === "Complete"
-                             ? "#32cd32"
-                             : row[column.accessor] === "Pending"
-                             ? "red"
-                             : row[column.accessor] === "Processing"
-                             ? "#2ca5d6"
-                             : "black"
-                           : "black",
-                     }}
-                   >
-                      
-                      
-                      {row[column.accessor]}</td>
+                    <td
+                      key={colIndex}
+                      style={{
+                        color:
+                          column.accessor === "status"
+                            ? row[column.accessor] === "Complete"
+                              ? "#32cd32"
+                              : row[column.accessor] === "Pending"
+                              ? "red"
+                              : row[column.accessor] === "Processing"
+                              ? "#2ca5d6"
+                              : "black"
+                            : "black",
+                      }}
+                    >
+                      {row[column.accessor]}
+                    </td>
                   ))}
                 </tr>
               ))}
             </tbody>
           </table>
+          <div className="pagination">
+            <button
+              onClick={() => handlePageChange(Math.max(offset - limit, 0))}
+              disabled={offset === 0}
+            >
+              <FcPrevious />
+            </button>
+            <button
+              onClick={() => handlePageChange(offset + limit)}
+              disabled={offset + limit >= totalRecords}
+            >
+              <FcNext />
+            </button>
+          </div>
         </div>
       </div>
     </Root>
@@ -90,7 +107,22 @@ const Root = styled.section`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin: 20px 0px;
+    button {
+      border-radius: 50px;
+      background-color: #fff;
+      border: 2px solid lightgray;
+    }
 
+    button:not(:disabled) {
+      cursor: pointer;
+      border: 2px solid #2ca5d6;
+    }
+  }
   table {
     border-collapse: collapse;
     width: 100%;
