@@ -26,7 +26,7 @@ function App() {
         <Routes>
           <>
             {!userCheck && !token ? <Route path="/" element={<Admin />} /> : ""}
-            <Route path="/" element={<Admin />} />
+            <Route path="/login" element={<Admin />} />
             {userCheck && token ? (
               <>
                 <Route path="/" element={<Dashboard />} />
