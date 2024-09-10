@@ -74,7 +74,7 @@ export const AllDetails = ({ vendorId }) => {
     { header: "License Back", accessor: "LicenseBack" },
   ];
 
-  const baseUrl = "http://api-carwash.phanomprofessionals.com/uploads";
+  const baseUrl = "https://api-carwash.phanomprofessionals.com/uploads";
 
   const datathree = documents?.map((doc, index) => ({
     AadhaarFront: doc?.adarfrontend ? (

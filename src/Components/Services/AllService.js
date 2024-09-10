@@ -4,6 +4,7 @@ import { Heading } from "../Global";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
+import { EXCHNAGE_URL_USERS } from "../../url/Url";
 
 export const AllService = ({ vendorId }) => {
   const [basicDetails, setBasicDetails] = useState([]); // Changed to array
@@ -14,7 +15,7 @@ export const AllService = ({ vendorId }) => {
     const fetchVendorDetails = async () => {
       try {
         const response = await axios.get(
-          `http://api-carwash.phanomprofessionals.com/api/user/service-data?id=2&skip=0&limit=10`,
+          `${EXCHNAGE_URL_USERS}/service-data?id=2&skip=0&limit=10`,
           {
             headers: {
               authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -55,7 +56,7 @@ export const AllService = ({ vendorId }) => {
     { header: "View Image", accessor: "Image" }, // Add View Image column
   ];
 
-  const baseUrl = "http://api-carwash.phanomprofessionals.com/uploads";
+  const baseUrl = "https://api-carwash.phanomprofessionals.com/uploads";
 
   return (
     <Root>
@@ -170,6 +171,8 @@ const Root = styled.section`
       td {
         font-size: 14px;
         font-weight: 400;
+        max-width: 300px;
+        overflow-y: auto;
         a {
           font-size: 14px;
           font-weight: 400;
