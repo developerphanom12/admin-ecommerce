@@ -15,6 +15,7 @@ import Dashboard from "./Components/Dashboard";
 import { AllService } from "./Components/Services/AllService";
 import { useSelector } from "react-redux";
 import { Coupon } from "./Components/Coupon";
+import AboutUs from "./Components/AboutUs";
 
 function App() {
   const userCheck = useSelector((state) => state?.users?.userCheck);
@@ -56,6 +57,7 @@ function App() {
 
                 <Route path="/services" element={<Services />} />
                 <Route path="/coupon" element={<Coupon />} />
+                <Route path="/about_us" element={<AboutUs />} />
 
               </>
             ) : (

@@ -4,7 +4,7 @@ import { MenuButtonActive } from "../Components/Global";
 import { IoMdHome } from "react-icons/io";
 import { IoIosSettings } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { FaTicketAlt, FaUsersCog } from "react-icons/fa";
+import { FaTicketAlt, FaUser, FaUsersCog } from "react-icons/fa";
 import { RiFeedbackFill } from "react-icons/ri";
 import { MdLocalAtm } from "react-icons/md";
 
@@ -88,6 +88,17 @@ function SideBar() {
 
           <span>
             <MenuButtonActive className="s-color">Coupons</MenuButtonActive>
+          </span>
+        </Link>
+        <Link
+          to="/about_us"
+          className={selectedLink === "about" ? "selected" : ""}
+          onClick={() => handleLinkClick("about")}
+        >
+          <FaUser />
+
+          <span>
+            <MenuButtonActive className="s-color">About Us</MenuButtonActive>
           </span>
         </Link>
       </div>
