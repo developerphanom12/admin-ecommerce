@@ -197,10 +197,12 @@ const Dashboard = () => {
               <th>Order No</th>
               <th>Order Date & Time</th>
               <th>Customer Name</th>
-              <th>Method</th>
+              {/* <th>Method</th> */}
               <th>Amount</th>
+              <th>Time Slot</th>
               <th>Status</th>
-              <th>Comment</th>
+
+             
             </tr>
           </thead>
           <tbody>
@@ -210,14 +212,15 @@ const Dashboard = () => {
                   <td>{order.id}</td>
                   <td>{format(new Date(order.date), 'yyyy-MM-dd HH:mm:ss')}</td>
                   <td>{order.userid}</td>
+                  {/* <td>{order.is_booked}</td> */}
                   <td>{order.is_booked}</td>
-                  <td>{order.time_slot}</td>
+                  <td>
+                    <p>{order?.time_slot}</p>
+                  </td>
                   <td>
                     <p className={order.status.toLowerCase()}>{order.status}</p>
                   </td>
-                  <td>
-                    <p>{order?.comment}</p>
-                  </td>
+               
                 </tr>
               ))}
           </tbody>
