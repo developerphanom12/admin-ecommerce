@@ -13,6 +13,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { EXCHNAGE_URL } from "../../url/Url";
 import { FcNext, FcPrevious } from "react-icons/fc";
+import { format } from "date-fns";
 
 const Dashboard = () => {
   const [data, setData] = useState(null);
@@ -61,7 +62,7 @@ const Dashboard = () => {
   useEffect(() => {
     getApi();
     getOrderApi();
-  }, []);
+  }, [limit, offset]);
 
   const handlePageChange = (newOffset) => {
     setOffset(newOffset);
@@ -194,7 +195,7 @@ const Dashboard = () => {
           <thead>
             <tr>
               <th>Order No</th>
-              <th>Order Time</th>
+              <th>Order Date & Time</th>
               <th>Customer Name</th>
               <th>Method</th>
               <th>Amount</th>
@@ -207,7 +208,7 @@ const Dashboard = () => {
               order?.map((order, index) => (
                 <tr key={index}>
                   <td>{order.id}</td>
-                  <td>{order.date}</td>
+                  <td>{format(new Date(order.date), 'yyyy-MM-dd HH:mm:ss')}</td>
                   <td>{order.userid}</td>
                   <td>{order.is_booked}</td>
                   <td>{order.time_slot}</td>
