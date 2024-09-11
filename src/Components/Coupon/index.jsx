@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { MainButton } from "../Global";
 
 export const Coupon = () => {
   return (
@@ -15,11 +16,10 @@ export const Coupon = () => {
       <FormGroup>
         <Label>Discount Value</Label>
         <Row>
-          <Select>
-            <option value="percentage">Percentage</option>
-            <option value="amount">Fixed amount</option>
-          </Select>
-          <Input type="number" placeholder="%" />
+          <Input value="Fixed Amount"
+          
+          />
+          <Input type="number" placeholder="Enter Amount" />
         </Row>
         <Row>
           <Select>
@@ -52,6 +52,9 @@ export const Coupon = () => {
           <Label>Set end date</Label>
         </CheckboxContainer>
       </FormGroup>
+      <div className="submit_btn">
+        <MainButton type="submit">Submit Now</MainButton>
+      </div>
     </CouponStyled>
   );
 };
@@ -140,7 +143,7 @@ const CheckboxContainer = styled.div`
   display: flex;
   align-items: center;
   margin: 10px 0px;
-  label{
+  label {
     margin: 0;
   }
 `;
