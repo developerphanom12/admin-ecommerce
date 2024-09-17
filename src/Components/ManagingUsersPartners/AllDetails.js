@@ -142,10 +142,10 @@ export const AllDetails = ({ vendorId }) => {
   const handleApproval = async (isApproved) => {
     try {
       const response = await axios.post(
-        `${EXCHNAGE_URL}/approveVendor`, // Replace with your actual API endpoint
+        `${EXCHNAGE_URL}/approveVendor`, 
         {
-          id: basicDetails.ID, // Accessing the ID from basicDetails state
-          is_approved: isApproved, // 1 for approved, 0 for not approved
+          id: basicDetails.ID,  
+          is_approved: isApproved,  
         },
         {
           headers: {
@@ -154,7 +154,6 @@ export const AllDetails = ({ vendorId }) => {
         }
       );
 
-      // Ensure response.data is the correct object and has the required properties
       if (response.data.status === true) {
         const message = response.data.message;
         navigate("/managing_users_partners");
@@ -165,7 +164,6 @@ export const AllDetails = ({ vendorId }) => {
         toast.success(message);
       }
     } catch (error) {
-      // Handle errors from the API or other issues
       console.error("Error updating vendor approval status:", error);
       toast.error(
         error.response?.data?.message ||

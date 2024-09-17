@@ -14,10 +14,12 @@ import axios from "axios";
 import { EXCHNAGE_URL } from "../../url/Url";
 import { FcNext, FcPrevious } from "react-icons/fc";
 import { format } from "date-fns";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const [data, setData] = useState(null);
   const [order, setOrder] = useState(null);
+  const [referral, setReferral] = useState([]);
   const [limit, setLimit] = useState(10);
   const [offset, setOffset] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -32,7 +34,7 @@ const Dashboard = () => {
       const response = await axios.get(`${EXCHNAGE_URL}/today`, axiosConfig);
       if (response.status === 200) {
         setData(response.data.data);
-        setTotalRecords(response.data.totalRecords);
+        setTotalRecords(response.data.total);
         console.log("setData", response.data.data);
       }
     } catch (error) {
@@ -47,25 +49,49 @@ const Dashboard = () => {
     };
     try {
       const response = await axios.get(
-        `${EXCHNAGE_URL}/orderlist`,
+        `${EXCHNAGE_URL}/orderlist?limit=${limit}&skip=${offset}`,
         axiosConfig
       );
       if (response.status === 200) {
         setOrder(response.data.data);
-        console.log("setData", response.data.data);
+        setTotalRecords(response.data.total);
+        console.log("Order Data", response.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching orders", error);
+    }
+  };
+  const getRefferalApi = async () => {
+    const axiosConfig = {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
+    try {
+      const response = await axios.get(
+        `${EXCHNAGE_URL}/referalist`,
+        axiosConfig
+      );
+      if (response?.status === 200) {
+        setReferral(response?.data?.data);
+      } else if (response?.status === 400) {
+        toast.error(response?.data?.message);
+        console.error("errffor", response?.data?.message);
       }
     } catch (error) {
       console.error("error", error);
     }
   };
-
   useEffect(() => {
     getApi();
     getOrderApi();
+    getRefferalApi();
   }, [limit, offset]);
 
   const handlePageChange = (newOffset) => {
-    setOffset(newOffset);
+    if (newOffset >= 0 && newOffset < totalRecords) {
+      setOffset(newOffset);
+    }
   };
   return (
     <DashboardContainer>
@@ -140,7 +166,6 @@ const Dashboard = () => {
           </CardValue>
         </Card>
       </CardsContainer>
-
       <StatsContainer>
         <StatBox>
           <LogoBox className="processing">
@@ -170,9 +195,7 @@ const Dashboard = () => {
           </LogoBox>
           <TextBox>
             <StatTitle> Pending Orders</StatTitle>
-            <StatValue color="#e19903">
-              {data ? `${data.bookings.complered}` : "Loading..."}
-            </StatValue>
+            <StatValue color="#e19903">{data ? "0" : "Loading..."}</StatValue>
           </TextBox>
         </StatBox>
 
@@ -189,20 +212,17 @@ const Dashboard = () => {
           </TextBox>
         </StatBox>
       </StatsContainer>
-
       <TableDiv>
         <Table>
           <thead>
             <tr>
               <th>Order No</th>
-              <th>Order Date & Time</th>
+              <th>Appointment Date</th>
               <th>Customer Name</th>
-              {/* <th>Method</th> */}
-              <th>Amount</th>
               <th>Time Slot</th>
+              <th>Amount</th>
               <th>Status</th>
-
-             
+              <th>Order Date & Time</th>
             </tr>
           </thead>
           <tbody>
@@ -210,35 +230,96 @@ const Dashboard = () => {
               order?.map((order, index) => (
                 <tr key={index}>
                   <td>{order.id}</td>
-                  <td>{format(new Date(order.date), 'yyyy-MM-dd HH:mm:ss')}</td>
-                  <td>{order.userid}</td>
-                  {/* <td>{order.is_booked}</td> */}
-                  <td>{order.is_booked}</td>
+                  <td>{format(new Date(order.date), "yyyy-MM-dd HH:mm:ss")}</td>
+                  <td>{order.username || "No Name"}</td>
                   <td>
                     <p>{order?.time_slot}</p>
                   </td>
+                  <td>₹ {order.Price}</td>
+
                   <td>
                     <p className={order.status.toLowerCase()}>{order.status}</p>
                   </td>
-               
+                  <td>
+                    {format(new Date(order.create_date), "yyyy-MM-dd HH:mm:ss")}
+                  </td>
                 </tr>
               ))}
           </tbody>
         </Table>
         <div className="pagination">
-                <button
-                  onClick={() => handlePageChange(Math.max(offset - limit, 0))}
-                  disabled={offset === 0}
-                >
-                  <FcPrevious />
-                </button>
-                <button
-                  onClick={() => handlePageChange(offset + limit)}
-                  disabled={offset + limit >= totalRecords}
-                >
-                  <FcNext />
-                </button>
-              </div>
+          <button
+            onClick={() => handlePageChange(Math.max(offset - limit, 0))}
+            disabled={offset === 0}
+          >
+            <FcPrevious />
+          </button>
+          <button
+            onClick={() => handlePageChange(offset + limit)}
+            disabled={offset + limit >= totalRecords}
+          >
+            <FcNext />
+          </button>
+        </div>
+      </TableDiv>
+      <TableDiv>
+        <Table>
+          <thead>
+            <tr>
+              <th>Id No.</th>
+              <th>Appointment Date</th>
+              <th>Customer Name</th>
+              <th>Phone No.</th>
+              <th>Refferal Phone No.</th>
+              <th>Status</th>
+              <th>Create Date & Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {referral &&
+              referral?.map((refferal, index) => (
+                <tr key={index}>
+                  <td>{refferal.id}</td>
+                  <td>
+                    {format(
+                      new Date(refferal.update_date),
+                      "yyyy-MM-dd HH:mm:ss"
+                    )}
+                  </td>
+                  <td>{refferal.name || "No Name"}</td>
+                  <td>{refferal.user_mobileno}</td>
+                  <td>
+                    <p>{refferal?.referal_mobileno}</p>
+                  </td>
+                  <td>
+                    <p className={refferal.status.toLowerCase()}>
+                      {refferal.status}
+                    </p>
+                  </td>
+                  <td>
+                    {format(
+                      new Date(refferal.create_date),
+                      "yyyy-MM-dd HH:mm:ss"
+                    )}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
+        <div className="pagination">
+          <button
+            onClick={() => handlePageChange(Math.max(offset - limit, 0))}
+            disabled={offset === 0}
+          >
+            <FcPrevious />
+          </button>
+          <button
+            onClick={() => handlePageChange(offset + limit)}
+            disabled={offset + limit >= totalRecords}
+          >
+            <FcNext />
+          </button>
+        </div>
       </TableDiv>
     </DashboardContainer>
   );
@@ -316,7 +397,6 @@ const Card = styled.div`
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   flex-direction: column;
-  /* / justify-content: center; / */
   align-items: center;
   gap: 10px;
 `;
@@ -380,8 +460,9 @@ const StatValue = styled.h3`
   color: ${({ color }) => (color ? color : "black")};
 `;
 
- 
 const TableDiv = styled.div`
+  overflow-x: auto;
+
   @media (max-width: 99px) {
     overflow-x: scroll;
   }
@@ -392,7 +473,6 @@ const Table = styled.table`
   border-collapse: collapse;
   margin-top: 20px;
   padding: 10px;
-  /* overflow-x: scroll; */
   overflow: auto;
   svg {
     width: 18px;
@@ -401,6 +481,7 @@ const Table = styled.table`
     @media (max-width: 992px) {
       width: 15px;
       height: 18px;
+      overflow-x: scroll;
     }
   }
   .pending,

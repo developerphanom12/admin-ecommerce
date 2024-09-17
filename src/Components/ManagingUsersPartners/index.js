@@ -48,7 +48,7 @@ export const ManagingUsersPartners = () => {
         .then((response) => {
           if (response.data.status) {
             setData(response.data.data);
-            setTotalRecords(response.data.totalRecords); // Ensure your API returns the total number of records
+            setTotalRecords(response.data.totalRecords);  
           } else {
             console.error("Failed to fetch data:", response.data.message);
           }
@@ -70,7 +70,7 @@ export const ManagingUsersPartners = () => {
         .then((response) => {
           if (response.data.status) {
             setData2(response.data.data);
-            setTotalRecords(response.data.totalRecords); // Ensure your API returns the total number of records
+            setTotalRecords(response.data.totalRecords);  
           } else {
             console.error("Failed to fetch data:", response.data.message);
           }
@@ -83,7 +83,7 @@ export const ManagingUsersPartners = () => {
 
   const handleButtonClick = (buttonIndex) => {
     setSelectedButton(buttonIndex);
-    setOffset(0); // Reset offset when switching buttons
+    setOffset(0); 
   };
 
   const handleBlockUser = (userId) => {};
@@ -92,7 +92,6 @@ export const ManagingUsersPartners = () => {
     setOffset(newOffset);
   };
 
-  // Map is_approved value to text
   const mapApprovalStatus = (status) =>
     status === 1 ? "Approved" : "Not Approved";
 
@@ -210,7 +209,7 @@ const Root = styled.section`
     }
 
     .selected {
-      background-color: #034833; /* Update with your selected button color */
+      background-color: #034833;  
       color: white;
     }
 

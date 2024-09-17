@@ -8,45 +8,56 @@ import { EXCHNAGE_URL } from "../../url/Url";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-// Customizing behavior for pressing Enter key
-const Block = Quill.import('blots/block');
-Block.tagName = 'div'; // Changes <p> tags to <div> tags on enter
+const Block = Quill.import("blots/block");
+Block.tagName = "div";
 Quill.register(Block, true);
 
 export default function AboutUs() {
-  const [editorValue, setEditorValue] = useState(""); // State for user input in the first editor
-  const [apiContent, setApiContent] = useState([]); // State for displaying API content
+  const [editorValue, setEditorValue] = useState("");
+  const [apiContent, setApiContent] = useState([]);
   const navigate = useNavigate();
 
-  // Handle content change in the first editor
   const handleEditorChange = (description) => {
-    setEditorValue(description);
+    const cleanedDescription = cleanEditorValue(description);
+    if (countWords(cleanedDescription) <= 150) {
+      setEditorValue(cleanedDescription);
+    } else {
+      const trimmedDescription = trimTo150Words(cleanedDescription);
+      setEditorValue(trimmedDescription);
+    }
   };
 
   const modules = {
-    toolbar: [["bold", "italic", "underline"], [{ size:  ["small", false, "large", "huge"] }]],
+    toolbar: [["bold", "italic", "underline"], [{ size: ["small", false] }]],
   };
 
   const formats = ["bold", "italic", "underline", "size"];
 
-  // Clean up unnecessary <br> and empty <p> tags
   const cleanEditorValue = (value) => {
     let cleanedValue = value;
-
-    // Remove <p><br></p>
     cleanedValue = cleanedValue.replace(/<p><br><\/p>/g, "");
-
-    // Optionally, remove empty <p> tags
     cleanedValue = cleanedValue.replace(/<p><\/p>/g, "");
-
     return cleanedValue;
   };
 
-  // Handle submitting the updated content to the server
-  const handleApproval = async () => {
-    try {
-      const cleanedDescription = cleanEditorValue(editorValue); // Clean the editor value
+  const countWords = (text) => {
+    return text.split(/\s+/).filter(Boolean).length;
+  };
 
+  const trimTo150Words = (text) => {
+    const words = text.split(/\s+/).filter(Boolean);
+    const trimmedWords = words.slice(0, 150);
+    return trimmedWords.join(" ");
+  };
+
+  const handleApproval = async () => {
+    const cleanedDescription = cleanEditorValue(editorValue);
+    if (countWords(cleanedDescription) > 150) {
+      toast.error("Description cannot exceed 150 words.");
+      return;
+    }
+
+    try {
       const axiosConfig = {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -67,12 +78,11 @@ export default function AboutUs() {
         console.log(message, "message");
       }
     } catch (error) {
-      console.error("API Error:", error.response?.data || error.message); // Detailed error logging
+      console.error("API Error:", error.response?.data || error.message);
       toast.error(error.response?.data?.message || "Error updating Content");
     }
   };
 
-  // Fetch and display API content
   const getApi = async () => {
     const axiosConfig = {
       headers: {
@@ -97,7 +107,6 @@ export default function AboutUs() {
 
   return (
     <EditorWrapper>
-      {/* First ReactQuill editor for user input */}
       <ReactQuill
         value={editorValue}
         onChange={handleEditorChange}
@@ -111,9 +120,8 @@ export default function AboutUs() {
         </MainButton>
       </div>
 
-      {/* Display all fetched descriptions */}
-      <Div>
-        {apiContent.map((item, index) => (
+      {apiContent.map((item, index) => (
+        <Div>
           <ul
             style={{ listStyleType: "disc", paddingLeft: "20px" }}
             key={item.id || index}
@@ -124,11 +132,12 @@ export default function AboutUs() {
               }}
             />
           </ul>
-        ))}
-      </Div>
+        </Div>
+      ))}
     </EditorWrapper>
   );
 }
+
 const Div = styled.div`
   border: 2px solid #2ca5d6;
   border-radius: 10px;
@@ -136,12 +145,19 @@ const Div = styled.div`
   padding: 20px;
   max-height: 400px;
   overflow-y: auto;
-  p,strong {
+  margin: 10px 0px;
+  p,
+  strong {
     margin: 0;
   }
 `;
+
 const EditorWrapper = styled.div`
   margin: 10px;
+
+  .ql-size-small {
+    font-size: 0.75em;
+  }
 
   .ql-container {
     height: 200px;

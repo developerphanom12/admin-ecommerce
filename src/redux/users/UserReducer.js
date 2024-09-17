@@ -1,11 +1,11 @@
-import { HIDE_LOADER, SHOW_LOADER } from "./action";
+
 
 const initialState = {
   user: {},
   userCheck: false,
   role: "",
   appDetails: {},
-  isLoading: false,
+
    
 };
 const UserReducer = (state = initialState, action) => {
@@ -30,16 +30,7 @@ const UserReducer = (state = initialState, action) => {
         ...state,
         appDetails: action.payload,
       };
-      case SHOW_LOADER:
-        return {
-          ...state,
-          isLoading: true,
-        };
-      case HIDE_LOADER:
-        return {
-          ...state,
-          isLoading: false,
-        };
+    
     default:
       return state;
   }

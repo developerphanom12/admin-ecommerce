@@ -3,13 +3,11 @@ import Navbar from "./Navbar";
 import styled from "styled-components";
 import SideBar from "./SideBar";
 import { useDispatch, useSelector } from "react-redux";
-// import { useNavigate } from "react-router-dom";
 
 export default function Layout({ children }) {
   const dispatch = useDispatch();
   const userCheck = useSelector((state) => state?.users?.userCheck);
   const token = localStorage.getItem("token");
-  // const navigate = useNavigate();
 
   useEffect(() => {}, [dispatch]);
 

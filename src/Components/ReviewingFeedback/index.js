@@ -31,8 +31,7 @@ export const ReviewingFeedback = () => {
       })
       .then((response) => {
         if (response.data.status) {
-          // Set the service data to the state
-          setService(response.data.data.data); // Adjust if needed
+          setService(response.data.data.data); 
           setTotalRecords(response.data.totalRecords);
         } else {
           console.error("Failed to fetch services:", response.data.message);
@@ -77,7 +76,7 @@ export const ReviewingFeedback = () => {
                               .split("T")[0]
                           : "Null"
                         : row[column.accessor] ||
-                          "NULL" // Display "N/A" if the field is empty
+                          "NULL"  
                       }
                     </td>
                   ))}

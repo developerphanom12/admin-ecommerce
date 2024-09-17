@@ -16,11 +16,9 @@ import { userCheckAction, userDataAction } from "../redux/users/action";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-// import logoimg from "../Assets/logo.png";
 import { FaCarCrash } from "react-icons/fa";
 
 
-// Validation schema
 const schema = yup.object().shape({
   username: yup.string().required("Username is required."),
 });
@@ -30,13 +28,11 @@ function Admin() {
 
   const dispatch = useDispatch();
 
-  // Handle form submission
 
   const onSubmit = async (data) => {
     try {
-      // Map `username` to `name`
       const apiData = {
-        name: data.username, // use the username value as the name field
+        name: data.username,  
       };
 
       const res = await axios.post(`${EXCHNAGE_URL}/admin_login`, apiData);
@@ -52,7 +48,6 @@ function Admin() {
     }
   };
 
-  // Setup react-hook-form with Yup validation
   const {
     register,
     handleSubmit,
@@ -68,18 +63,13 @@ function Admin() {
           <MDBCol col="6" className="mb-2">
             <div className="d-flex flex-column marg_div">
               <div className="text-center">
-                {/* <img
-                  src={logoimg}
-                 
-                  alt="logo"
-                /> */}
+                
                 <FaCarCrash  className="img_div"/>
                 <h4 className="mt-1 mb-5 pb-1">We are The Best Team</h4>
               </div>
 
               <p>Please login to your account</p>
 
-              {/* Username Input */}
               <MDBInput
                 wrapperClass="mb-4"
                 label="Username"

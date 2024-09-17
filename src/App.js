@@ -52,6 +52,7 @@ function App() {
 
                 <Route path="/contact_support" element={<ContactSupport />} />
                 <Route path="/service-details/:id" element={<AllService />} />
+                <Route path="/service-details" element={<AllService />} />
 
                 <Route path="/all-details/:id" element={<AllDetails />} />
 

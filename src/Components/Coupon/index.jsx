@@ -1,65 +1,126 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { MainButton } from "../Global";
+import { useNavigate } from "react-router-dom";
+import { EXCHNAGE_URL } from "../../url/Url";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export const Coupon = () => {
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState("");
+  const [discountType, setDiscountType] = useState("specific-collections");
+  const [purchaseRequirement, setPurchaseRequirement] = useState("");
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+
+  const validateForm = () => {
+    let valid = true;
+    let errors = {};
+
+    if (!title) {
+      errors.title = "Title is required";
+      valid = false;
+    }
+    if (!amount) {
+      errors.amount = "Amount is required";
+      valid = false;
+    }
+    if (!purchaseRequirement) {
+      errors.purchaseRequirement = "Minimum purchase requirement is required";
+      valid = false;
+    }
+
+    setErrors(errors);
+    return valid;
+  };
+
+  const handleCoupon = async () => {
+    if (!validateForm()) return;
+
+    try {
+      const axiosConfig = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      };
+      const response = await axios.post(
+        `${EXCHNAGE_URL}/about-us`,
+        {
+          title,
+          amount,
+          discountType,
+          purchaseRequirement,
+        },
+        axiosConfig
+      );
+
+      console.log("Server Response:", response.data);
+      if (response?.data?.status === true) {
+        const message = response?.data?.message;
+        navigate("/");
+        toast.success(message);
+        console.log(message, "message");
+      }
+    } catch (error) {
+      console.error("API Error:", error.response?.data || error.message);
+      toast.error(error.response?.data?.message || "Error updating Coupon");
+    }
+  };
+
   return (
     <CouponStyled>
       <FormGroup>
-        <Label>Amount off products</Label>
-        <TabContainer>
-          <Tab active>Automatic discount</Tab>
-        </TabContainer>
-        <Input type="text" placeholder="Title" />
+        <Label>Enter Title & Amount </Label>
+        <Row>
+          <Input
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          {errors.title && <Error>{errors.title}</Error>}
+
+          <Input
+            type="number"
+            placeholder="Enter Amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+          {errors.amount && <Error>{errors.amount}</Error>}
+        </Row>
       </FormGroup>
 
       <FormGroup>
         <Label>Discount Value</Label>
         <Row>
-          <Input value="Fixed Amount"
-          
-          />
-          <Input type="number" placeholder="Enter Amount" />
-        </Row>
-        <Row>
-          <Select>
-            <option value="specific-collections">Specific collections</option>
-            <option value="all-products">All products</option>
-          </Select>
-          <Select>
-            <option value="one-time">One-time purchase</option>
-            <option value="subscription">Subscription</option>
-          </Select>
+          <Div>All products</Div>
+          <Div value="one-time">One-time purchase</Div>
         </Row>
       </FormGroup>
 
       <FormGroup>
         <Label>Minimum purchase requirements</Label>
-        <RadioContainer>
-          <RadioInput type="radio" name="min-purchase" checked />
-          <Input type="number" placeholder="₹ 0.00" />
-        </RadioContainer>
-      </FormGroup>
 
-      <FormGroup>
-        <Label>Active dates</Label>
-        <Row>
-          <Input type="date" />
-          <Input type="time" />
-        </Row>
-        <CheckboxContainer>
-          <Checkbox type="checkbox" />
-          <Label>Set end date</Label>
-        </CheckboxContainer>
+        <Input
+          type="number"
+          placeholder="₹ 0.00"
+          value={purchaseRequirement}
+          onChange={(e) => setPurchaseRequirement(e.target.value)}
+        />
+        {errors.purchaseRequirement && (
+          <Error>{errors.purchaseRequirement}</Error>
+        )}
       </FormGroup>
       <div className="submit_btn">
-        <MainButton type="submit">Submit Now</MainButton>
+        <MainButton type="submit" onClick={handleCoupon}>
+          Submit Now
+        </MainButton>
       </div>
     </CouponStyled>
   );
 };
 
-// Styles
 const CouponStyled = styled.section`
   margin: 0 auto;
   padding: 20px;
@@ -75,7 +136,7 @@ const FormGroup = styled.div`
 const Label = styled.label`
   display: block;
   font-weight: 600;
-  margin-bottom: 8px;
+  margin: 15px 0px 8px 0px;
   color: #2ca5d6;
 `;
 
@@ -86,26 +147,22 @@ const Input = styled.input`
   border: 1px solid #ccc;
   border-radius: 4px;
   &:focus {
-    border-color: 2px solid #2ca5d6;
+    border-color: #2ca5d6;
     outline-color: #2ca5d6;
   }
 `;
 
-const Select = styled.select`
+const Div = styled.div`
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-top: 8px;
-  &:focus {
-    border-color: 2px solid #2ca5d6;
-    outline-color: #2ca5d6; /* This sets the outline color */
-  }
 `;
 
 const Row = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   margin-top: 8px;
   gap: 16px;
@@ -114,40 +171,8 @@ const Row = styled.div`
   }
 `;
 
-const TabContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 8px;
-`;
-
-const Tab = styled.button`
-  background: ${(props) => (props.active ? "#2ca5d6" : "#f0f0f0")};
-  color: ${(props) => (props.active ? "#fff" : "#000")};
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-right: 8px;
-`;
-
-const RadioContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const RadioInput = styled.input`
-  margin-right: 8px;
-`;
-
-const CheckboxContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 10px 0px;
-  label {
-    margin: 0;
-  }
-`;
-
-const Checkbox = styled.input`
-  margin-right: 8px;
+const Error = styled.div`
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
 `;

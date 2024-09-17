@@ -7,53 +7,51 @@ import { useParams } from "react-router-dom";
 import { EXCHNAGE_URL_USERS } from "../../url/Url";
 
 export const AllService = ({ vendorId }) => {
-  const [basicDetails, setBasicDetails] = useState([]); // Changed to array
+  const [basicDetails, setBasicDetails] = useState([]);
   const { id } = useParams();
-  // const navigate = useNavigate();
-
+ 
   useEffect(() => {
     const fetchVendorDetails = async () => {
       try {
-        const response = await axios.get(
-          `${EXCHNAGE_URL_USERS}/service-data?id=2&skip=0&limit=10`,
-          {
-            headers: {
-              authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
+        if (id) {
+          const response = await axios.get(
+            `${EXCHNAGE_URL_USERS}/service-data?id=${id}&skip=0&limit=10`,
+            {
+              headers: {
+                authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+  
+          if (response.data.status) {
+            toast.success("Vendor Data Retrieved Successfully");
+            const vendorData = response.data.data;
+            const detailsArray = vendorData.map((vendor) => ({
+              ID: vendor.bike_id,
+              Name: vendor.title,
+              Price: vendor.price,
+              Description: vendor.description,
+              Image: vendor.image,
+            }));
+  
+            setBasicDetails(detailsArray);
           }
-        );
-
-        if (response.data.status) {
-          toast.success("Vendor Data Retrieved Successfully");
-          const vendorData = response.data.data;
-
-          // Mapping over the data to prepare it for the table
-          const detailsArray = vendorData.map((vendor) => ({
-            ID: vendor.bike_id,
-            Name: vendor.title,
-            Price: vendor.price,
-            Description: vendor.description,
-            Image: vendor.image, // Add image URL to each row
-          }));
-
-          // Setting up basic details from the new API response
-          setBasicDetails(detailsArray);
         }
       } catch (error) {
         console.error("Error fetching vendor details:", error);
         toast.error("Error fetching vendor details.");
       }
     };
-
-    fetchVendorDetails();
-  }, [vendorId, id]);
+  
+    fetchVendorDetails();  
+  }, [id]);
 
   const columns = [
     { header: "ID", accessor: "ID" },
     { header: "Name", accessor: "Name" },
     { header: "Price", accessor: "Price" },
     { header: "Description", accessor: "Description" },
-    { header: "View Image", accessor: "Image" }, // Add View Image column
+    { header: "View Image", accessor: "Image" },
   ];
 
   const baseUrl = "https://api-carwash.phanomprofessionals.com/uploads";

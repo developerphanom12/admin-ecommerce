@@ -1,20 +1,4 @@
  
-// Action Types
-export const SHOW_LOADER = "SHOW_LOADER";
-export const HIDE_LOADER = "HIDE_LOADER";
-
-// Action Creators
-export const showLoader = () => {
-  return {
-    type: SHOW_LOADER,
-  };
-};
-
-export const hideLoader = () => {
-  return {
-    type: HIDE_LOADER,
-  };
-};
 export const UserDetails = (data) => {
   return {
     type: "USER_DETAILS",
