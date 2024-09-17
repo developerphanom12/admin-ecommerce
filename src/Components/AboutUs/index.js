@@ -7,6 +7,9 @@ import axios from "axios";
 import { EXCHNAGE_URL } from "../../url/Url";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { LoaderAction } from "../../redux/users/action";
+import Loader from "../Loader";
 
 const Block = Quill.import("blots/block");
 Block.tagName = "div";
@@ -16,6 +19,8 @@ export default function AboutUs() {
   const [editorValue, setEditorValue] = useState("");
   const [apiContent, setApiContent] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state?.users?.isLoading);
 
   const handleEditorChange = (description) => {
     const cleanedDescription = cleanEditorValue(description);
@@ -84,6 +89,7 @@ export default function AboutUs() {
   };
 
   const getApi = async () => {
+    dispatch(LoaderAction(true));
     const axiosConfig = {
       headers: {
         authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -98,6 +104,8 @@ export default function AboutUs() {
       console.log("API Response:", response);
     } catch (error) {
       console.error("Error fetching content", error);
+    }finally {
+      dispatch(LoaderAction(false));
     }
   };
 
@@ -106,6 +114,8 @@ export default function AboutUs() {
   }, []);
 
   return (
+    <>
+    {isLoading && <Loader />}
     <EditorWrapper>
       <ReactQuill
         value={editorValue}
@@ -135,6 +145,7 @@ export default function AboutUs() {
         </Div>
       ))}
     </EditorWrapper>
+    </>
   );
 }
 

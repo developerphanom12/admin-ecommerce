@@ -5,11 +5,16 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { EXCHNAGE_URL } from "../../url/Url";
 import { FcNext, FcPrevious } from "react-icons/fc";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "../Loader";
+import { LoaderAction } from "../../redux/users/action";
 
 export const ManagingUsersPartners = () => {
   const [selectedButton, setSelectedButton] = useState(1);
   const [data, setData] = useState([]);
   const [data2, setData2] = useState([]);
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state?.users?.isLoading);
 
   const [columns, setColumns] = useState([
     { header: "ID", accessor: "id" },
@@ -34,56 +39,56 @@ export const ManagingUsersPartners = () => {
   const [totalRecords, setTotalRecords] = useState(0);
 
   useEffect(() => {
-    if (selectedButton === 1) {
-      axios
-        .get(`${EXCHNAGE_URL}/all_users`, {
-          headers: {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          params: {
-            limit,
-            offset,
-          },
-        })
-        .then((response) => {
+    const fetchData = async () => {
+      dispatch(LoaderAction(true)); // Start loading
+      try {
+        if (selectedButton === 1) {
+          const response = await axios.get(`${EXCHNAGE_URL}/all_users`, {
+            headers: {
+              authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            params: {
+              limit,
+              offset,
+            },
+          });
           if (response.data.status) {
             setData(response.data.data);
-            setTotalRecords(response.data.totalRecords);  
+            setTotalRecords(response.data.totalRecords);
           } else {
-            console.error("Failed to fetch data:", response.data.message);
+            console.error("Failed to fetch users:", response.data.message);
           }
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-    } else if (selectedButton === 2) {
-      axios
-        .get(`${EXCHNAGE_URL}/all_vendors`, {
-          headers: {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          params: {
-            limit,
-            offset,
-          },
-        })
-        .then((response) => {
+        } else if (selectedButton === 2) {
+          const response = await axios.get(`${EXCHNAGE_URL}/all_vendors`, {
+            headers: {
+              authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            params: {
+              limit,
+              offset,
+            },
+          });
           if (response.data.status) {
             setData2(response.data.data);
-            setTotalRecords(response.data.totalRecords);  
+            setTotalRecords(response.data.totalRecords);
           } else {
-            console.error("Failed to fetch data:", response.data.message);
+            console.error("Failed to fetch vendors:", response.data.message);
           }
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-    }
-  }, [selectedButton, limit, offset]);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        dispatch(LoaderAction(false)); // Stop loading
+      }
+    };
+
+    fetchData();
+  }, [selectedButton, limit, offset, dispatch]);
+
 
   const handleButtonClick = (buttonIndex) => {
     setSelectedButton(buttonIndex);
-    setOffset(0); 
+    setOffset(0);
   };
 
   const handleBlockUser = (userId) => {};
@@ -97,6 +102,7 @@ export const ManagingUsersPartners = () => {
 
   return (
     <Root>
+        {isLoading && <Loader />}
       <div className="managing_main_div">
         <div className="butt_div">
           <MainButton
@@ -209,7 +215,7 @@ const Root = styled.section`
     }
 
     .selected {
-      background-color: #034833;  
+      background-color: #034833;
       color: white;
     }
 

@@ -5,12 +5,17 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { EXCHNAGE_URL_USERS } from "../../url/Url";
+import { useDispatch, useSelector } from "react-redux";
+import { LoaderAction } from "../../redux/users/action";
+import Loader from "../Loader";
 
 export const AllService = ({ vendorId }) => {
   const [basicDetails, setBasicDetails] = useState([]);
   const { id } = useParams();
- 
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state?.users?.isLoading);
   useEffect(() => {
+    dispatch(LoaderAction(true));
     const fetchVendorDetails = async () => {
       try {
         if (id) {
@@ -40,6 +45,8 @@ export const AllService = ({ vendorId }) => {
       } catch (error) {
         console.error("Error fetching vendor details:", error);
         toast.error("Error fetching vendor details.");
+      }finally {
+        dispatch(LoaderAction(false));
       }
     };
   
@@ -58,6 +65,7 @@ export const AllService = ({ vendorId }) => {
 
   return (
     <Root>
+       {isLoading && <Loader />}
       <div className="detail_main_div">
         <Heading style={{ textAlign: "left" }}>Basic Details</Heading>
         <div className="basic_detail">

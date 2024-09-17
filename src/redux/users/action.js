@@ -17,6 +17,12 @@ export const userCheckAction = (data) => {
     payload: data,
   };
 };
+export const LoaderAction = (data) => {
+  return{
+    type:"LOADING_DATA",
+    payload: data,
+  }
+}
 
 export const appDetailsAction = (data) => {
   return {

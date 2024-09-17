@@ -5,6 +5,9 @@ import axios from "axios";
 import { EXCHNAGE_URL } from "../../url/Url";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { LoaderAction } from "../../redux/users/action";
+import Loader from "../Loader";
 
 export const AllDetails = ({ vendorId }) => {
   const [basicDetails, setBasicDetails] = useState({});
@@ -12,8 +15,11 @@ export const AllDetails = ({ vendorId }) => {
   const [documents, setDocuments] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state?.users?.isLoading);
 
   useEffect(() => {
+    dispatch(LoaderAction(true));
     const fetchVendorDetails = async () => {
       try {
         const response = await axios.get(`${EXCHNAGE_URL}/Vendorbyid/${id}`, {
@@ -44,6 +50,8 @@ export const AllDetails = ({ vendorId }) => {
         }
       } catch (error) {
         console.error("Error fetching vendor details:", error);
+      }finally {
+        dispatch(LoaderAction(false));
       }
     };
 
@@ -174,6 +182,7 @@ export const AllDetails = ({ vendorId }) => {
 
   return (
     <Root>
+      {isLoading && <Loader />}
       <div className="detail_main_div">
         <Heading style={{ textAlign: "left" }}>Basic Details</Heading>
 

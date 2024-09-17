@@ -1,13 +1,11 @@
-
-
 const initialState = {
   user: {},
   userCheck: false,
   role: "",
   appDetails: {},
-
-   
+  isLoading:false,
 };
+
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
     case "USER_DATA":
@@ -15,11 +13,11 @@ const UserReducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
       };
-    case "LOADING_DATA":
-      return {
-        ...state,
-        isLoading: action.payload,
-      };
+      case "LOADING_DATA":
+        return {
+          ...state,
+          isLoading: action.payload,
+        };
     case "USER_CHECK":
       return {
         ...state,
