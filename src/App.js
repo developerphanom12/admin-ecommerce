@@ -16,6 +16,7 @@ import { AllService } from "./Components/Services/AllService";
 import { useSelector } from "react-redux";
 import { Coupon } from "./Components/Coupon";
 import AboutUs from "./Components/AboutUs";
+import ChangeImg from "./Components/Services/ChangeImg";
 // import Loader from "./Components/Loader";
 
 function App() {
@@ -59,7 +60,8 @@ function App() {
                   <Route path="/contact_support" element={<ContactSupport />} />
                   <Route path="/service-details/:id" element={<AllService />} />
                   <Route path="/service-details" element={<AllService />} />
-
+                  <Route path="/service-details/Upload-images" element={<ChangeImg />} />
+                  <Route path="/service-details/Upload-images/:id" element={<ChangeImg />} />
                   <Route path="/all-details/:id" element={<AllDetails />} />
 
                   <Route path="/services" element={<Services />} />

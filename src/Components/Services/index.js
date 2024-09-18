@@ -11,11 +11,10 @@ import { EXCHNAGE_URL, EXCHNAGE_URL_USERS } from "../../url/Url";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { GrView } from "react-icons/gr";
 import { MdDelete } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { FcNext, FcPrevious } from "react-icons/fc";
-
-
 
 export const Services = () => {
   const [selectedButton, setSelectedButton] = useState(1);
@@ -168,8 +167,9 @@ export const Services = () => {
     { header: "Vehicle Type", accessor: "vehicle_type" },
     { header: "Date", accessor: "create_date" },
     { header: "Update Date", accessor: "update_date" },
-    { header: "Delete", accessor: "delete" },
+    { header: "Images", accessor: "icon" },
     { header: "View More", accessor: "view" },
+    { header: "Delete", accessor: "delete" },
   ];
 
   const handleButtonClick = (buttonIndex) => {
@@ -198,10 +198,10 @@ export const Services = () => {
   const handleApproval = async (id, isApproved) => {
     try {
       const response = await axios.post(
-        `${EXCHNAGE_URL}/servicedeleted`, // Replace with your actual API endpoint
+        `${EXCHNAGE_URL}/servicedeleted`,
         {
-          id: id, // Pass the ID dynamically
-          is_deleted: isApproved, // 1 for approved, 0 for not approved
+          id: id,
+          is_deleted: isApproved,
         },
         {
           headers: {
@@ -259,8 +259,6 @@ export const Services = () => {
         <div className="content_div">
           {selectedButton === 1 && (
             <>
-             
-
               <div className="add_service_div">
                 <form onSubmit={handleSubmit}>
                   <div className="inp_row">
@@ -366,9 +364,9 @@ export const Services = () => {
                     </div>
 
                     <div className="inp_col">
-                    <div className="submit_btn">
-                    <MainButton type="submit">Submit Now</MainButton>
-                  </div>
+                      <div className="submit_btn">
+                        <MainButton type="submit">Submit Now</MainButton>
+                      </div>
                     </div>
                   </div>
                 </form>
@@ -415,12 +413,14 @@ export const Services = () => {
                               new Date(row[column.accessor])
                                 .toISOString()
                                 .split("T")[0]
-                            ) : column.accessor === "delete" ? (
+                            ) : column.accessor === "icon" ? (
                               <RedirectButton
-                                onClick={() => handleApproval(row.id, 1)}
-                              >
-                                <MdDelete />
-                              </RedirectButton>
+                              onClick={() =>
+                                navigate(`/service-details/Upload-images/${row.id}`, { state: { rowData: row } })
+                              }
+                            >
+                              <GrView />
+                            </RedirectButton>
                             ) : column.accessor === "view" ? (
                               <RedirectButton
                                 onClick={() =>
@@ -428,6 +428,12 @@ export const Services = () => {
                                 }
                               >
                                 View
+                              </RedirectButton>
+                            ) : column.accessor === "delete" ? (
+                              <RedirectButton
+                                onClick={() => handleApproval(row.id, 1)}
+                              >
+                                <MdDelete />
                               </RedirectButton>
                             ) : (
                               row[column.accessor]
@@ -583,10 +589,9 @@ const Root = styled.section`
       height: 420px;
       width: 100%;
 
-
       .add_service_div {
-        padding:0 20%;
-        height:100%;
+        padding: 0 20%;
+        height: 100%;
         .inp_row {
           display: flex;
           gap: 20px;
@@ -635,7 +640,7 @@ const Root = styled.section`
                 align-items: center;
                 margin-bottom: 8px;
                 margin-left: 20px;
-                input{
+                input {
                   width: 100%;
                 }
                 svg {
@@ -644,10 +649,10 @@ const Root = styled.section`
               }
             }
 
-        .submit_btn {
-          display: flex;
-          justify-content: center;
-        }
+            .submit_btn {
+              display: flex;
+              justify-content: center;
+            }
           }
         }
       }
@@ -668,18 +673,14 @@ const Root = styled.section`
       gap: 18px;
     }
 
-  
-
-
-.services_main_div .content_div .add_service_div{
-  padding: 0 5%;
-  height:unset;
-.inp_row {
-    align-items: unset;
-  flex-direction:column
-}
-}
-
+    .services_main_div .content_div .add_service_div {
+      padding: 0 5%;
+      height: unset;
+      .inp_row {
+        align-items: unset;
+        flex-direction: column;
+      }
+    }
   }
 
   @media (min-width: 567px) and (max-width: 992px) {
@@ -687,14 +688,9 @@ const Root = styled.section`
       padding-bottom: 20px;
     }
 
-  .services_main_div .content_div .add_service_div {
-    padding: 0 10%;
-    
-}
- 
-
-
-
+    .services_main_div .content_div .add_service_div {
+      padding: 0 10%;
+    }
 
     /* .services_main_div
       .content_div

@@ -14,6 +14,7 @@ export const AllService = ({ vendorId }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state?.users?.isLoading);
+  
   useEffect(() => {
     dispatch(LoaderAction(true));
     const fetchVendorDetails = async () => {
@@ -51,7 +52,7 @@ export const AllService = ({ vendorId }) => {
     };
   
     fetchVendorDetails();  
-  }, [id]);
+  }, [vendorId,id]);
 
   const columns = [
     { header: "ID", accessor: "ID" },
@@ -67,7 +68,7 @@ export const AllService = ({ vendorId }) => {
     <Root>
        {isLoading && <Loader />}
       <div className="detail_main_div">
-        <Heading style={{ textAlign: "left" }}>Basic Details</Heading>
+        <Heading style={{ textAlign: "left" }}>Service Details</Heading>
         <div className="basic_detail">
           <table>
             <thead>
