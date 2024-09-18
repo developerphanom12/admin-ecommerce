@@ -88,7 +88,7 @@ export const AllService = ({ vendorId }) => {
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          View Image
+                          View 
                         </a>
                       ) : (
                         detail[column.accessor]
