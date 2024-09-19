@@ -31,7 +31,7 @@ export const ReviewingFeedback = () => {
       })
       .then((response) => {
         if (response.data.status) {
-          setService(response.data.data.data); 
+          setService(response.data.data.data);
           setTotalRecords(response.data.totalRecords);
         } else {
           console.error("Failed to fetch services:", response.data.message);
@@ -64,24 +64,34 @@ export const ReviewingFeedback = () => {
             </thead>
 
             <tbody>
-              {service.map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {reviewcolumn.map((column, colIndex) => (
-                    <td key={colIndex}>
-                      {column.accessor === "order_date" ||
-                      column.accessor === "time_slot"
-                        ? row[column.accessor]
-                          ? new Date(row[column.accessor])
-                              .toISOString()
-                              .split("T")[0]
-                          : "Null"
-                        : row[column.accessor] ||
-                          "NULL"  
-                      }
-                    </td>
-                  ))}
+              {service && service?.length > 0 ? (
+                service.map((row, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {reviewcolumn.map((column, colIndex) => (
+                      <td key={colIndex}>
+                        {column.accessor === "order_date" ||
+                        column.accessor === "time_slot"
+                          ? row[column.accessor]
+                            ? new Date(row[column.accessor])
+                                .toISOString()
+                                .split("T")[0]
+                            : "Null"
+                          : row[column.accessor] || "NULL"}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              ) : (
+                <tr
+                  style={{
+                    color: "red",
+                    fontWeight: "600",
+                    textAlign: "center",
+                  }}
+                >
+                  <td colSpan="7">----------------No Data---------------</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

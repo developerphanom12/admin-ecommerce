@@ -85,7 +85,6 @@ export const ManagingUsersPartners = () => {
     fetchData();
   }, [selectedButton, limit, offset, dispatch]);
 
-
   const handleButtonClick = (buttonIndex) => {
     setSelectedButton(buttonIndex);
     setOffset(0);
@@ -102,7 +101,7 @@ export const ManagingUsersPartners = () => {
 
   return (
     <Root>
-        {isLoading && <Loader />}
+      {isLoading && <Loader />}
       <div className="managing_main_div">
         <div className="butt_div">
           <MainButton
@@ -132,13 +131,27 @@ export const ManagingUsersPartners = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((row, rowIndex) => (
-                    <tr key={rowIndex}>
-                      {columns.map((column, colIndex) => (
-                        <td key={colIndex}>{row[column.accessor]}</td>
-                      ))}
+                  {data && data?.length > 0 ? (
+                    data.map((row, rowIndex) => (
+                      <tr key={rowIndex}>
+                        {columns.map((column, colIndex) => (
+                          <td key={colIndex}>{row[column.accessor]}</td>
+                        ))}
+                      </tr>
+                    ))
+                  ) : (
+                    <tr
+                      style={{
+                        color: "red",
+                        fontWeight: "600",
+                        textAlign: "center",
+                      }}
+                    >
+                      <td colSpan="7">
+                        ----------------No Data---------------
+                      </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
@@ -155,31 +168,47 @@ export const ManagingUsersPartners = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data2.map((row, rowIndex) => (
-                    <tr key={rowIndex}>
-                      {columns2.map((column, colIndex) => (
-                        <td key={colIndex}>
-                          {column.accessor === "is_approved" ? (
-                            mapApprovalStatus(row[column.accessor])
-                          ) : column.accessor === "view" ? (
-                            <RedirectButton
-                              onClick={() => navigate(`/all-details/${row.id}`)}
-                            >
-                              View More
-                            </RedirectButton>
-                          ) : column.accessor === "block" ? (
-                            <RedirectButton
-                              onClick={() => handleBlockUser(row.id)}
-                            >
-                              Block
-                            </RedirectButton>
-                          ) : (
-                            row[column.accessor]
-                          )}
-                        </td>
-                      ))}
+                  {data2 && data2?.length > 0 ? (
+                    data2.map((row, rowIndex) => (
+                      <tr key={rowIndex}>
+                        {columns2.map((column, colIndex) => (
+                          <td key={colIndex}>
+                            {column.accessor === "is_approved" ? (
+                              mapApprovalStatus(row[column.accessor])
+                            ) : column.accessor === "view" ? (
+                              <RedirectButton
+                                onClick={() =>
+                                  navigate(`/all-details/${row.id}`)
+                                }
+                              >
+                                View More
+                              </RedirectButton>
+                            ) : column.accessor === "block" ? (
+                              <RedirectButton
+                                onClick={() => handleBlockUser(row.id)}
+                              >
+                                Block
+                              </RedirectButton>
+                            ) : (
+                              row[column.accessor]
+                            )}
+                          </td>
+                        ))}
+                      </tr>
+                    ))
+                  ) : (
+                    <tr
+                      style={{
+                        color: "red",
+                        fontWeight: "600",
+                        textAlign: "center",
+                      }}
+                    >
+                      <td colSpan="7">
+                        ----------------No Data---------------
+                      </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>

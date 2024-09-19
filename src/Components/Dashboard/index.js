@@ -241,8 +241,8 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {order &&
-                order?.map((order, index) => (
+              {order && order.length > 0 ? (
+                order.map((order, index) => (
                   <tr key={index}>
                     <td>{order.id}</td>
                     <td>
@@ -253,7 +253,6 @@ const Dashboard = () => {
                       <p>{order?.time_slot}</p>
                     </td>
                     <td>₹ {order.Price}</td>
-
                     <td>
                       <p className={order.status.toLowerCase()}>
                         {order.status}
@@ -266,7 +265,18 @@ const Dashboard = () => {
                       )}
                     </td>
                   </tr>
-                ))}
+                ))
+              ) : (
+                <tr
+                  style={{
+                    color: "red",
+                    fontWeight: "600",
+                    textAlign: "center",
+                  }}
+                >
+                  <td colSpan="7">----------------No Data---------------</td>
+                </tr>
+              )}
             </tbody>
           </Table>
           <div className="pagination">
@@ -298,7 +308,7 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {referral &&
+              {referral && referral?.length > 0 ? (
                 referral?.map((refferal, index) => (
                   <tr key={index}>
                     <td>{refferal.id}</td>
@@ -325,7 +335,18 @@ const Dashboard = () => {
                       )}
                     </td>
                   </tr>
-                ))}
+                ))
+              ) : (
+                <tr
+                  style={{
+                    color: "red",
+                    fontWeight: "600",
+                    textAlign: "center",
+                  }}
+                >
+                  <td colSpan="7">----------------No Data---------------</td>
+                </tr>
+              )}
             </tbody>
           </Table>
           <div className="pagination">

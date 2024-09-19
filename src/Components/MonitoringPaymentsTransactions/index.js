@@ -58,29 +58,41 @@ export const MonitoringPaymentsTransactions = () => {
               </tr>
             </thead>
             <tbody>
-              {reviewdata.map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {reviewcolumn.map((column, colIndex) => (
-                    <td
-                      key={colIndex}
-                      style={{
-                        color:
-                          column.accessor === "status"
-                            ? row[column.accessor] === "Complete"
-                              ? "#32cd32"
-                              : row[column.accessor] === "Pending"
-                              ? "red"
-                              : row[column.accessor] === "Processing"
-                              ? "#2ca5d6"
-                              : "black"
-                            : "black",
-                      }}
-                    >
-                      {row[column.accessor]}
-                    </td>
-                  ))}
+              {reviewdata && reviewdata?.length > 0 ? (
+                reviewdata.map((row, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {reviewcolumn.map((column, colIndex) => (
+                      <td
+                        key={colIndex}
+                        style={{
+                          color:
+                            column.accessor === "status"
+                              ? row[column.accessor] === "Complete"
+                                ? "#32cd32"
+                                : row[column.accessor] === "Pending"
+                                ? "red"
+                                : row[column.accessor] === "Processing"
+                                ? "#2ca5d6"
+                                : "black"
+                              : "black",
+                        }}
+                      >
+                        {row[column.accessor]}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              ) : (
+                <tr
+                  style={{
+                    color: "red",
+                    fontWeight: "600",
+                    textAlign: "center",
+                  }}
+                >
+                  <td colSpan="7">----------------No Data---------------</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
           <div className="pagination">

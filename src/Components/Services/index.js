@@ -386,66 +386,79 @@ export const Services = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {datalist.map((row, rowIndex) => (
-                      <tr key={rowIndex}>
-                        {servicelist.map((column, colIndex) => (
-                          <td key={colIndex}>
-                            {column.accessor === "image" ? (
-                              <img
-                                src={row[column.accessor]}
-                                alt="Image"
-                                style={{
-                                  width: "50px",
-                                  height: "50px",
-                                  objectFit: "cover",
-                                }}
-                              />
-                            ) : column.accessor === "vehicle_type" ? (
-                              row[column.accessor] === 1 ? (
-                                "Bike"
-                              ) : row[column.accessor] === 2 ? (
-                                "Car"
+                    {datalist && datalist?.length > 0 ? (
+                      datalist.map((row, rowIndex) => (
+                        <tr key={rowIndex}>
+                          {servicelist.map((column, colIndex) => (
+                            <td key={colIndex}>
+                              {column.accessor === "image" ? (
+                                <img
+                                  src={row[column.accessor]}
+                                  alt="Image"
+                                  style={{
+                                    width: "50px",
+                                    height: "50px",
+                                    objectFit: "cover",
+                                  }}
+                                />
+                              ) : column.accessor === "vehicle_type" ? (
+                                row[column.accessor] === 1 ? (
+                                  "Bike"
+                                ) : row[column.accessor] === 2 ? (
+                                  "Car"
+                                ) : (
+                                  "Unknown"
+                                )
+                              ) : column.accessor === "create_date" ||
+                                column.accessor === "update_date" ? (
+                                new Date(row[column.accessor])
+                                  .toISOString()
+                                  .split("T")[0]
+                              ) : column.accessor === "icon" ? (
+                                <RedirectButton
+                                  onClick={() =>
+                                    navigate(
+                                      `/service-details/Upload-images/${row.id}`,
+                                      { state: { rowData: row } }
+                                    )
+                                  }
+                                >
+                                  <GrView />
+                                </RedirectButton>
+                              ) : column.accessor === "view" ? (
+                                <RedirectButton
+                                  onClick={() =>
+                                    navigate(`/service-details/${row.id}`)
+                                  }
+                                >
+                                  View
+                                </RedirectButton>
+                              ) : column.accessor === "delete" ? (
+                                <RedirectButton
+                                  onClick={() => handleApproval(row.id, 1)}
+                                >
+                                  <MdDelete />
+                                </RedirectButton>
                               ) : (
-                                "Unknown"
-                              )
-                            ) : column.accessor === "create_date" ||
-                              column.accessor === "update_date" ? (
-                              new Date(row[column.accessor])
-                                .toISOString()
-                                .split("T")[0]
-                            ) : column.accessor === "icon" ? (
-                              <RedirectButton
-                                onClick={() =>
-                                  navigate(
-                                    `/service-details/Upload-images/${row.id}`,
-                                    { state: { rowData: row } }
-                                  )
-                                }
-                              >
-                                <GrView />
-                              </RedirectButton>
-                            
-                            ) : column.accessor === "view" ? (
-                              <RedirectButton
-                                onClick={() =>
-                                  navigate(`/service-details/${row.id}`)
-                                }
-                              >
-                                View
-                              </RedirectButton>
-                            ) : column.accessor === "delete" ? (
-                              <RedirectButton
-                                onClick={() => handleApproval(row.id, 1)}
-                              >
-                                <MdDelete />
-                              </RedirectButton>
-                            ) : (
-                              row[column.accessor]
-                            )}
-                          </td>
-                        ))}
+                                row[column.accessor]
+                              )}
+                            </td>
+                          ))}
+                        </tr>
+                      ))
+                    ) : (
+                      <tr
+                        style={{
+                          color: "red",
+                          fontWeight: "600",
+                          textAlign: "center",
+                        }}
+                      >
+                        <td colSpan="7">
+                          ----------------No Data---------------
+                        </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -478,27 +491,41 @@ export const Services = () => {
                   </thead>
 
                   <tbody>
-                    {datavehicle.map((row, rowIndex) => (
-                      <tr key={rowIndex}>
-                        {vehicledetails.map((column, colIndex) => (
-                          <td key={colIndex}>
-                            {column.accessor === "image" ? (
-                              <img
-                                src={row[column.accessor]}
-                                alt="vehicle img"
-                                style={{
-                                  width: "50px",
-                                  height: "50px",
-                                  objectFit: "cover",
-                                }} // adjust size as needed
-                              />
-                            ) : (
-                              row[column.accessor]
-                            )}
-                          </td>
-                        ))}
+                    {datavehicle && datavehicle?.length > 0 ? (
+                      datavehicle.map((row, rowIndex) => (
+                        <tr key={rowIndex}>
+                          {vehicledetails.map((column, colIndex) => (
+                            <td key={colIndex}>
+                              {column.accessor === "image" ? (
+                                <img
+                                  src={row[column.accessor]}
+                                  alt="vehicle img"
+                                  style={{
+                                    width: "50px",
+                                    height: "50px",
+                                    objectFit: "cover",
+                                  }}
+                                />
+                              ) : (
+                                row[column.accessor]
+                              )}
+                            </td>
+                          ))}
+                        </tr>
+                      ))
+                    ) : (
+                      <tr
+                        style={{
+                          color: "red",
+                          fontWeight: "600",
+                          textAlign: "center",
+                        }}
+                      >
+                        <td colSpan="7">
+                          ----------------No Data---------------
+                        </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
               </div>

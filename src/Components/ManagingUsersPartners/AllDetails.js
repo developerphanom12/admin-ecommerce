@@ -50,7 +50,7 @@ export const AllDetails = ({ vendorId }) => {
         }
       } catch (error) {
         console.error("Error fetching vendor details:", error);
-      }finally {
+      } finally {
         dispatch(LoaderAction(false));
       }
     };
@@ -150,10 +150,10 @@ export const AllDetails = ({ vendorId }) => {
   const handleApproval = async (isApproved) => {
     try {
       const response = await axios.post(
-        `${EXCHNAGE_URL}/approveVendor`, 
+        `${EXCHNAGE_URL}/approveVendor`,
         {
-          id: basicDetails.ID,  
-          is_approved: isApproved,  
+          id: basicDetails.ID,
+          is_approved: isApproved,
         },
         {
           headers: {
@@ -198,7 +198,7 @@ export const AllDetails = ({ vendorId }) => {
             <tbody>
               <tr>
                 {columns.map((column, colIndex) => (
-                  <td key={colIndex}>{basicDetails[column.accessor]}</td>
+                  <td key={colIndex}>{basicDetails[column.accessor] || "No Data"}</td>
                 ))}
               </tr>
             </tbody>
@@ -218,7 +218,9 @@ export const AllDetails = ({ vendorId }) => {
             <tbody>
               <tr>
                 {columnstwo?.map((column, colIndex) => (
-                  <td key={colIndex}>{bankDetails[column.accessor]}</td>
+                  <td key={colIndex}>
+                    {bankDetails[column.accessor] || "No Data"}
+                  </td>
                 ))}
               </tr>
             </tbody>

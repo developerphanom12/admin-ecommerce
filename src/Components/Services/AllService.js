@@ -82,33 +82,45 @@ export const AllService = ({ vendorId }) => {
               </tr>
             </thead>
             <tbody>
-              {basicDetails.map((detail, rowIndex) => (
-                <tr key={rowIndex}>
-                  {columns.map((column, colIndex) => (
-                    <td key={colIndex}>
-                      {column.accessor === "Image" ? (
-                        <a
-                          href={`${baseUrl}/${detail.Image}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View
-                        </a>
-                      ) : column.accessor === "View" ? (
-                        <RedirectButton
-                          onClick={()=>{navigate(
-                            `/service-details/view-details/${id}`
-                          )}}
-                        >
-                          <GrView />
-                        </RedirectButton>
-                      ) : (
-                        detail[column.accessor]
-                      )}
-                    </td>
-                  ))}
+              {basicDetails && basicDetails?.length > 0 ? (
+                basicDetails.map((detail, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {columns.map((column, colIndex) => (
+                      <td key={colIndex}>
+                        {column.accessor === "Image" ? (
+                          <a
+                            href={`${baseUrl}/${detail.Image}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View
+                          </a>
+                        ) : column.accessor === "View" ? (
+                          <RedirectButton
+                            onClick={() => {
+                              navigate(`/service-details/view-details/${id}`);
+                            }}
+                          >
+                            <GrView />
+                          </RedirectButton>
+                        ) : (
+                          detail[column.accessor]
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              ) : (
+                <tr
+                  style={{
+                    color: "red",
+                    fontWeight: "600",
+                    textAlign: "center",
+                  }}
+                >
+                  <td colSpan="7">----------------No Data---------------</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
