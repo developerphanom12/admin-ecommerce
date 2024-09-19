@@ -16,8 +16,6 @@ export default function ChangeImg() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setSelectedImage(file);
-
-    // Create image preview
     const reader = new FileReader();
     reader.onloadend = () => {
       setImagePreview(reader.result);
@@ -32,8 +30,6 @@ export default function ChangeImg() {
       alert("Please select an image.");
       return;
     }
-
-    // Create FormData object
     const formData = new FormData();
     formData.append("image", selectedImage);
     formData.append("id", id);
@@ -64,12 +60,9 @@ export default function ChangeImg() {
         <img
           src={`https://api-carwash.phanomprofessionals.com/uploads/${rowData?.image}`}
           alt="Service Image"
-           
         />
         <input type="file" accept="image/*" onChange={handleImageChange} />
-        {imagePreview && (
-          <img src={imagePreview} alt="Image Preview"   />
-        )}
+        {imagePreview && <img src={imagePreview} alt="Image Preview" />}
         <button type="submit">Upload Image</button>
       </form>
     </StyledDiv>
@@ -101,7 +94,7 @@ const StyledDiv = styled.div`
     border: 2px solid #ddd;
     border-radius: 8px;
     width: 60%;
-    height:auto;
+    height: auto;
     object-fit: cover;
   }
 
