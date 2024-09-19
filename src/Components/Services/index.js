@@ -424,6 +424,7 @@ export const Services = () => {
                               >
                                 <GrView />
                               </RedirectButton>
+                            
                             ) : column.accessor === "view" ? (
                               <RedirectButton
                                 onClick={() =>
