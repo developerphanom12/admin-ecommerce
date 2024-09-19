@@ -7,7 +7,6 @@ import Loader from "../Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { LoaderAction } from "../../redux/users/action";
 import styled from "styled-components";
-import bike from "../../Assets/bike.png";
 
 export const ViewDetail = () => {
   const [serviceDetails, setServiceDetails] = useState(null);
@@ -86,17 +85,16 @@ export const ViewDetail = () => {
               <div className="image-gallery">
                 {serviceDetails.images && serviceDetails.images.length > 0 ? (
                   serviceDetails.images.map((img) => (
-                    //  <img
-                    //    key={img.image_id}
-                    //    src={`https://api-carwash.phanomprofessionals.com/uploads/${img.image}`}
-                    //    alt={`Image for ${serviceDetails.title}`}
-                    //    className="service-image"
-                    // />
-
-                    <>
-                      <img src={bike} alt="img" />
-                      <img src={bike} alt="img" />
-                    </>
+                    <div className="image-wrapper" key={img.image_id}>
+                     <img
+                       key={img.image_id}
+                       src={`https://api-carwash.phanomprofessionals.com/uploads/${img.image}`}
+                       alt={`Image for ${serviceDetails.title}`}
+                       className="service-image"
+                    />
+                    <input type="file"  className="file-input"  />
+                    </div>
+                   
                   ))
                 ) : (
                   <p>No images available</p>
@@ -104,24 +102,7 @@ export const ViewDetail = () => {
               </div>
             </div>
 
-            {/* {/ Images Section /} */}
-            {/* <div className="service-images-section">
-              <h3>Images:</h3>
-              <div className="image-gallery">
-                {serviceDetails.images && serviceDetails.images.length > 0 ? (
-                  serviceDetails.images.map((img) => (
-                    <img
-                      key={img.image_id}
-                      src={`https://api-carwash.phanomprofessionals.com/uploads/${img.image}`}
-                      alt={`Image for ${serviceDetails.title}`}
-                      className="service-image"
-                    />
-                  ))
-                ) : (
-                  <p>No images available</p>
-                )}
-              </div>
-            </div> */}
+            
 
             {/* {/ Included Services Section /} */}
             <div className="included-services-section">
@@ -190,23 +171,35 @@ const Root = styled.section`
   }
 
   .image_div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
+  .image-gallery {
     display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-top: 20px;
-    .image-gallery {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    .image-wrapper {
+      position: relative;
       img {
         width: 200px;
         height: 200px;
-        object-fit: cover;
         border-radius: 10px;
+      }
+      .file-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
       }
     }
   }
+}
+
 
   .included-services-section {
     margin-top: 20px;
