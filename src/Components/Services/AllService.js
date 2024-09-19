@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Heading } from "../Global";
+import { Heading, RedirectButton } from "../Global";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { EXCHNAGE_URL_USERS } from "../../url/Url";
 import { useDispatch, useSelector } from "react-redux";
 import { LoaderAction } from "../../redux/users/action";
 import Loader from "../Loader";
+import { GrView } from "react-icons/gr";
 
 export const AllService = ({ vendorId }) => {
   const [basicDetails, setBasicDetails] = useState([]);
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isLoading = useSelector((state) => state?.users?.isLoading);
-  
+
   useEffect(() => {
     dispatch(LoaderAction(true));
     const fetchVendorDetails = async () => {
@@ -28,7 +30,7 @@ export const AllService = ({ vendorId }) => {
               },
             }
           );
-  
+
           if (response.data.status) {
             toast.success("Vendor Data Retrieved Successfully");
             const vendorData = response.data.data;
@@ -39,26 +41,27 @@ export const AllService = ({ vendorId }) => {
               Description: vendor.description,
               Image: vendor.image,
             }));
-  
+
             setBasicDetails(detailsArray);
           }
         }
       } catch (error) {
         console.error("Error fetching vendor details:", error);
         toast.error("Error fetching vendor details.");
-      }finally {
+      } finally {
         dispatch(LoaderAction(false));
       }
     };
-  
-    fetchVendorDetails();  
-  }, [vendorId,id]);
+
+    fetchVendorDetails();
+  }, [vendorId, id]);
 
   const columns = [
     { header: "ID", accessor: "ID" },
     { header: "Name", accessor: "Name" },
     { header: "Price", accessor: "Price" },
     { header: "Description", accessor: "Description" },
+    { header: "View All", accessor: "View" },
     { header: "View Image", accessor: "Image" },
   ];
 
@@ -66,7 +69,7 @@ export const AllService = ({ vendorId }) => {
 
   return (
     <Root>
-       {isLoading && <Loader />}
+      {isLoading && <Loader />}
       <div className="detail_main_div">
         <Heading style={{ textAlign: "left" }}>Service Details</Heading>
         <div className="basic_detail">
@@ -89,8 +92,16 @@ export const AllService = ({ vendorId }) => {
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          View 
+                          View
                         </a>
+                      ) : column.accessor === "View" ? (
+                        <RedirectButton
+                          onClick={()=>{navigate(
+                            `/service-details/view-details/${id}`
+                          )}}
+                        >
+                          <GrView />
+                        </RedirectButton>
                       ) : (
                         detail[column.accessor]
                       )}

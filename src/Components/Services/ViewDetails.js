@@ -47,7 +47,7 @@ export const ViewDetail = () => {
     <div className="service-view-container">
       {serviceDetails ? (
         <div className="service-details">
-          {/ Service Information Section /}
+          {/* {/ Service Information Section /} */}
           <div className="service-info-section">
             <h1 className="service-title">{serviceDetails.title}</h1>
             <p className="service-description">{serviceDetails.description}</p>
@@ -58,7 +58,7 @@ export const ViewDetail = () => {
             </div>
           </div>
 
-          {/ Images Section /}
+          {/* {/ Images Section /} */}
           <div className="service-images-section">
             <h3>Images:</h3>
             <div className="image-gallery">
@@ -77,7 +77,7 @@ export const ViewDetail = () => {
             </div>
           </div>
 
-          {/ Included Services Section /}
+          {/* {/ Included Services Section /} */}
           <div className="included-services-section">
             <h3>Included Services:</h3>
             <ul>

@@ -415,12 +415,15 @@ export const Services = () => {
                                 .split("T")[0]
                             ) : column.accessor === "icon" ? (
                               <RedirectButton
-                              onClick={() =>
-                                navigate(`/service-details/Upload-images/${row.id}`, { state: { rowData: row } })
-                              }
-                            >
-                              <GrView />
-                            </RedirectButton>
+                                onClick={() =>
+                                  navigate(
+                                    `/service-details/Upload-images/${row.id}`,
+                                    { state: { rowData: row } }
+                                  )
+                                }
+                              >
+                                <GrView />
+                              </RedirectButton>
                             ) : column.accessor === "view" ? (
                               <RedirectButton
                                 onClick={() =>
