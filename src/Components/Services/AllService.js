@@ -98,7 +98,7 @@ export const AllService = ({ vendorId }) => {
                         ) : column.accessor === "View" ? (
                           <RedirectButton
                             onClick={() => {
-                              navigate(`/service-details/view-details/${id}`);
+                              navigate(`/service-details/view-details/${detail.ID}`);
                             }}
                           >
                             <GrView />
