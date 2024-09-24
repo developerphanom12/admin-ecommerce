@@ -1,12 +1,12 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./MainLayouts/Layout";
-import { ManagingUsersPartners } from "./Components/ManagingUsersPartners";
+import { ListofPartner } from "./Components/ListofPartner";
 import { MonitoringPaymentsTransactions } from "./Components/MonitoringPaymentsTransactions";
 import { FrequentlyAskedQuestion } from "./Components/FrequentlyAskedQuestion";
 import { ContactSupport } from "./Components/ContactSupport";
 import { ReviewingFeedback } from "./Components/ReviewingFeedback";
-import { AllDetails } from "./Components/ManagingUsersPartners/AllDetails";
+import { PartnerAllDetails } from "./Components/ListofPartner/PartnerAllDetails";
 import { Services } from "./Components/Services";
 import Admin from "./adminlogin/Admin";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,7 +18,9 @@ import { Coupon } from "./Components/Coupon";
 import AboutUs from "./Components/AboutUs";
 import ChangeImg from "./Components/Services/ChangeImg";
 import { ViewDetail } from "./Components/Services/ViewDetails";
-// import Loader from "./Components/Loader";
+import { ListofUser } from "./Components/ListofUser";
+import { UserAllDetails } from "./Components/ListofUser/UserAllDetails";
+
 
 function App() {
   const userCheck = useSelector((state) => state?.users?.userCheck);
@@ -41,8 +43,8 @@ function App() {
                   <Route path="/" element={<Dashboard />} />
                   <Route path="/dashboard-overview" element={<Dashboard />} />
                   <Route
-                    path="/managing_users_partners"
-                    element={<ManagingUsersPartners />}
+                    path="/partner-list"
+                    element={<ListofPartner />}
                   />
                   <Route
                     path="/reviewing_feedback"
@@ -63,10 +65,10 @@ function App() {
                   <Route path="/service-details" element={<AllService />} />
                   <Route path="/service-details/Upload-images" element={<ChangeImg />} />
                   <Route path="/service-details/Upload-images/:id" element={<ChangeImg />} />
-                  <Route path="/all-details/:id" element={<AllDetails />} />
+                  <Route path="/partner-all-details/:id" element={<PartnerAllDetails/>} />
+                  <Route path="user-all-details" element={<UserAllDetails />} />
                   <Route path="/service-details/view-details/:id" element={<ViewDetail />} />
-
-
+                  <Route path="/user-list" element={<ListofUser />} />
                   <Route path="/services" element={<Services />} />
                   <Route path="/coupon" element={<Coupon />} />
                   <Route path="/about_us" element={<AboutUs />} />

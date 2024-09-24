@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { MenuButtonActive } from "../Components/Global";
 import { IoMdHome } from "react-icons/io";
-import { IoIosSettings } from "react-icons/io";
+import { FaUserFriends } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { FaTicketAlt, FaUser, FaUsersCog } from "react-icons/fa";
 import { RiFeedbackFill } from "react-icons/ri";
-import { MdLocalAtm } from "react-icons/md";
+import { MdInfo, MdLocalAtm } from "react-icons/md";
 
 function SideBar() {
   const [selectedLink, setSelectedLink] = useState("dashboard");
@@ -23,24 +23,42 @@ function SideBar() {
           className={selectedLink === "dashboard" ? "selected" : ""}
           onClick={() => handleLinkClick("dashboard")}
         >
-          <IoMdHome />
+          <IoMdHome/>
           <span>
             <MenuButtonActive className="s-color">Dashboard</MenuButtonActive>
           </span>
         </Link>
 
         <Link
-          to="/managing_users_partners"
-          className={selectedLink === "setting" ? "selected" : ""}
-          onClick={() => handleLinkClick("setting")}
+          to="/user-list"
+          className={selectedLink === "userlist" ? "selected" : ""}
+          onClick={() => handleLinkClick("userlist")}
         >
-          <IoIosSettings />
+          <FaUser />
+
           <span>
             <MenuButtonActive className="s-color">
-              Users & Partners
+               Users List
             </MenuButtonActive>
           </span>
         </Link>
+
+
+        <Link
+          to="/partner-list"
+          className={selectedLink === "ListofPartner" ? "selected" : ""}
+          onClick={() => handleLinkClick("ListofPartner")}
+        >
+          <FaUserFriends />
+
+          <span>
+            <MenuButtonActive className="s-color">
+              Partners List
+            </MenuButtonActive>
+          </span>
+        </Link>
+
+        
 
         <Link
           to="/services"
@@ -95,7 +113,7 @@ function SideBar() {
           className={selectedLink === "about" ? "selected" : ""}
           onClick={() => handleLinkClick("about")}
         >
-          <FaUser />
+          <MdInfo />
 
           <span>
             <MenuButtonActive className="s-color">About Us</MenuButtonActive>

@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LoaderAction } from "../../redux/users/action";
 import Loader from "../Loader";
 
-export const AllDetails = ({ vendorId }) => {
+export const PartnerAllDetails = ({ vendorId }) => {
   const [basicDetails, setBasicDetails] = useState({});
   const [bankDetails, setBankDetails] = useState({});
   const [documents, setDocuments] = useState([]);
@@ -279,7 +279,7 @@ const Root = styled.section`
       gap: 20px;
       flex-direction: column;
       margin-bottom: 20px;
-      height: 260px;
+      height: 150px;
       overflow: auto;
       scrollbar-width: none;
       -ms-overflow-style: none;
@@ -293,7 +293,7 @@ const Root = styled.section`
       width: 100%;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
       margin-bottom: 20px;
-      height: 260px;
+      height: 150px;
       overflow: auto;
       scrollbar-width: none;
       -ms-overflow-style: none;
@@ -306,7 +306,7 @@ const Root = styled.section`
     .vendor_document {
       width: 100%;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-      height: 260px;
+      height: 150px;
       overflow: auto;
       scrollbar-width: none;
       -ms-overflow-style: none;
