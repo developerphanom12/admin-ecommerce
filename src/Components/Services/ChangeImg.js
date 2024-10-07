@@ -59,10 +59,10 @@ export default function ChangeImg() {
       <form onSubmit={handleSubmit}>
         <img
           src={`https://api-carwash.phanomprofessionals.com/uploads/${rowData?.image}`}
-          alt="Service Image"
+          alt="Service"
         />
         <input type="file" accept="image/*" onChange={handleImageChange} />
-        {imagePreview && <img src={imagePreview} alt="Image Preview" />}
+        {imagePreview && <img src={imagePreview} alt="upload Preview" />}
         <button type="submit">Upload Image</button>
       </form>
     </StyledDiv>

@@ -29,6 +29,7 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state?.users?.isLoading);
 
+  useEffect(() => {
   const getApi = async () => {
     const axiosConfig = {
       headers: {
@@ -93,11 +94,10 @@ const Dashboard = () => {
       dispatch(LoaderAction(false));
     }
   };
-  useEffect(() => {
     getApi();
     getOrderApi();
     getRefferalApi();
-  }, [limit, offset]);
+  }, [limit,dispatch, offset]);
 
   const handlePageChange = (newOffset) => {
     if (newOffset >= 0 && newOffset < totalRecords) {

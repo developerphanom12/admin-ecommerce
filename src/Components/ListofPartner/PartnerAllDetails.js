@@ -56,7 +56,7 @@ export const PartnerAllDetails = ({ vendorId }) => {
     };
 
     fetchVendorDetails();
-  }, [vendorId, id]);
+  }, [vendorId,dispatch, id]);
 
   const columns = [
     { header: "ID", accessor: "ID" },

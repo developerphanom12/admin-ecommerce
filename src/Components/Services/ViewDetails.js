@@ -152,7 +152,7 @@ export const ViewDetail = () => {
                       <div className="input-image">
                         <img
                           src={`https://api-carwash.phanomprofessionals.com/uploads/${img.image}`}
-                          alt={`Image for ${serviceDetails.title}`}
+                          alt={`it is for ${serviceDetails.title}`}
                           className="service-image"
                         />
                         <input
@@ -166,7 +166,7 @@ export const ViewDetail = () => {
                           {imagePreview[img.image_id] && (
                             <img
                               src={imagePreview[img.image_id]}
-                              alt="Image Preview"
+                              alt="upload Preview"
                             />
                           )}
                         </>

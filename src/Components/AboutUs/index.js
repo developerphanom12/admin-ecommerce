@@ -111,7 +111,7 @@ export default function AboutUs() {
 
   useEffect(() => {
     getApi();
-  }, []);
+  });
 
   return (
     <>
