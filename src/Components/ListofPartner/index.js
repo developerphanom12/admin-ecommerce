@@ -86,7 +86,7 @@ export const ListofPartner = () => {
                     ))}
                   </tr>
                 </thead>
-                <tbody>
+                <tbody> 
                   {data2 && data2?.length > 0 ? (
                     data2.map((row, rowIndex) => (
                       <tr key={rowIndex}>
