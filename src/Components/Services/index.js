@@ -394,7 +394,7 @@ export const Services = () => {
                               {column.accessor === "image" ? (
                                 <img
                                   src={row[column.accessor]}
-                                  alt="Image"
+                                  alt="Service"
                                   style={{
                                     width: "50px",
                                     height: "50px",

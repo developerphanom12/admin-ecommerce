@@ -1,64 +1,115 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Heading, RedirectButton } from "../Global";
+import { Heading } from "../Global";
+import { useLocation } from "react-router-dom";
+import { LoaderAction } from "../../redux/users/action";
+import { EXCHNAGE_URL } from "../../url/Url";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import Loader from "../Loader";
 
 export const UserAllDetails = () => {
+  const isLoading = useSelector((state) => state?.users?.isLoading);
+  const location = useLocation();
+  const { userData, usernumber } = location.state || {};
+  const [referralData, setReferralData] = useState([]);
+  const [particularData, setParticularData] = useState([]);
+  const dispatch = useDispatch();
+  console.log("ddddd", userData, usernumber);
   const columnsOne = [
     { header: "ID", accessor: "id" },
     { header: "Name", accessor: "name" },
     { header: "Email", accessor: "email" },
-    { header: "Mobile", accessor: "mobile" },
-    { header: "Address", accessor: "address" },
-    { header: "Document Verify", accessor: "documentverify" },
-    { header: "Member Since", accessor: "membersince" },
+    { header: "Mobile", accessor: "mobile_number" },
+    { header: "Member Since(Days)", accessor: "days_since_contact" },
   ];
 
   const columnsTwo = [
-    { header: "ID", accessor: "id" },
-    { header: "Order Id", accessor: "orderid" },
-    { header: "Price", accessor: "price" },
-    { header: "Payment", accessor: "payment" },
-    { header: "Service Id", accessor: "serviceid" },
+    { header: "ID", accessor: "order_id" },
+    { header: "Time Slot", accessor: "time_slot" },
+    { header: "Status", accessor: "status" },
+    { header: "Price(Rs.)", accessor: "bikecar.price" },
+    { header: "Service", accessor: "bikecar.title" },
   ];
 
   const columnsThree = [
     { header: "ID", accessor: "id" },
     { header: "Name", accessor: "name" },
-    { header: "Phone", accessor: "phone" },
+    { header: "Phone", accessor: "user_mobileno" },
+    { header: "Referral Phone", accessor: "referal_mobileno" },
     { header: "Status", accessor: "status" },
-    { header: "Create  Date", accessor: "createdate" },
-    { header: "Update  Date", accessor: "updatedate" },
+    { header: "Create  Date", accessor: "create_date" },
+    { header: "Update  Date", accessor: "update_date" },
   ];
 
-  const staticDataOne = {
-    id: "1",
-    name: "1231",
-    email: "4000",
-    mobile: "2000",
-    address: "1234",
-    documentverify: "Pending",
-    membersince: "2 year ago",
-  };
+  useEffect(() => {
+    const referralData = async () => {
+      dispatch(LoaderAction(true));
+      try {
+        const response = await axios.get(
+          `${EXCHNAGE_URL}/user-referalget?usernumber=${usernumber}`,
+          {
+            headers: {
+              authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          setReferralData(response.data.data);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching referral data:", error);
+      } finally {
+        dispatch(LoaderAction(false));
+      }
+    };
+    const particularData = async () => {
+      dispatch(LoaderAction(true));
+      const id = userData?.id;
+      try {
+        const response = await axios.get(
+          `${EXCHNAGE_URL}/particular-userorder?id=${id}`,
+          {
+            headers: {
+              authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (response?.status === 200) {
+          setParticularData(response.data.data);
+        } else {
+          console.error("Failed to fetch users:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        dispatch(LoaderAction(false));
+      }
+    };
+    particularData();
+    if (usernumber) {
+      referralData();
+    }
+  }, [usernumber, dispatch, userData?.id]);
 
-  const staticDataTwo = {
-    id: "1",
-    orderid: "1231",
-    price: "4000",
-    payment: "2000",
-    serviceid: "1234",
+  const getNestedValue = (obj, accessor) => {
+    return (
+      accessor.split(".").reduce((value, key) => value?.[key], obj) || "No Data"
+    );
   };
-
-  const staticDataThree = {
-    id: "1",
-    name: "Sagar & Avineet",
-    phone: "1236547890",
-    status: "Approved",
-    createdate: "12 September",
-    updatedate: "12 September",
+  const formatDate = (dateValue) => {
+    if (dateValue) {
+      return new Date(dateValue).toISOString().split("T")[0];
+    }
+    return "Invalid Date";
   };
 
   return (
     <Root>
+      {isLoading && <Loader />}
       <div className="detail_main_div">
         <Heading style={{ textAlign: "left" }}>Basic Details</Heading>
 
@@ -75,12 +126,12 @@ export const UserAllDetails = () => {
               <tr>
                 {columnsOne.map((column, colIndex) => (
                   <td key={colIndex}>
-                    {staticDataOne[column.accessor] || "No Data"}
+                    {userData[column.accessor] || "No Data"}
                   </td>
                 ))}
               </tr>
             </tbody>
-          </table>
+          </table>{" "}
         </div>
 
         <div className="total_referral">
@@ -96,19 +147,23 @@ export const UserAllDetails = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    {columnsTwo.map((column, colIndex) => (
-                      <td key={colIndex}>
-                        {staticDataTwo[column.accessor] || "No Data"}
-                      </td>
-                    ))}
-                  </tr>
+                  {particularData?.map((dataRow, rowIndex) => (
+                    <tr key={rowIndex}>
+                      {columnsTwo?.map((column, colIndex) => (
+                        <td key={colIndex}>
+                          {getNestedValue(dataRow, column.accessor)}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
           </div>
           <div className="sub_referral_two">
-            <Heading style={{ textAlign: "left" }}>Referral & Earn List</Heading>
+            <Heading style={{ textAlign: "left" }}>
+              Referral & Earn List
+            </Heading>
             <div className="basic_detail_two">
               <table>
                 <thead>
@@ -118,23 +173,27 @@ export const UserAllDetails = () => {
                     ))}
                   </tr>
                 </thead>
+             
                 <tbody>
-                  <tr>
-                    {columnsThree.map((column, colIndex) => (
-                      <td key={colIndex}>
-                        {staticDataThree[column.accessor] || "No Data"}
-                      </td>
+                  {referralData &&
+                    referralData.map((dataRow, rowIndex) => (
+                      <tr key={rowIndex}>
+                        {columnsThree?.map((column, colIndex) => (
+                          <td key={colIndex}>
+                            {column.accessor === "create_date" ||
+                            column.accessor === "update_date" ? (
+                              formatDate(dataRow[column.accessor])
+                            ) : (
+                              <>{dataRow[column.accessor] || "No Data"}</>
+                            )}
+                          </td>
+                        ))}
+                      </tr>
                     ))}
-                  </tr>
                 </tbody>
               </table>
             </div>
           </div>
-        </div>
-
-        <div className="approved_btn">
-          <RedirectButton>Approve</RedirectButton>
-          <RedirectButton>Not Approve</RedirectButton>
         </div>
       </div>
     </Root>
@@ -142,6 +201,7 @@ export const UserAllDetails = () => {
 };
 
 const Root = styled.section`
+ 
   .detail_main_div {
     display: flex;
     flex-direction: column;
@@ -154,42 +214,38 @@ const Root = styled.section`
       gap: 20px;
       flex-direction: column;
       margin-bottom: 20px;
-      height: 150px;
+      max-height: 250px;
+      height: 100%;
       overflow: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+   
     }
 
-    .basic_detail::-webkit-scrollbar {
-      display: none;
-    }
+   
 
     .total_referral {
       display: flex;
       flex-wrap: wrap;
+      flex-direction: column;
       gap: 20px;
 
-      .sub_referral_one{
-        width:40%;
+      .sub_referral_one,
+      .sub_referral_two {
+        width: 100%;
       }
 
-     
       .basic_detail_two {
+        position: relative;
         width: 100%;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
         display: flex;
         gap: 20px;
         flex-direction: column;
         margin-bottom: 20px;
-        height: 250px;
+        max-height: 250px;
         overflow: auto;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
+    
       }
-
-      .basic_detail_two::-webkit-scrollbar {
-        display: none;
-      }
+      
     }
 
     .approved_btn {
@@ -200,6 +256,7 @@ const Root = styled.section`
     }
 
     table {
+      position: relative;
       border-collapse: collapse;
       width: 100%;
       overflow-x: auto;
@@ -225,18 +282,18 @@ const Root = styled.section`
     }
   }
 
-  @media (max-width: 567px){
+  @media (max-width: 567px) {
     .detail_main_div .total_referral .sub_referral_one {
-    width: 100%;
-}
-.detail_main_div .total_referral .sub_referral_two {
-    width: 100%;
-}
+      width: 100%;
+    }
+    .detail_main_div .total_referral .sub_referral_two {
+      width: 100%;
+    }
   }
-  
-  @media (min-width: 567px) and (max-width: 992px){
+
+  @media (min-width: 567px) and (max-width: 992px) {
     .detail_main_div .total_referral .sub_referral_one {
-    width: 100%;
-}
+      width: 100%;
+    }
   }
 `;

@@ -13,21 +13,23 @@ import { useNavigate } from "react-router-dom";
 export const ListofUser = () => {
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
+  const [usernumber, setUsernumber] = useState("");
   const isLoading = useSelector((state) => state?.users?.isLoading);
+ 
 
   const [columns, setColumns] = useState([
     { header: "ID", accessor: "id" },
     { header: "Name", accessor: "name" },
     { header: "Role", accessor: "role" },
     { header: "Mobile", accessor: "mobile_number" },
-    { header: "View", accessor: "view" }
+    { header: "View", accessor: "view" },
   ]);
 
   const [limit, setLimit] = useState(10);
   const [offset, setOffset] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       dispatch(LoaderAction(true)); // Start loading
@@ -44,6 +46,10 @@ export const ListofUser = () => {
         if (response.data.status) {
           setData(response.data.data);
           setTotalRecords(response.data.totalRecords);
+          const data = response.data.data; // Example, from first user
+          if (data) {
+            setUsernumber(data); // Set usernumber after fetching
+          }
         } else {
           console.error("Failed to fetch users:", response.data.message);
         }
@@ -53,7 +59,7 @@ export const ListofUser = () => {
         dispatch(LoaderAction(false)); // Stop loading
       }
     };
-
+    
     fetchData();
   }, [limit, offset, dispatch]);
 
@@ -65,10 +71,9 @@ export const ListofUser = () => {
     <Root>
       {isLoading && <Loader />}
       <div className="managing_main_div">
-
-      <div className="review_heading">
-        <Heading style={{ textAlign: "left" }}>Users List</Heading>
-      </div>
+        <div className="review_heading">
+          <Heading style={{ textAlign: "left" }}>Users List</Heading>
+        </div>
 
         <div className="content_div">
           <div className="user_div">
@@ -85,17 +90,21 @@ export const ListofUser = () => {
                   data.map((row, rowIndex) => (
                     <tr key={rowIndex}>
                       {columns.map((column, colIndex) => (
-                         <td key={colIndex}>
-                         {column.accessor === "view" ? (
-                           <RedirectButton
-                             onClick={() => navigate(`/user-all-details`)}
-                           >
-                             View More
-                           </RedirectButton>
-                         ) : (
-                           row[column.accessor]
-                         )}
-                       </td>
+                        <td key={colIndex}>
+                          {column.accessor === "view" ? (
+                            <RedirectButton
+                              onClick={() => {
+                                navigate(`/user-all-details`, {
+                                  state: { userData: row, usernumber: row.mobile_number },
+                                });
+                              }}
+                            >
+                              View More
+                            </RedirectButton>
+                          ) : (
+                            row[column.accessor]
+                          )}
+                        </td>
                       ))}
                     </tr>
                   ))
