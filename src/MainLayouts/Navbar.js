@@ -35,7 +35,7 @@ const handleLogout = () => {
 
           <Nav>
           {userCheck && token ?(
-            <Nav.Link href="/" className="a" onClick={handleLogout}>
+            <Nav.Link href="/login" className="a" onClick={handleLogout}>
               Logout
             </Nav.Link>
           ):""}

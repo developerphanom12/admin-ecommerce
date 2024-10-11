@@ -13,6 +13,8 @@ export const PartnerAllDetails = ({ vendorId }) => {
   const [basicDetails, setBasicDetails] = useState({});
   const [bankDetails, setBankDetails] = useState({});
   const [documents, setDocuments] = useState([]);
+  const [riding, setRiding] = useState([]);
+  const [walletBalance, setWalletBalance] = useState(0);
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -54,9 +56,27 @@ export const PartnerAllDetails = ({ vendorId }) => {
         dispatch(LoaderAction(false));
       }
     };
-
+    const VendorRinding = async () => {
+      try {
+        const response = await axios.get(
+          `${EXCHNAGE_URL}/vendoridelist?id=${id}`,
+          {
+            headers: {
+              authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (response.data.status) {
+          setRiding(response.data.data);
+          setWalletBalance(response.data.walletBalance);
+        }
+      } catch (error) {
+        console.error("Error fetching vendor details:", error);
+      }
+    };
+    VendorRinding();
     fetchVendorDetails();
-  }, [vendorId,dispatch, id]);
+  }, [vendorId, dispatch, id]);
 
   const columns = [
     { header: "ID", accessor: "ID" },
@@ -73,6 +93,12 @@ export const PartnerAllDetails = ({ vendorId }) => {
     { header: "Account Number", accessor: "AccountNumber" },
     { header: "Bank Name", accessor: "BankName" },
     { header: "IFSC Code", accessor: "IFSCCode" },
+  ];
+  const columnTwo = [
+    { header: "ID", accessor: "orderid" },
+    { header: "Date of Service", accessor: "create_date" },
+    { header: "Status", accessor: "status" },
+    { header: "Price(Rs.)", accessor: "price" },
   ];
 
   const columnsthree = [
@@ -198,9 +224,48 @@ export const PartnerAllDetails = ({ vendorId }) => {
             <tbody>
               <tr>
                 {columns.map((column, colIndex) => (
-                  <td key={colIndex}>{basicDetails[column.accessor] || "No Data"}</td>
+                  <td key={colIndex}>
+                    {basicDetails[column.accessor] || "No Data"}
+                  </td>
                 ))}
               </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <Heading style={{ textAlign: "left" }}>
+          Total Riding List
+          <>
+            <div className="earning_btn">
+              Earning: ₹{walletBalance || 0}
+            </div>
+          </>
+        </Heading>
+        <div className="vendor_bank_detail">
+          <table>
+            <thead>
+              <tr>
+                {columnTwo?.map((column, index) => (
+                  <th key={index}>{column.header}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {riding.length > 0 ? (
+                riding.map((item, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {columnTwo.map((column, colIndex) => (
+                      <td key={colIndex}>
+                        {item[column.accessor] || "No Data"}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={columnTwo.length}>No Data Available</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -267,6 +332,17 @@ export const PartnerAllDetails = ({ vendorId }) => {
 };
 
 const Root = styled.section`
+  .earning_btn {
+    font-size: 16px;
+    font-weight: 600;
+    text-align: left;
+    color: #fff;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 10px;
+    border: 2px solid #2ca5d6;
+    background-color: #2ca5d6;
+  }
   .detail_main_div {
     display: flex;
     flex-direction: column;

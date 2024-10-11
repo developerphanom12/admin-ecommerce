@@ -51,6 +51,9 @@ export const Heading = styled.h2`
   color: #000;
   font-weight: 500;
   color: #2ca5d6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const Subdiv = styled.h5`

@@ -87,64 +87,66 @@ export default function AboutUs() {
       toast.error(error.response?.data?.message || "Error updating Content");
     }
   };
-
-  const getApi = async () => {
-    dispatch(LoaderAction(true));
-    const axiosConfig = {
-      headers: {
-        authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    };
-    try {
-      const response = await axios.get(`${EXCHNAGE_URL}/aboutget`, axiosConfig);
-      if (response?.status === 200 && Array.isArray(response?.data?.data)) {
-        const entries = response.data.data;
-        setApiContent(entries);
-      }
-      console.log("API Response:", response);
-    } catch (error) {
-      console.error("Error fetching content", error);
-    }finally {
-      dispatch(LoaderAction(false));
-    }
-  };
-
   useEffect(() => {
+    const getApi = async () => {
+      dispatch(LoaderAction(true));
+      const axiosConfig = {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      };
+      try {
+        const response = await axios.get(
+          `${EXCHNAGE_URL}/aboutget`,
+          axiosConfig
+        );
+        if (response?.status === 200 && Array.isArray(response?.data?.data)) {
+          const entries = response.data.data;
+          setApiContent(entries);
+        }
+        console.log("API Response:", response);
+      } catch (error) {
+        console.error("Error fetching content", error);
+      } finally {
+        dispatch(LoaderAction(false));
+      }
+    };
+
     getApi();
-  });
+  },[dispatch]);
 
   return (
     <>
-    {isLoading && <Loader />}
-    <EditorWrapper>
-      <ReactQuill
-        value={editorValue}
-        onChange={handleEditorChange}
-        modules={modules}
-        formats={formats}
-        placeholder="Start typing..."
-      />
-      <div className="submit_btn p-4">
-        <MainButton type="submit" onClick={handleApproval}>
-          Submit Now
-        </MainButton>
-      </div>
+      {isLoading && <Loader />}
+      <EditorWrapper>
+        <ReactQuill
+          value={editorValue}
+          onChange={handleEditorChange}
+          modules={modules}
+          formats={formats}
+          placeholder="Start typing..."
+        />
+        <div className="submit_btn p-4">
+          <MainButton type="submit" onClick={handleApproval}>
+            Submit Now
+          </MainButton>
+        </div>
 
-      {apiContent.map((item, index) => (
-        <Div>
-          <ul
-            style={{ listStyleType: "disc", paddingLeft: "20px" }}
-            key={item.id || index}
-          >
-            <li
-              dangerouslySetInnerHTML={{
-                __html: item.description || "No Description",
-              }}
-            />
-          </ul>
-        </Div>
-      ))}
-    </EditorWrapper>
+        {apiContent.map((item, index) => (
+          <Div>
+            <ul
+              style={{ listStyleType: "disc", paddingLeft: "20px" }}
+              key={item.id || index}
+            >
+              <li
+                dangerouslySetInnerHTML={{
+                  __html: item.description || "No Description",
+                }}
+              />
+            </ul>
+          </Div>
+        ))}
+      </EditorWrapper>
     </>
   );
 }

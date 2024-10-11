@@ -32,7 +32,7 @@ export const ListofUser = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
-      dispatch(LoaderAction(true)); // Start loading
+      dispatch(LoaderAction(true)); 
       try {
         const response = await axios.get(`${EXCHNAGE_URL}/all_users`, {
           headers: {
@@ -46,9 +46,9 @@ export const ListofUser = () => {
         if (response.data.status) {
           setData(response.data.data);
           setTotalRecords(response.data.totalRecords);
-          const data = response.data.data; // Example, from first user
+          const data = response.data.data; 
           if (data) {
-            setUsernumber(data); // Set usernumber after fetching
+            setUsernumber(data);
           }
         } else {
           console.error("Failed to fetch users:", response.data.message);
@@ -56,7 +56,7 @@ export const ListofUser = () => {
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
-        dispatch(LoaderAction(false)); // Stop loading
+        dispatch(LoaderAction(false)); 
       }
     };
     

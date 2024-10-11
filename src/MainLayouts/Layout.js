@@ -13,28 +13,28 @@ export default function Layout({ children }) {
 
   return (
     <Root>
-
       <div className="top_bar">
-        <Navbar/>
+        <Navbar />
       </div>
 
       <div className="main_bar">
-        {userCheck && token && (
+        {userCheck && token ? (
           <div className="sideBar">
             <SideBar />
           </div>
+        ) : (
+          ""
         )}
         <div className="main_body">{children}</div>
       </div>
-      
     </Root>
   );
 }
 
 const Root = styled.section`
-  display:flex;
-  min-height:100vh;
-  height:100%;
+  display: flex;
+  min-height: 100vh;
+  height: 100%;
   flex-direction: column;
   .top_bar {
     display: flex;
@@ -93,5 +93,4 @@ const Root = styled.section`
       width: 90%;
     }
   }
-
 `;
