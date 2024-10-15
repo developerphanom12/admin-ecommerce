@@ -31,6 +31,12 @@ export const Services = () => {
   const [offset, setOffset] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
   const navigate = useNavigate();
+  const [selectedVehicle, setSelectedVehicle] = useState("");
+
+  // Handler for radio button change
+  const handleVehicleChange = (vehicle) => {
+    setSelectedVehicle(vehicle);
+  };
   const handleFileChange = (e) => {
     setImages([...e.target.files]);
   };
@@ -335,6 +341,77 @@ export const Services = () => {
                       </div>
                     </div>
                   </div>
+                  <div className="inp_row">
+                    <div className="inp_col">
+                      <Subdiv className="submit_btn">
+                        <input
+                          type="radio"
+                          name="vehicle"
+                          value="Bike"
+                          onChange={() => handleVehicleChange("Bike")}
+                        />
+                        -Open Bike List
+                      </Subdiv>
+                      <select>
+                        <option value="">Select to show List</option>
+                        {selectedVehicle === "Bike" && (
+                          <>
+                            <option value="Cruiser">Cruiser</option>
+                            <option value="Sportbike">Sportbike</option>
+                            <option value="Bullet Bike">Bullet Bike</option>
+                            <option value="Adventure">
+                              Adventure / Dual-Sport
+                            </option>
+                            <option value="Standard">
+                              Standard / Naked Bike
+                            </option>
+                            <option value="Touring">Touring</option>
+                            <option value="Bobber">Bobber</option>
+                            <option value="Scooter">Scooter</option>
+                            <option value="Electric">
+                              Electric Motorcycle
+                            </option>
+                          </>
+                        )}
+                      </select>
+                    </div>
+
+                    <div className="inp_col">
+                      <Subdiv className="submit_btn">
+                        <input
+                          type="radio"
+                          name="vehicle"
+                          value="Car"
+                          onChange={() => handleVehicleChange("Car")}
+                        />
+                        -Open Car List
+                      </Subdiv>
+                      <select>
+                        <option value="">Select to show List</option>
+                        {selectedVehicle === "Car" && (
+                          <>
+                            <option value="Sedan">Sedan</option>
+                            <option value="SUV">
+                              SUV (Sport Utility Vehicle)
+                            </option>
+                            <option value="Compact SUV">Compact SUV</option>
+                            <option value="Coupe">Coupe</option>
+                            <option value="Hatchback">Hatchback</option>
+                            <option value="Sports Car">Sports Car</option>
+                            <option value="Crossover">Crossover (CUV)</option>
+                            <option value="Convertible">Convertible</option>
+                            <option value="Electric Vehicle">
+                              Electric Vehicle (EV)
+                            </option>
+                            <option value="Hybrid Vehicle">
+                              Hybrid Vehicle
+                            </option>
+                            <option value="Van">Van</option>
+                          </>
+                        )}
+                      </select>
+                    </div>
+                  </div>
 
                   <div className="inp_row">
                     <div className="inp_col">
@@ -617,8 +694,9 @@ const Root = styled.section`
       overflow: auto;
       scrollbar-width: none;
       -ms-overflow-style: none;
-      height: 420px;
+      height: auto;
       width: 100%;
+      padding-bottom: 20px;
 
       .add_service_div {
         padding: 0 20%;
@@ -679,14 +757,14 @@ const Root = styled.section`
                 }
               }
             }
-
-            .submit_btn {
-              display: flex;
-              justify-content: center;
-            }
           }
         }
       }
+    }
+    .submit_btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .content_div::-webkit-scrollbar {

@@ -24,11 +24,24 @@ const Dashboard = () => {
   const [order, setOrder] = useState(null);
   const [referral, setReferral] = useState([]);
   const [limit, setLimit] = useState(10);
-  const [offset, setOffset] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state?.users?.isLoading);
+  const [orderOffset, setOrderOffset] = useState(0); // Separate offset for Orders
+  const [referralOffset, setReferralOffset] = useState(0); // Separate offset for Referrals
 
+  const handleOrderPageChange = (newOffset) => {
+    if (newOffset >= 0 && newOffset < totalRecords) {
+      setOrderOffset(newOffset);
+    }
+  };
+
+  const handleReferralPageChange = (newOffset) => {
+    if (newOffset >= 0 && newOffset < totalRecords) {
+      setReferralOffset(newOffset);
+    }
+  };
+ 
   useEffect(() => {
   const getApi = async () => {
     const axiosConfig = {
@@ -56,7 +69,7 @@ const Dashboard = () => {
     };
     try {
       const response = await axios.get(
-        `${EXCHNAGE_URL}/orderlist?limit=${limit}&skip=${offset}`,
+        `${EXCHNAGE_URL}/orderlist?limit=${limit}&skip=${orderOffset}`,
         axiosConfig
       );
       if (response.status === 200) {
@@ -97,13 +110,9 @@ const Dashboard = () => {
     getApi();
     getOrderApi();
     getRefferalApi();
-  }, [limit,dispatch, offset]);
+  }, [limit,dispatch, orderOffset,referralOffset]);
 
-  const handlePageChange = (newOffset) => {
-    if (newOffset >= 0 && newOffset < totalRecords) {
-      setOffset(newOffset);
-    }
-  };
+
   return (
     <>
       {isLoading && <Loader />}
@@ -281,14 +290,14 @@ const Dashboard = () => {
           </Table>
           <div className="pagination">
             <button
-              onClick={() => handlePageChange(Math.max(offset - limit, 0))}
-              disabled={offset === 0}
+              onClick={() => handleOrderPageChange(Math.max(orderOffset - limit, 0))}
+              disabled={orderOffset === 0}
             >
               <FcPrevious />
             </button>
             <button
-              onClick={() => handlePageChange(offset + limit)}
-              disabled={offset + limit >= totalRecords}
+              onClick={() => handleOrderPageChange(orderOffset + limit)}
+              disabled={orderOffset + limit >= totalRecords}
             >
               <FcNext />
             </button>
@@ -351,14 +360,14 @@ const Dashboard = () => {
           </Table>
           <div className="pagination">
             <button
-              onClick={() => handlePageChange(Math.max(offset - limit, 0))}
-              disabled={offset === 0}
+              onClick={() => handleReferralPageChange(Math.max(referralOffset - limit, 0))}
+              disabled={referralOffset === 0}
             >
               <FcPrevious />
             </button>
             <button
-              onClick={() => handlePageChange(offset + limit)}
-              disabled={offset + limit >= totalRecords}
+              onClick={() => handleReferralPageChange(referralOffset + limit)}
+              disabled={referralOffset + limit >= totalRecords}
             >
               <FcNext />
             </button>

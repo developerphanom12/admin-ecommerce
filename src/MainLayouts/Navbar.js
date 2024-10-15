@@ -16,7 +16,7 @@ const handleLogout = () => {
   dispatch(userCheckAction(false));  
   dispatch(UserDetails(""));  
   dispatch(userDataAction(""));  
-  navigate("/");  
+  navigate("/login");  
 };
 
   const userCheck = useSelector((state) => state?.users?.userCheck);

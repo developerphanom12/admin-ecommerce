@@ -31,6 +31,8 @@ function App() {
         <ToastContainer />
         <Routes>
           <Route path="/login" element={<Admin />} />
+          <Route path="/" element={<Admin />} />
+
 
           <>
             {!userCheck && !token ? <Route path="/login" element={<Admin />} /> : ""}
