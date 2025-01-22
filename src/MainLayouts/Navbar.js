@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import styled from "styled-components";
-import logoimg from "../Assets/logo.png";
+import logoimg from "../Assets/designer.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userCheckAction, userDataAction, UserDetails } from "../redux/users/action";
@@ -29,7 +29,7 @@ const handleLogout = () => {
             <img
               src={logoimg}
               alt="Logo Of Site"
-              style={{ width: "70px", height: "auto", cursor: "pointer" }}
+              style={{ width: "100px", height: "auto", cursor: "pointer" }}
             />
           </Navbar.Brand>
 

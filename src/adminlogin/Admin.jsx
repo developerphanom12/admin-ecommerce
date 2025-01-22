@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FaCarCrash } from "react-icons/fa";
-
+import logo from "../Assets/designer.png";
 
 const schema = yup.object().shape({
   username: yup.string().required("Username is required."),
@@ -66,7 +66,8 @@ function Admin() {
             <div className="d-flex flex-column marg_div">
               <div className="text-center">
                 
-                <FaCarCrash  className="img_div"/>
+               
+                <img src={logo} alt="Designer&Me"/>
                 <h4 className="mt-1 mb-5 pb-1">We are The Best Team</h4>
               </div>
 
