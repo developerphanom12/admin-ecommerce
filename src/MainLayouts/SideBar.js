@@ -53,7 +53,7 @@ function SideBar() {
 
           <span>
             <MenuButtonActive className="s-color">
-              Partners List
+              Customers List
             </MenuButtonActive>
           </span>
         </Link>
@@ -68,7 +68,18 @@ function SideBar() {
           <FaUsersCog />
 
           <span>
-            <MenuButtonActive className="s-color">Services</MenuButtonActive>
+            <MenuButtonActive className="s-color">Products</MenuButtonActive>
+          </span>
+        </Link>
+        <Link
+          to="/category"
+          className={selectedLink === "services" ? "selected" : ""}
+          onClick={() => handleLinkClick("services")}
+        >
+          <FaUsersCog />
+
+          <span>
+            <MenuButtonActive className="s-color">Category</MenuButtonActive>
           </span>
         </Link>
 

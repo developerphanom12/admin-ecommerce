@@ -167,6 +167,24 @@ export const Services = () => {
     setService(updatedServices);
   };
 
+  const productlist = [
+  {
+    title: "Product 1",
+    status: "Active",
+    inventory: 20,
+    category: "Electronics",
+    vendor: "Vendor A",
+  },
+  {
+    title: "Product 2",
+    status: "Draft",
+    inventory: 15,
+    category: "Fashion",
+    vendor: "Vendor B",
+  },
+];
+
+
   const servicelist = [
     { header: "ID", accessor: "id" },
     { header: "Name", accessor: "service_name" },
@@ -236,6 +254,7 @@ export const Services = () => {
   const handlePageChange = (newOffset) => {
     setOffset(newOffset);
   };
+  
   return (
     <Root>
       <div className="services_main_div">
@@ -244,14 +263,21 @@ export const Services = () => {
             className={selectedButton === 1 ? "selected" : ""}
             onClick={() => handleButtonClick(1)}
           >
-            Add Services
+            Add Products
+          </MainButton>
+
+          <MainButton
+            className={selectedButton === 4 ? "selected" : ""}
+            onClick={() => handleButtonClick(4)}
+          >
+            All Products
           </MainButton>
 
           <MainButton
             className={selectedButton === 2 ? "selected" : ""}
             onClick={() => handleButtonClick(2)}
           >
-            Service List
+            Category List
           </MainButton>
 
           <MainButton
@@ -290,22 +316,22 @@ export const Services = () => {
 
                   <div className="inp_row">
                     <div className="inp_col">
-                      <Subdiv>Duration (min)</Subdiv>
+                      <Subdiv>Price</Subdiv>
                       <input
                         type="text"
-                        placeholder="30"
-                        value={duration}
-                        onChange={(e) => setDuration(e.target.value)}
+                        placeholder="₹ 0.00"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
                       />
                     </div>
 
                     <div className="inp_col">
-                      <Subdiv>Available Services</Subdiv>
+                      <Subdiv>Available Categories</Subdiv>
                       <select
                         value={selectedService}
                         onChange={handleServiceChange}
                       >
-                        <option value="">Select a service</option>
+                        <option value="">Select Categories</option>
                         {services.map((serviceItem) => (
                           <option key={serviceItem.id} value={serviceItem.id}>
                             {serviceItem.service_name}
@@ -317,20 +343,19 @@ export const Services = () => {
 
                   <div className="inp_row">
                     <div className="inp_col">
-                      <Subdiv>Price</Subdiv>
+                      <Subdiv>Compare-at-price</Subdiv>
                       <input
                         type="text"
-                        placeholder="2000"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
+                        placeholder="₹ 0.00"
+                        value={duration}
+                        onChange={(e) => setDuration(e.target.value)}
                       />
                     </div>
-
                     <div className="inp_col">
                       <Subdiv>Image</Subdiv>
                       <div className="photo_choose">
                         <div className="upload_btn">
-                          <BlackBorderButton>Upload Images</BlackBorderButton>
+                          <BlackBorderButton>Upload Media</BlackBorderButton>
                           <input
                             type="file"
                             className="file_input"
@@ -342,6 +367,89 @@ export const Services = () => {
                     </div>
                   </div>
                   <div className="inp_row">
+                    <div className="inp_col">
+                      <Subdiv>SKU (Stock Keeping Unit)</Subdiv>
+                      <input
+                        type="text"
+                        placeholder="sku-123"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                      />
+                    </div>
+                    <div className="inp_col">
+                      <Subdiv>Inventory</Subdiv>
+                      <input
+                        type="number"
+                        placeholder="20"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="inp_row">
+                    <div className="inp_col">
+                      <h5> Product Variations</h5>
+                      <form id="variationForm">
+                        <div className="variation_row">
+                          <div className="inp_row">
+                            <input
+                              type="text"
+                              name="variationName"
+                              placeholder="Variation Name (e.g., Size, Color)"
+                              className="variation_input"
+                            />
+
+                            <input
+                              type="text"
+                              name="variationValue"
+                              placeholder="Variation Value (e.g., Large, Red)"
+                              className="variation_input"
+                            />
+
+                            <button
+                              type="button"
+                              className="add_variation_btn"
+                              onClick={() =>
+                                alert("Add variation functionality goes here.")
+                              }
+                            >
+                              Add Variation
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                      <div id="variationList">
+                        {/* Dynamically added variations will appear here */}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="seo">
+                    <h5>Search Engine Optimization (SEO) </h5>
+                  </div>
+
+                  <div className="inp_row">
+                    <div className="inp_col">
+                      <Subdiv>Meta Title</Subdiv>
+                      <input
+                        type="text"
+                        placeholder="Enter Meta Title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                      />
+                    </div>
+                    <div className="inp_col">
+                      <Subdiv>Meta Description</Subdiv>
+                      <textarea
+                        type="textarea"
+                        placeholder="Enter Meta Description"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  {/* <div className="inp_row">
                     <div className="inp_col">
                       <Subdiv className="submit_btn">
                         <input
@@ -411,7 +519,7 @@ export const Services = () => {
                         )}
                       </select>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="inp_row">
                     <div className="inp_col">
@@ -421,7 +529,7 @@ export const Services = () => {
                           <div key={index} className="service_input_wrapper">
                             <input
                               type="text"
-                              placeholder="Service"
+                              placeholder="Products"
                               value={serv || ""}
                               onChange={(e) => handleServiceChangesss(index, e)}
                             />
@@ -622,6 +730,63 @@ export const Services = () => {
               </div>
             </>
           )}
+          {selectedButton === 4 && (
+            <>
+              <div className="partner_div">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Product Title</th>
+                      <th>Status</th>
+                      <th>Inventory</th>
+                      <th>Category</th>
+                      <th>Vendor</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {productlist && productlist?.length > 0 ? (
+                      datalist.map((row, rowIndex) => (
+                        <tr key={rowIndex}>
+                          <td>{row.title || "Product 1"}</td>
+                          <td>{row.status || "Draft"}</td>
+                          <td>{row.inventory || "20"}</td>
+                          <td>{row.category || "Electronics"}</td>
+                          <td>{row.vendor || "Vendor A"}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan="5"
+                          style={{
+                            textAlign: "center",
+                            color: "red",
+                            fontWeight: "600",
+                          }}
+                        >
+                          ----------------No Data---------------
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              <div className="pagination">
+                <button
+                  onClick={() => handlePageChange(Math.max(offset - limit, 0))}
+                  disabled={offset === 0}
+                >
+                  <FcPrevious />
+                </button>
+                <button
+                  onClick={() => handlePageChange(offset + limit)}
+                  disabled={offset + limit >= totalRecords}
+                >
+                  <FcNext />
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </Root>
@@ -629,6 +794,9 @@ export const Services = () => {
 };
 
 const Root = styled.section`
+  .seo {
+    padding-top: 27px;
+  }
   .pagination {
     display: flex;
     justify-content: center;

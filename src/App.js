@@ -20,6 +20,7 @@ import ChangeImg from "./Components/Services/ChangeImg";
 import { ViewDetail } from "./Components/Services/ViewDetails";
 import { ListofUser } from "./Components/ListofUser";
 import { UserAllDetails } from "./Components/ListofUser/UserAllDetails";
+import { Category } from "./Components/Category";
 
 function App() {
   const userCheck = useSelector((state) => state?.users?.userCheck);
@@ -50,7 +51,7 @@ function App() {
                   path="/monitoring_payments_transactions"
                   element={<MonitoringPaymentsTransactions />}
                 />
-
+                <Route path="/category" element={<Category />} />
                 <Route
                   path="/frequently_asked_question"
                   element={<FrequentlyAskedQuestion />}
