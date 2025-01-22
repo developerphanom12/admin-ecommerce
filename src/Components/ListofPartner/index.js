@@ -81,7 +81,7 @@ export const ListofPartner = () => {
               <table>
                 <thead>
                   <tr>
-                    {columns2.map((column, index) => (
+                    {columns2.map((column, index) => (      
                       <th key={index}>{column.header}</th>
                     ))}
                   </tr>
